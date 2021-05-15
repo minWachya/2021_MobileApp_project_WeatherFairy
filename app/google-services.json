@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "825298734456",
+    "firebase_url": "https://weatherfairy-74082-default-rtdb.firebaseio.com",
+    "project_id": "weatherfairy-74082",
+    "storage_bucket": "weatherfairy-74082.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:825298734456:android:2eca5151a74a63e305cc8d",
+        "android_client_info": {
+          "package_name": "com.example.min1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "825298734456-romjutb0bl1irmt5sajq0ksbu29hifbs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJhWK98ljFK_AICWTD09CfZgzi4akcFys"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "825298734456-romjutb0bl1irmt5sajq0ksbu29hifbs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
