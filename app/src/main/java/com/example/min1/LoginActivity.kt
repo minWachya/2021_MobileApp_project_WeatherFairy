@@ -1,0 +1,44 @@
+package com.example.min1
+
+
+import android.content.Intent
+import android.os.Bundle
+import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
+import com.kakao.sdk.auth.model.OAuthToken
+import com.kakao.sdk.user.UserApiClient
+
+// 로그인 액티비티(시작 화면)
+class LoginActivity : AppCompatActivity() {
+    var TAG = "kakaoLogin"
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        // 로그인 액티비티와 레이아웃 연결
+        setContentView(R.layout.activity_login)
+
+        // 카카오 디벨로퍼 홈페이지의 "카카오 로그인 구현 예제" 복붙 후 수정
+        // 로그인 공통 callback 구성
+        val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
+            if (error != null) {
+                Log.e(TAG, "로그인 실패", error)
+            }
+            // 로그인 성공하면 다음 화면 보이기
+            else if (token != null) {
+                Log.i(TAG, "로그인 성공 ${token.accessToken}")
+
+                // MainActivity로 넘어가기
+                var intent = Intent(this@LoginActivity, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+        }
+
+        // 카카오톡이 설치되어 있으면 카카오톡으로 로그인, 아니면 카카오계정으로 로그인
+        if (UserApiClient.instance.isKakaoTalkLoginAvailable(this@LoginActivity)) {
+            UserApiClient.instance.loginWithKakaoTalk(this@LoginActivity, callback = callback)
+        } else {
+            UserApiClient.instance.loginWithKakaoAccount(this@LoginActivity, callback = callback)
+        }
+    }
+}
