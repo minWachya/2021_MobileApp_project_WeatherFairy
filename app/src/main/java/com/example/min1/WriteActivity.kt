@@ -86,15 +86,16 @@ class WriteActivity : AppCompatActivity() {
 
     // 온도 그룹(TempGroup) 정하기
     fun getTempGroup(temp : String) : String {
+        val tempInt = temp.toInt()
         var result = ""
-        when (temp) {
-            in "5".."8" -> result = "5_8"
-            in "9".."11" -> result = "9_11"
-            in "12".."16" -> result = "12_16"
-            in "17".."19" -> result = "17_19"
-            in "20".."22" -> result = "20_22"
-            in "23".."27" -> result = "23_27"
-            in "28".."50" -> result = "28_"
+        when (tempInt) {
+            in 5..8 -> result = "5_8"
+            in 9..11 -> result = "9_11"
+            in 12..16 -> result = "12_16"
+            in 17..19 -> result = "17_19"
+            in 20..22 -> result = "20_22"
+            in 23..27 -> result = "23_27"
+            in 28..50 -> result = "28_"
             else -> result = "_4"
         }
         return result
