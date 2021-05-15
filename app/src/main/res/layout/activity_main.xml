@@ -43,7 +43,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:padding="15dp"
-        android:background="#cceeff">
+        android:background="@drawable/layout_round">
         <TextView
             android:id="@+id/tvTemp"
             android:layout_column="0"
