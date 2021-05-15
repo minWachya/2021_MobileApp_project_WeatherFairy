@@ -89,7 +89,11 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        // <내 기록보기> 버튼 누르면 기록 보는 액티비티로 이동
+        // <내 기록보기> 버튼 누르면 기록 보는 액티비티(SeeMemoActivity)로 이동
+        btnSeeMemo.setOnClickListener {
+            var intent = Intent(this@MainActivity, SeeMemoActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     // 날씨 가져와서 설정하기

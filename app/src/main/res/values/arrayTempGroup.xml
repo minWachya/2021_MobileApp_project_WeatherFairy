@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="tempGroup">
+        <item>28℃ 이상</item>
+        <item>23℃~27℃</item>
+        <item>20℃~22℃</item>
+        <item>17℃~19℃</item>
+        <item>12℃~16℃</item>
+        <item>9℃~11℃</item>
+        <item>5℃~8℃</item>
+        <item>4℃ 이하</item>
+    </string-array>
+</resources>

@@ -40,6 +40,7 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".FindAreaActivity" />
         <activity android:name=".WriteActivity" />
+        <activity android:name=".SeeMemoActivity" />
 
     </application>
 
