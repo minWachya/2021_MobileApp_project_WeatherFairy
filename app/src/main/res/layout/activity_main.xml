@@ -28,7 +28,7 @@
             android:text="일산서구"
             android:textSize="30dp"/>
         <ImageView
-            android:id="@+id/searchArea"
+            android:id="@+id/imgSearchArea"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_margin="10dp"

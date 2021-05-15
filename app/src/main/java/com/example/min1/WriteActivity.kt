@@ -3,6 +3,7 @@ package com.example.min1
 
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.text.Editable
 import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -37,6 +38,10 @@ class WriteActivity : AppCompatActivity() {
         editMemo = findViewById(R.id.editMemo)
         btnCompleteMemo = findViewById(R.id.btnCompleteMemo)
 
+        // intent에서 온도 정보 받이서 온도 설정하기
+        //val temp = intent.getStringArrayExtra("temp")
+        //editTemp.text = Editable.Factory.getInstance().newEditable(temp.toString())
+
         // 캘린더 이미지 누르면 데이트피커 다이얼로그 보이게
         imgCalendar.setOnClickListener {
             var calender = Calendar.getInstance()
@@ -69,7 +74,6 @@ class WriteActivity : AppCompatActivity() {
             val memo = editMemo.text.toString()
 
             val month = date.substring(5, 7)
-            Log.d("minyoung", month)
             val tempGroup = getTempGroup(temp)
 
             // 파이어베이스에 데이터 저장하기

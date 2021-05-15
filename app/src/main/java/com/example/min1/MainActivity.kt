@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -42,11 +43,12 @@ object ApiObject {
 
 // 메인 액티비티
 class MainActivity : AppCompatActivity() {
-    lateinit var tvRainRatio : TextView     // 강수 확률
-    lateinit var tvRainType : TextView      // 강수 형태
+    lateinit var tvTemp : TextView          // 온도
+    lateinit var imgSearchArea : ImageView  // 지역 찾기 이미지 버튼
     lateinit var tvHumidity : TextView      // 습도
     lateinit var tvSky : TextView           // 하늘 상태
-    lateinit var tvTemp : TextView          // 온도
+    lateinit var tvRainRatio : TextView     // 강수 확률
+    lateinit var tvRainType : TextView      // 강수 형태
     lateinit var tvRecommend : TextView     // 기본 옷 추천
     lateinit var btnWrite : Button          // <옷 기록하기> 버튼
     lateinit var btnSeeMemo : Button        // <내 기록보기> 버튼
@@ -61,11 +63,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        tvRainRatio = findViewById(R.id.tvRainRatio)
-        tvRainType = findViewById(R.id.tvRainType)
+        tvTemp = findViewById(R.id.tvTemp)
+        imgSearchArea = findViewById(R.id.imgSearchArea)
         tvHumidity = findViewById(R.id.tvHumidity)
         tvSky = findViewById(R.id.tvSky)
-        tvTemp = findViewById(R.id.tvTemp)
+        tvRainRatio = findViewById(R.id.tvRainRatio)
+        tvRainType = findViewById(R.id.tvRainType)
         tvRecommend = findViewById(R.id.tvRecommend)
         btnWrite = findViewById(R.id.btnWrite)
         btnSeeMemo = findViewById(R.id.btnSeeMemo)
@@ -73,9 +76,16 @@ class MainActivity : AppCompatActivity() {
         // nx, ny지점의 날씨 가져와서 설정하기
         setWeather(nx, ny)
 
-        // <옷 기록하기> 버튼 누르면 기록하기 액티비티(WriteActivity)로 넘어감
+        // 돋보기 이미지 누르면 지역칮기 액티비티(FindAreaActivity)로 이동
+        imgSearchArea.setOnClickListener {
+            var intent = Intent(this@MainActivity, FindAreaActivity::class.java)
+            startActivity(intent)
+        }
+
+        // <옷 기록하기> 버튼 누르면 기록하기 액티비티(WriteActivity)로 이동
         btnWrite.setOnClickListener {
             var intent = Intent(this@MainActivity, WriteActivity::class.java)
+            //intent.putExtra("temp", tvTemp.text)
             startActivity(intent)
         }
 
