@@ -15,14 +15,14 @@ import net.daum.mf.map.api.MapReverseGeoCoder
 import net.daum.mf.map.api.MapView
 
 class FindAreaActivity  : AppCompatActivity(), MapReverseGeoCoder.ReverseGeoCodingResultListener, MyMapViewEventListener {
-    lateinit var tvAreaName : TextView
-    lateinit var btnBack1 : Button
-    lateinit var map : LinearLayout
-    lateinit var marker : MapPOIItem
-    lateinit var mapView : MapView
-    lateinit var reverseGeoCoder : MapReverseGeoCoder
+    lateinit var tvAreaName : TextView                  // 지역명
+    lateinit var btnBack1 : Button                      // <지역 설정 완료> 버튼
+    lateinit var map : LinearLayout                     // 지도가 담길 레이아웃
+    lateinit var marker : MapPOIItem                    // 마커
+    lateinit var mapView : MapView                      // 지도
+    lateinit var reverseGeoCoder : MapReverseGeoCoder   // 위경도로 주소 가져오기 위해 필요
 
-    // 위경도
+    // 위경도 초기화(덕성여자대학교)
     var lat = 37.65136866943945
     var lng = 127.01617112670128
 

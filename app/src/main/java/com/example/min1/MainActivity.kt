@@ -45,6 +45,7 @@ object ApiObject {
 
 // 메인 액티비티
 class MainActivity : AppCompatActivity() {
+    lateinit var tvDate : TextView          // 현재 날짜
     lateinit var tvAreaName : TextView      // 지역명
     lateinit var tvTemp : TextView          // 온도
     lateinit var imgSearchArea : ImageView  // 지역 찾기 이미지 버튼
@@ -66,6 +67,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        tvDate = findViewById(R.id.tvDate)
         tvAreaName = findViewById(R.id.tvAreaName)
         tvTemp = findViewById(R.id.tvTemp)
         imgSearchArea = findViewById(R.id.imgSearchArea)
@@ -77,6 +79,8 @@ class MainActivity : AppCompatActivity() {
         btnWrite = findViewById(R.id.btnWrite)
         btnSeeMemo = findViewById(R.id.btnSeeMemo)
 
+        // 날짜 초기화
+        setDate()
 
         // nx, ny지점의 날씨 가져와서 설정하기
         setWeather(nx, ny)
@@ -99,6 +103,27 @@ class MainActivity : AppCompatActivity() {
             var intent = Intent(this@MainActivity, SeeMemoActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    // 날짜 설정하기
+    fun setDate() {
+        // 현재 날짜 텍스트뷰에 보이기
+        val cal = Calendar.getInstance()
+        // 현재 날짜
+        var date = SimpleDateFormat("M/dd", Locale.getDefault()).format(cal.time)
+        // 현재 요일
+        var dayInt = cal.get(Calendar.DAY_OF_WEEK)
+        var day = "?"
+        when (dayInt) {
+            1 -> day = "일"
+            2 -> day = "월"
+            3 -> day = "화"
+            4 -> day = "수"
+            5 -> day = "목"
+            6 -> day = "금"
+            7 -> day = "토"
+        }
+        tvDate.text = date + "(" + day + ")"
     }
 
     // 날씨 가져와서 설정하기
@@ -166,7 +191,7 @@ class MainActivity : AppCompatActivity() {
         tvTemp.text = temp + "°"
         // 습도
         tvHumidity.text = humidity + "%"
-        // 하능 상태
+        // 하늘 상태
         var result = ""
         when(sky) {
             "1" -> result = "맑음"
@@ -227,15 +252,13 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (resultCode == Activity.RESULT_OK) {
-            var x = data!!.getStringExtra("x")
-            var y = data!!.getStringExtra("y")
+            nx = data!!.getStringExtra("x")!!
+            ny = data!!.getStringExtra("y")!!
             var areaName = data!!.getStringExtra("areaName")
-
-            Log.d("mmm 반환뎅 데잉터어", x + " " + y + " " + areaName)
 
             // 해당 지역의 날씨 정보 보이기
             tvAreaName.text = areaName  // 해당 지역명으로 바꾸기
-            setWeather(x!!, y!!)
+            setWeather(nx, ny)
         }
     }
 
