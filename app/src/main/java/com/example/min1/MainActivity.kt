@@ -48,6 +48,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var tvDate : TextView          // 현재 날짜
     lateinit var tvAreaName : TextView      // 지역명
     lateinit var tvTemp : TextView          // 온도
+    lateinit var imgWeather : ImageView     // 날씨 이미지
     lateinit var imgSearchArea : ImageView  // 지역 찾기 이미지 버튼
     lateinit var tvHumidity : TextView      // 습도
     lateinit var tvSky : TextView           // 하늘 상태
@@ -70,6 +71,7 @@ class MainActivity : AppCompatActivity() {
         tvDate = findViewById(R.id.tvDate)
         tvAreaName = findViewById(R.id.tvAreaName)
         tvTemp = findViewById(R.id.tvTemp)
+        imgWeather = findViewById(R.id.imgWeather)
         imgSearchArea = findViewById(R.id.imgSearchArea)
         tvHumidity = findViewById(R.id.tvHumidity)
         tvSky = findViewById(R.id.tvSky)
@@ -192,42 +194,74 @@ class MainActivity : AppCompatActivity() {
         // 습도
         tvHumidity.text = humidity + "%"
         // 하늘 상태
-        var result = ""
+        var resultText = ""
+        var resultImg = R.drawable.sun
         when(sky) {
-            "1" -> result = "맑음"
-            "3" -> result = "구름 많음"
-            "4" -> result = "흐림"
+            "1" ->  {
+                resultText = "맑음"
+                resultImg = R.drawable.sun
+            }
+            "3" -> {
+                resultText = "구름 많음"
+                resultImg = R.drawable.very_cloudy
+            }
+            "4" -> {
+                resultText = "흐림"
+                resultImg = R.drawable.cloudy
+            }
             else -> "오류"
         }
-        tvSky.text = result
+        tvSky.text = resultText
         // 강수 확률
         tvRainRatio.text = rainRatio + "%"
         // 강수 형태
-        result = ""
+        resultText = ""
         when(rainType) {
-            "0" -> result = "없음"
-            "1" -> result = "비"
-            "2" -> result = "비/눈"
-            "3" -> result = "눈"
-            "4" -> result = "소나기"
-            "5" -> result = "빗방울"
-            "6" -> result = "빗방울/눈날림"
-            "7" -> result = "눈날림"
+            "0" -> resultText = "없음"
+            "1" -> {
+                resultText = "비"
+                resultImg = R.drawable.rainy
+            }
+            "2" -> {
+                resultText = "비/눈"
+                resultImg = R.drawable.snowy_and_rainy
+            }
+            "3" -> {
+                resultText = "눈"
+                resultImg = R.drawable.snowy
+            }
+            "4" -> {
+                resultText = "소나기"
+                resultImg = R.drawable.rainy
+            }
+            "5" -> {
+                resultText = "빗방울"
+                resultImg = R.drawable.rainy_drop
+            }
+            "6" -> {
+                resultText = "빗방울/눈날림"
+                resultImg = R.drawable.snowy_and_rainy
+            }
+            "7" -> {
+                resultText = "눈날림"
+                resultImg = R.drawable.snowy
+            }
             else -> "오류"
         }
-        tvRainType.text = result
+        tvRainType.text = resultText
+        imgWeather.setImageResource(resultImg)
         // 기본 옷 추천
         when (temp) {
-            in "5".."8" -> result = "울 코트, 가죽 옷, 기모"
-            in "9".."11" -> result = "트렌치 코트, 야상, 점퍼"
-            in "12".."16" -> result = "자켓, 가디건, 청자켓"
-            in "17".."19" -> result = "니트, 맨투맨, 후드, 긴바지"
-            in "20".."22" -> result = "블라우스, 긴팔 티, 슬랙스"
-            in "23".."27" -> result = "얇은 셔츠, 반바지, 면바지"
-            in "28".."50" -> result = "민소매, 반바지, 린넨 옷"
-            else -> result = "패딩, 누빔 옷, 목도리"
+            in "5".."8" -> resultText = "울 코트, 가죽 옷, 기모"
+            in "9".."11" -> resultText = "트렌치 코트, 야상, 점퍼"
+            in "12".."16" -> resultText = "자켓, 가디건, 청자켓"
+            in "17".."19" -> resultText = "니트, 맨투맨, 후드, 긴바지"
+            in "20".."22" -> resultText = "블라우스, 긴팔 티, 슬랙스"
+            in "23".."27" -> resultText = "얇은 셔츠, 반바지, 면바지"
+            in "28".."50" -> resultText = "민소매, 반바지, 린넨 옷"
+            else -> resultText = "패딩, 누빔 옷, 목도리"
         }
-        tvRecommend.text = result
+        tvRecommend.text = resultText
     }
 
     // 시간 설정하기

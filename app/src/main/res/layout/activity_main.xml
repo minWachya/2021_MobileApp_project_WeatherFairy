@@ -53,6 +53,7 @@
             android:textColor="#000000"
             android:padding="5dp"/>
         <ImageView
+            android:id="@+id/imgWeather"
             android:layout_column="2"
             android:layout_row="0"
             android:layout_rowSpan="3"
