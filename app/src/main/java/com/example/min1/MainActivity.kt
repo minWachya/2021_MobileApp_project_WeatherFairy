@@ -1,5 +1,6 @@
 package com.example.min1
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -44,6 +45,7 @@ object ApiObject {
 
 // 메인 액티비티
 class MainActivity : AppCompatActivity() {
+    lateinit var tvAreaName : TextView      // 지역명
     lateinit var tvTemp : TextView          // 온도
     lateinit var imgSearchArea : ImageView  // 지역 찾기 이미지 버튼
     lateinit var tvHumidity : TextView      // 습도
@@ -64,6 +66,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        tvAreaName = findViewById(R.id.tvAreaName)
         tvTemp = findViewById(R.id.tvTemp)
         imgSearchArea = findViewById(R.id.imgSearchArea)
         tvHumidity = findViewById(R.id.tvHumidity)
@@ -74,13 +77,14 @@ class MainActivity : AppCompatActivity() {
         btnWrite = findViewById(R.id.btnWrite)
         btnSeeMemo = findViewById(R.id.btnSeeMemo)
 
+
         // nx, ny지점의 날씨 가져와서 설정하기
         setWeather(nx, ny)
 
         // 돋보기 이미지 누르면 지역칮기 액티비티(FindAreaActivity)로 이동
         imgSearchArea.setOnClickListener {
             var intent = Intent(this@MainActivity, FindAreaActivity::class.java)
-            startActivity(intent)
+            startActivityForResult(intent, 0)
         }
 
         // <옷 기록하기> 버튼 누르면 기록하기 액티비티(WriteActivity)로 이동
@@ -217,6 +221,22 @@ class MainActivity : AppCompatActivity() {
             else -> result = "1700"             // 21~23
         }
         return result
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (resultCode == Activity.RESULT_OK) {
+            var x = data!!.getStringExtra("x")
+            var y = data!!.getStringExtra("y")
+            var areaName = data!!.getStringExtra("areaName")
+
+            Log.d("mmm 반환뎅 데잉터어", x + " " + y + " " + areaName)
+
+            // 해당 지역의 날씨 정보 보이기
+            tvAreaName.text = areaName  // 해당 지역명으로 바꾸기
+            setWeather(x!!, y!!)
+        }
     }
 
 }

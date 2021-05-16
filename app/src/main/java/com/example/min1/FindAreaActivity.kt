@@ -1,10 +1,13 @@
 package com.example.min1
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
@@ -12,12 +15,14 @@ import net.daum.mf.map.api.MapReverseGeoCoder
 import net.daum.mf.map.api.MapView
 
 class FindAreaActivity  : AppCompatActivity(), MapReverseGeoCoder.ReverseGeoCodingResultListener, MyMapViewEventListener {
+    lateinit var tvAreaName : TextView
     lateinit var btnBack1 : Button
     lateinit var map : LinearLayout
     lateinit var marker : MapPOIItem
     lateinit var mapView : MapView
     lateinit var reverseGeoCoder : MapReverseGeoCoder
 
+    // 위경도
     var lat = 37.65136866943945
     var lng = 127.01617112670128
 
@@ -25,6 +30,7 @@ class FindAreaActivity  : AppCompatActivity(), MapReverseGeoCoder.ReverseGeoCodi
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_find_area)
 
+        tvAreaName = findViewById(R.id.tvAreaName)
         btnBack1 = findViewById(R.id.btnBack1)
         map = findViewById(R.id.map)
 
@@ -51,14 +57,25 @@ class FindAreaActivity  : AppCompatActivity(), MapReverseGeoCoder.ReverseGeoCodi
 
         // 지역 설정 완료하면 메인 화면으로 돌아감
         btnBack1.setOnClickListener {
+            var outIntent = Intent(this@FindAreaActivity, MainActivity::class.java)
+
+            var (x, y) = dfs_xy_conv(lat, lng)
+            Log.d("mmm 위경도 변환", x + " " + y)
+            outIntent.putExtra("x", x)
+            outIntent.putExtra("y", y)
+            var splitArray = tvAreaName.text.split(" ")
+            Log.d("mmm 주소 변환", splitArray[splitArray.size - 2])
+            outIntent.putExtra("areaName", splitArray[splitArray.size - 2])
+            setResult(Activity.RESULT_OK, outIntent)
             finish()
         }
     }
 
     // ReverseGeoCodingResultListener 재정의
-    // 주소 찾기 성공 - 지도에 마커 달기
+    // 주소 찾기 성공 - 지도에 마커 달기 + 지역명 텍스트뷰에 보이기
     override fun onReverseGeoCoderFoundAddress(p0: MapReverseGeoCoder?, p1: String?) {
         Log.d("mmm 주소 성공", p1!!)
+        tvAreaName.text = p1!!
         marker.itemName = p1!!
         mapView.addPOIItem(marker)
     }
@@ -91,4 +108,43 @@ class FindAreaActivity  : AppCompatActivity(), MapReverseGeoCoder.ReverseGeoCodi
             mapView.addPOIItem(marker)
         }
     }
+
+    // 위경도를 기상청에서 사용하는 격자 좌표로 변환
+    fun dfs_xy_conv(v1 : Double, v2 : Double): Pair<String, String> {
+        var RE = 6371.00877; // 지구 반경(km)
+        var GRID = 5.0; // 격자 간격(km)
+        var SLAT1 = 30.0; // 투영 위도1(degree)
+        var SLAT2 = 60.0; // 투영 위도2(degree)
+        var OLON = 126.0; // 기준점 경도(degree)
+        var OLAT = 38.0; // 기준점 위도(degree)
+        var XO = 43; // 기준점 X좌표(GRID)
+        var YO = 136; // 기1준점 Y좌표(GRID)
+
+        var DEGRAD = Math.PI / 180.0
+
+        var re = RE / GRID
+        var slat1 = SLAT1 * DEGRAD
+        var slat2 = SLAT2 * DEGRAD
+        var olon = OLON * DEGRAD
+        var olat = OLAT * DEGRAD
+
+        var sn = Math.tan(Math.PI * 0.25 + slat2 * 0.5) / Math.tan(Math.PI * 0.25 + slat1 * 0.5)
+        sn = Math.log(Math.cos(slat1) / Math.cos(slat2)) / Math.log(sn)
+        var sf = Math.tan(Math.PI * 0.25 + slat1 * 0.5)
+        sf = Math.pow(sf, sn) * Math.cos(slat1) / sn
+        var ro = Math.tan(Math.PI * 0.25 + olat * 0.5)
+        ro = re * sf / Math.pow(ro, sn)
+
+        var ra = Math.tan(Math.PI * 0.25 + (v1).toDouble() * DEGRAD * 0.5)
+        ra = re * sf / Math.pow(ra, sn)
+        var theta = v2.toDouble() * DEGRAD - olon
+        if (theta > Math.PI) theta -= 2.0 * Math.PI
+        if (theta < -Math.PI) theta += 2.0 * Math.PI
+        theta *= sn
+        var x = (ra * Math.sin(theta) + XO + 0.5).toInt().toString()
+        var y = (ro - ra * Math.cos(theta) + YO + 0.5).toInt().toString()
+
+        return Pair(x, y)
+    }
+
 }
