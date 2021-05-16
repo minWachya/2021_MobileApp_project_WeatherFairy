@@ -48,10 +48,10 @@ class FindAreaActivity  : AppCompatActivity(), MapReverseGeoCoder.ReverseGeoCodi
 
         // 마커의 위경도로 주소 찾아서 마커 위에 띄우기
         reverseGeoCoder = MapReverseGeoCoder(
-            "869b0ecf65dacae7d89ac1bba906e8cf",
-            marker.mapPoint,
-            this,
-            this
+                "869b0ecf65dacae7d89ac1bba906e8cf",
+                marker.mapPoint,
+                this,
+                this
         )
         reverseGeoCoder.startFindingAddress()
 
@@ -61,7 +61,7 @@ class FindAreaActivity  : AppCompatActivity(), MapReverseGeoCoder.ReverseGeoCodi
             var outIntent = Intent(this@FindAreaActivity, MainActivity::class.java)
 
             // 격자 좌표 담기
-            var (x, y) = dfs_xy_conv(lat, lng)
+            var (x, y) = dfs_xy_conv(0, lat, lng)
             outIntent.putExtra("x", x)
             outIntent.putExtra("y", y)
             // 지역명 담기
@@ -102,10 +102,10 @@ class FindAreaActivity  : AppCompatActivity(), MapReverseGeoCoder.ReverseGeoCodi
             // 클릭한 위치에 마커와 주소 보이기
             marker.mapPoint = p1!!
             reverseGeoCoder = MapReverseGeoCoder(
-                "869b0ecf65dacae7d89ac1bba906e8cf",
-                p1!!,
-                this,
-                this
+                    "869b0ecf65dacae7d89ac1bba906e8cf",
+                    p1!!,
+                    this,
+                    this
             )
             reverseGeoCoder.startFindingAddress()
             mapView.addPOIItem(marker)
@@ -113,7 +113,8 @@ class FindAreaActivity  : AppCompatActivity(), MapReverseGeoCoder.ReverseGeoCodi
     }
 
     // 위경도를 기상청에서 사용하는 격자 좌표로 변환
-    fun dfs_xy_conv(v1 : Double, v2 : Double): Pair<String, String> {
+    // code : 0 = 위경도 -> 기상청 격자 좌표, 1 = 기상청 격자 좌표 -> 위경도
+    fun dfs_xy_conv(code: Int, v1: Double, v2: Double): Pair<String, String> {
         var RE = 6371.00877; // 지구 반경(km)
         var GRID = 5.0; // 격자 간격(km)
         var SLAT1 = 30.0; // 투영 위도1(degree)
@@ -124,6 +125,7 @@ class FindAreaActivity  : AppCompatActivity(), MapReverseGeoCoder.ReverseGeoCodi
         var YO = 136; // 기1준점 Y좌표(GRID)
 
         var DEGRAD = Math.PI / 180.0
+        var RADDEG = 180.0 / Math.PI
 
         var re = RE / GRID
         var slat1 = SLAT1 * DEGRAD
@@ -138,16 +140,46 @@ class FindAreaActivity  : AppCompatActivity(), MapReverseGeoCoder.ReverseGeoCodi
         var ro = Math.tan(Math.PI * 0.25 + olat * 0.5)
         ro = re * sf / Math.pow(ro, sn)
 
-        var ra = Math.tan(Math.PI * 0.25 + (v1) * DEGRAD * 0.5)
-        ra = re * sf / Math.pow(ra, sn)
-        var theta = v2.toDouble() * DEGRAD - olon
-        if (theta > Math.PI) theta -= 2.0 * Math.PI
-        if (theta < -Math.PI) theta += 2.0 * Math.PI
-        theta *= sn
-        var x = (ra * Math.sin(theta) + XO + 0.5).toInt().toString()
-        var y = (ro - ra * Math.cos(theta) + YO + 0.5).toInt().toString()
+        // 위경도 -> 기상청 격자 좌표
+        if (code == 0) {
+            var ra = Math.tan(Math.PI * 0.25 + (v1) * DEGRAD * 0.5)
+            ra = re * sf / Math.pow(ra, sn)
+            var theta = v2 * DEGRAD - olon
+            if (theta > Math.PI) theta -= 2.0 * Math.PI
+            if (theta < -Math.PI) theta += 2.0 * Math.PI
+            theta *= sn
+            var x = (ra * Math.sin(theta) + XO + 0.5).toInt().toString()
+            var y = (ro - ra * Math.cos(theta) + YO + 0.5).toInt().toString()
 
-        return Pair(x, y)
+            return Pair(x, y)
+        }
+        // 기상청 격자 좌표 -> 위경도
+        else {
+            val xn: Double = v1 - XO
+            val yn: Double = ro - v2 + YO
+            var ra = Math.sqrt(xn * xn + yn * yn)
+            if (sn < 0.0) {
+                ra = -ra
+            }
+            var alat = Math.pow(re * sf / ra, 1.0 / sn)
+            alat = 2.0 * Math.atan(alat) - Math.PI * 0.5
+
+            var theta = 0.0
+            if (Math.abs(xn) <= 0.0) {
+                theta = 0.0
+            } else {
+                if (Math.abs(yn) <= 0.0) {
+                    theta = Math.PI * 0.5
+                    if (xn < 0.0) {
+                        theta = -theta
+                    }
+                } else theta = Math.atan2(xn, yn)
+            }
+            val alon = theta / sn + olon
+            var x = (alat * RADDEG).toString()
+            var y = (alon * RADDEG).toString()
+            return Pair(x, y)
+        }
     }
 
 }

@@ -58,8 +58,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var btnWrite : Button          // <옷 기록하기> 버튼
     lateinit var btnSeeMemo : Button        // <내 기록보기> 버튼
 
-    var base_date = "20210510"  // 발표 일자
-    var base_time = "1400"      // 발표 시각
+    var base_date = ""  // 발표 일자
+    var base_time = ""      // 발표 시각
     var nx = "55"               // 예보지점 X 좌표
     var ny = "127"              // 예보지점 Y 좌표
 
