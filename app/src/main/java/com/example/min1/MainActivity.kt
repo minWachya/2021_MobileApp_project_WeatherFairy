@@ -58,10 +58,10 @@ class MainActivity : AppCompatActivity() {
     lateinit var btnWrite : Button          // <옷 기록하기> 버튼
     lateinit var btnSeeMemo : Button        // <내 기록보기> 버튼
 
-    var base_date = ""  // 발표 일자
-    var base_time = ""      // 발표 시각
-    var nx = "55"               // 예보지점 X 좌표
-    var ny = "127"              // 예보지점 Y 좌표
+    var base_date = ""          // 발표 일자
+    var base_time = ""          // 발표 시각
+    var nx = "60"               // 예보지점 X 좌표
+    var ny = "129"              // 예보지점 Y 좌표
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -286,8 +286,9 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (resultCode == Activity.RESULT_OK) {
-            nx = data!!.getStringExtra("x")!!
-            ny = data!!.getStringExtra("y")!!
+            nx = data!!.getStringExtra("Find_nx")!!
+            ny = data!!.getStringExtra("Find_ny")!!
+            Log.d("mmm 메인:변환된 위경도", nx + " " + ny)
             var areaName = data!!.getStringExtra("areaName")
 
             // 해당 지역의 날씨 정보 보이기
