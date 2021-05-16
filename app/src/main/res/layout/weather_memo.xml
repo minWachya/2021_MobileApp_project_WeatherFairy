@@ -19,18 +19,21 @@
             android:layout_height="wrap_content"
             android:text="2021.05.12"
             android:textSize="20dp"
+            android:textColor="#000000"
             android:layout_weight="1"/>
         <TextView
             android:id="@+id/tvTemp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="20"
-            android:textSize="20dp" />
+            android:textSize="20dp"
+            android:textColor="#000000" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="℃"
-            android:textSize="20dp" />
+            android:textSize="20dp"
+            android:textColor="#000000" />
     </LinearLayout>
 
     <GridLayout
@@ -43,52 +46,60 @@
             android:layout_column="0"
             android:layout_row="0"
             android:text="상의 : "
-            android:textSize="14dp"/>
+            android:textSize="14dp"
+            android:textColor="#000000" />
         <TextView
             android:id="@+id/tvTop"
             android:layout_column="1"
             android:layout_row="0"
             android:text="노란 반팔"
             android:textSize="14dp"
+            android:textColor="#000000"
             android:layout_gravity="fill_horizontal" />
 
         <TextView
             android:layout_column="0"
             android:layout_row="1"
             android:text="하의 : "
-            android:textSize="14dp"/>
+            android:textSize="14dp"
+            android:textColor="#000000" />
         <TextView
             android:id="@+id/tvBottom"
             android:layout_column="1"
             android:layout_row="1"
             android:text="아디다스 검정 반바지"
             android:textSize="14dp"
+            android:textColor="#000000"
             android:layout_gravity="fill_horizontal" />
 
         <TextView
             android:layout_column="0"
             android:layout_row="2"
             android:text="아우터 : "
-            android:textSize="14dp"/>
+            android:textSize="14dp"
+            android:textColor="#000000" />
         <TextView
             android:id="@+id/tvOuter"
             android:layout_column="1"
             android:layout_row="2"
             android:text="x"
             android:textSize="14dp"
+            android:textColor="#000000"
             android:layout_gravity="fill_horizontal" />
 
         <TextView
             android:layout_column="0"
             android:layout_row="3"
             android:text="메모 : "
-            android:textSize="14dp"/>
+            android:textSize="14dp"
+            android:textColor="#000000" />
         <TextView
             android:id="@+id/tvMemo"
             android:layout_column="1"
             android:layout_row="3"
             android:text="손풍기 없어도 살만함. 실내는 추웠다..."
             android:textSize="14dp"
+            android:textColor="#000000"
             android:layout_gravity="fill_horizontal" />
     </GridLayout>
 

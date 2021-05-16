@@ -56,16 +56,20 @@ class FindAreaActivity  : AppCompatActivity(), MapReverseGeoCoder.ReverseGeoCodi
         reverseGeoCoder.startFindingAddress()
 
         // 지역 설정 완료하면 메인 화면으로 돌아감
+        // 변환한 격자 좌표와 지역명 반환
         btnBack1.setOnClickListener {
             var outIntent = Intent(this@FindAreaActivity, MainActivity::class.java)
 
+            // 격자 좌표 담기
             var (x, y) = dfs_xy_conv(lat, lng)
-            Log.d("mmm 위경도 변환", x + " " + y)
             outIntent.putExtra("x", x)
             outIntent.putExtra("y", y)
+            // 지역명 담기
             var splitArray = tvAreaName.text.split(" ")
-            Log.d("mmm 주소 변환", splitArray[splitArray.size - 2])
-            outIntent.putExtra("areaName", splitArray[splitArray.size - 2])
+            var areaName = splitArray[splitArray.size - 2]
+            if (areaName == "산") areaName = splitArray[splitArray.size - 3]
+            outIntent.putExtra("areaName", areaName)
+            // 반환
             setResult(Activity.RESULT_OK, outIntent)
             finish()
         }
@@ -81,9 +85,8 @@ class FindAreaActivity  : AppCompatActivity(), MapReverseGeoCoder.ReverseGeoCodi
     }
     // 주소 찾기 실패
     override fun onReverseGeoCoderFailedToFindAddress(p0: MapReverseGeoCoder?) {
-        marker.itemName = "주소를 찾지 못하였습니다."
-        Log.d("mmm 주소 실패", ",...")
-        mapView.addPOIItem(marker)
+        tvAreaName.text = "주소를 찾지 못하였습니다."
+        Log.d("mmm 주소 실패", "주소 찾기 실패")
     }
 
     // 지도를 한 번 클릭하였을 때
@@ -93,8 +96,8 @@ class FindAreaActivity  : AppCompatActivity(), MapReverseGeoCoder.ReverseGeoCodi
         if (p1 != null) {
             lat = p1!!.mapPointGeoCoord.latitude
             lng = p1!!.mapPointGeoCoord.longitude
-            Log.d("mmm 크릭", lat.toString())
-            Log.d("mmm 크릭", lng.toString())
+            Log.d("mmm 지도 클릭", lat.toString())
+            Log.d("mmm 지도 클릭", lng.toString())
 
             // 클릭한 위치에 마커와 주소 보이기
             marker.mapPoint = p1!!
@@ -135,7 +138,7 @@ class FindAreaActivity  : AppCompatActivity(), MapReverseGeoCoder.ReverseGeoCodi
         var ro = Math.tan(Math.PI * 0.25 + olat * 0.5)
         ro = re * sf / Math.pow(ro, sn)
 
-        var ra = Math.tan(Math.PI * 0.25 + (v1).toDouble() * DEGRAD * 0.5)
+        var ra = Math.tan(Math.PI * 0.25 + (v1) * DEGRAD * 0.5)
         ra = re * sf / Math.pow(ra, sn)
         var theta = v2.toDouble() * DEGRAD - olon
         if (theta > Math.PI) theta -= 2.0 * Math.PI

@@ -50,6 +50,7 @@
             android:layout_row="0"
             android:text="16°"
             android:textSize="25dp"
+            android:textColor="#000000"
             android:padding="5dp"/>
         <ImageView
             android:layout_column="2"
@@ -64,13 +65,15 @@
             android:layout_column="0"
             android:layout_row="1"
             android:text="습도"
-            android:textSize="14dp"/>
+            android:textSize="14dp"
+            android:textColor="#000000" />
         <TextView
             android:id="@+id/tvHumidity"
             android:layout_column="1"
             android:layout_row="1"
             android:text="16%"
             android:textSize="14dp"
+            android:textColor="#000000"
             android:paddingRight="20dp"/>
 
         <TextView
@@ -78,45 +81,52 @@
             android:layout_row="2"
             android:text="하늘 상태"
             android:textSize="14dp"
+            android:textColor="#000000"
             android:paddingRight="20dp"/>
         <TextView
             android:id="@+id/tvSky"
             android:layout_column="1"
             android:layout_row="2"
             android:text="맑음"
-            android:textSize="14dp"/>
+            android:textSize="14dp"
+            android:textColor="#000000" />
 
         <TextView
             android:layout_column="0"
             android:layout_row="3"
             android:text="강수확률"
             android:textSize="14dp"
+            android:textColor="#000000"
             android:paddingRight="20dp"/>
         <TextView
             android:id="@+id/tvRainRatio"
             android:layout_column="1"
             android:layout_row="3"
             android:text="0%"
-            android:textSize="14dp"/>
+            android:textSize="14dp"
+            android:textColor="#000000"/>
 
         <TextView
             android:layout_column="0"
             android:layout_row="4"
             android:text="강수형태"
             android:textSize="14dp"
+            android:textColor="#000000"
             android:paddingRight="20dp"/>
         <TextView
             android:id="@+id/tvRainType"
             android:layout_column="1"
             android:layout_row="4"
             android:text="없음"
-            android:textSize="14dp"/>
+            android:textSize="14dp"
+            android:textColor="#000000" />
 
         <TextView
             android:layout_column="0"
             android:layout_row="5"
             android:text="옷 추천"
             android:textSize="14dp"
+            android:textColor="#000000"
             android:paddingRight="20dp"/>
         <TextView
             android:id="@+id/tvRecommend"
@@ -124,7 +134,8 @@
             android:layout_row="5"
             android:text="자켓, 가디건, 청자켓"
             android:paddingRight="40dp"
-            android:textSize="14dp"/>
+            android:textSize="14dp"
+            android:textColor="#000000"/>
     </GridLayout>
 
     <androidx.recyclerview.widget.RecyclerView
