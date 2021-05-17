@@ -190,7 +190,7 @@ class MainActivity : AppCompatActivity() {
     // 텍스트 뷰에 날씨 정보 보여주기
     fun setWeather(temp : String, humidity : String, sky : String, rainRatio : String, rainType : String) {
         // 온도
-        tvTemp.text = temp + "°"
+        tvTemp.text = temp
         // 습도
         tvHumidity.text = humidity + "%"
         // 하늘 상태

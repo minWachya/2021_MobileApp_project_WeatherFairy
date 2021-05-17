@@ -47,18 +47,22 @@ class WriteActivity : AppCompatActivity() {
         var year = calender.get(Calendar.YEAR)
         var month = calender.get(Calendar.MONDAY)
         var day = calender.get(Calendar.DAY_OF_MONTH)
-        tvDate.text = "${year}.${month+1}.${day}"
+        var m = "${month + 1}"
+        var d = "${day}"
+        if (month + 1 < 10) m = "0" + (month + 1)
+        if (day < 10) d = "0" + day
+        tvDate.text = "${year}.${m}.${d}"
 
         // 캘린더 이미지 누르면 데이트피커 다이얼로그 보이게
         imgCalendar.setOnClickListener {
             var listner = DatePickerDialog.OnDateSetListener { datePicker, i, i2, i3 ->
                 // 한자리 숫자 앞에 0 붙여서 2자리로 통일
-                var month = ""
-                var day = ""
-                if (i2 + 1 < 10) month = "0" + (i2 + 1)
-                if (i3 < 10) day = "0" + i3
+                m = "${i2}"
+                d = "${i3}"
+                if (i2 + 1 < 10) m = "0" + (i2 + 1)
+                if (i3 < 10) d = "0" + i3
 
-                tvDate.text = "${i}.${month}.${day}"
+                tvDate.text = "${i}.${m}.${d}"
             }
 
             // 오늘 날짜가 선택된 다이얼로그 보이기

@@ -48,14 +48,26 @@
             android:layout_height="wrap_content"
             android:columnCount="5"
             android:rowCount="5">
-            <TextView
-                android:id="@+id/tvTemp"
+            <LinearLayout
                 android:layout_column="0"
                 android:layout_row="0"
-                android:text="16°"
-                android:textSize="25dp"
-                android:textColor="#000000"
-                android:padding="5dp"/>
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/tvTemp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="16"
+                    android:textSize="25dp"
+                    android:textColor="#000000"
+                    android:padding="5dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="°"
+                    android:textSize="25dp"
+                    android:textColor="#000000"
+                    android:padding="5dp"/>
+            </LinearLayout>
             <ImageView
                 android:id="@+id/imgWeather"
                 android:layout_column="4"
@@ -171,7 +183,7 @@
                 android:padding="1dp"
                 android:src="@drawable/img_cloth"/>
             <TextView
-                android:layout_marginLeft="15dp"
+                android:layout_marginLeft="25dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="옷 추천"
