@@ -3,12 +3,20 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.kakao.usermgmt.LoginButton
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="로그인"
+        android:textSize="30dp"
+        android:layout_margin="20dp"
+        android:gravity="center"/>
+
+    <ImageButton
         android:id="@+id/btnKakaoLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="20dp"
-        android:text="카카오톡으로 로그인" />
+        android:adjustViewBounds="true"
+        android:background="@android:color/transparent"
+        android:src="@drawable/kakao_login_medium_wide"/>
 
 </LinearLayout>

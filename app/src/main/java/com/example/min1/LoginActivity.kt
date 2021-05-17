@@ -4,18 +4,23 @@ package com.example.min1
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageButton
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.user.UserApiClient
 
 // 로그인 액티비티(시작 화면)
 class LoginActivity : AppCompatActivity() {
+    lateinit var btnKakaoLogin : ImageButton
     var TAG = "kakaoLogin"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // 로그인 액티비티와 레이아웃 연결
         setContentView(R.layout.activity_login)
+
+        btnKakaoLogin = findViewById(R.id.btnKakaoLogin)
 
         // 카카오 디벨로퍼 홈페이지의 "카카오 로그인 구현 예제" 복붙 후 수정
         // 로그인 공통 callback 구성
@@ -34,11 +39,15 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-        // 카카오톡이 설치되어 있으면 카카오톡으로 로그인, 아니면 카카오계정으로 로그인
-        if (UserApiClient.instance.isKakaoTalkLoginAvailable(this@LoginActivity)) {
-            UserApiClient.instance.loginWithKakaoTalk(this@LoginActivity, callback = callback)
-        } else {
-            UserApiClient.instance.loginWithKakaoAccount(this@LoginActivity, callback = callback)
+        // 카카오톡 로그인 버튼 누르기
+        btnKakaoLogin.setOnClickListener {
+            // 카카오톡이 설치되어 있으면 카카오톡으로 로그인, 아니면 카카오계정으로 로그인
+            if (UserApiClient.instance.isKakaoTalkLoginAvailable(this@LoginActivity)) {
+                UserApiClient.instance.loginWithKakaoTalk(this@LoginActivity, callback = callback)
+            } else {
+                UserApiClient.instance.loginWithKakaoAccount(this@LoginActivity, callback = callback)
+            }
         }
+
     }
 }
