@@ -39,23 +39,29 @@ class WriteActivity : AppCompatActivity() {
         btnCompleteMemo = findViewById(R.id.btnCompleteMemo)
 
         // intent에서 온도 정보 받이서 온도 설정하기
-        //val temp = intent.getStringArrayExtra("temp")
-        //editTemp.text = Editable.Factory.getInstance().newEditable(temp.toString())
+        val temp = intent.getStringExtra("temp").toString()
+        editTemp.text = Editable.Factory.getInstance().newEditable(temp)
+
+        // 텍스트뷰에 오늘 날짜 미리 보이기
+        var calender = Calendar.getInstance()
+        var year = calender.get(Calendar.YEAR)
+        var month = calender.get(Calendar.MONDAY)
+        var day = calender.get(Calendar.DAY_OF_MONTH)
+        tvDate.text = "${year}.${month+1}.${day}"
 
         // 캘린더 이미지 누르면 데이트피커 다이얼로그 보이게
         imgCalendar.setOnClickListener {
-            var calender = Calendar.getInstance()
-            var year = calender.get(Calendar.YEAR)
-            var month = calender.get(Calendar.MONDAY)
-            var day = calender.get(Calendar.DAY_OF_MONTH)
-
             var listner = DatePickerDialog.OnDateSetListener { datePicker, i, i2, i3 ->
+                // 한자리 숫자 앞에 0 붙여서 2자리로 통일
                 var month = ""
+                var day = ""
                 if (i2 + 1 < 10) month = "0" + (i2 + 1)
+                if (i3 < 10) day = "0" + i3
 
-                tvDate.text = "${i}.${month}.${i3}"
+                tvDate.text = "${i}.${month}.${day}"
             }
 
+            // 오늘 날짜가 선택된 다이얼로그 보이기
             var picker = DatePickerDialog(this@WriteActivity, listner, year, month, day)
             picker.show()
         }

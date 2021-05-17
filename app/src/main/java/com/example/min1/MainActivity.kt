@@ -96,7 +96,7 @@ class MainActivity : AppCompatActivity() {
         // <옷 기록하기> 버튼 누르면 기록하기 액티비티(WriteActivity)로 이동
         btnWrite.setOnClickListener {
             var intent = Intent(this@MainActivity, WriteActivity::class.java)
-            //intent.putExtra("temp", tvTemp.text)
+            intent.putExtra("temp", tvTemp.text.toString())
             startActivity(intent)
         }
 

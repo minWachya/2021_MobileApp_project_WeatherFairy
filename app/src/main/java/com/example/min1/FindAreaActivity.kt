@@ -4,16 +4,19 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
+import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapReverseGeoCoder
 import net.daum.mf.map.api.MapView
 
+
+// 카카오맵으로 지역 찾기
+// 찾은 지역의 위,경도를 기상청에서 사용하는 격자 좌표로 변환해서 메인 액티비티에 돌려줌
 class FindAreaActivity  : AppCompatActivity(), MapReverseGeoCoder.ReverseGeoCodingResultListener, MyMapViewEventListener {
     lateinit var tvAreaName : TextView                  // 지역명
     lateinit var btnBack1 : Button                      // <지역 설정 완료> 버튼
@@ -33,7 +36,6 @@ class FindAreaActivity  : AppCompatActivity(), MapReverseGeoCoder.ReverseGeoCodi
         tvAreaName = findViewById(R.id.tvAreaName)
         btnBack1 = findViewById(R.id.btnBack1)
         map = findViewById(R.id.map)
-
         // 카카오맵
         mapView = MapView(this)
         val mapViewContainer = map as ViewGroup
@@ -45,14 +47,17 @@ class FindAreaActivity  : AppCompatActivity(), MapReverseGeoCoder.ReverseGeoCodi
         marker.markerType = MapPOIItem.MarkerType.BluePin           // 마커 타입 설정
         mapView.addPOIItem(marker)                                  // 지도에 마커 붙이기
         mapView.setMapCenterPoint(marker.mapPoint, true)   // 지도 화면의 중심점 설정
-        Log.d("mmm 지도 중심좌표", "${marker.mapPoint.mapPointGeoCoord.latitude}, ${marker.mapPoint.mapPointGeoCoord.longitude}")
+        Log.d(
+            "mmm 지도 중심좌표",
+            "${marker.mapPoint.mapPointGeoCoord.latitude}, ${marker.mapPoint.mapPointGeoCoord.longitude}"
+        )
 
         // 마커의 위경도로 주소 찾아서 마커 위에 띄우기
         reverseGeoCoder = MapReverseGeoCoder(
-                "869b0ecf65dacae7d89ac1bba906e8cf",
-                marker.mapPoint,
-                this,
-                this
+            "869b0ecf65dacae7d89ac1bba906e8cf",
+            marker.mapPoint,
+            this,
+            this
         )
         reverseGeoCoder.startFindingAddress()
 
@@ -106,10 +111,10 @@ class FindAreaActivity  : AppCompatActivity(), MapReverseGeoCoder.ReverseGeoCodi
             // 클릭한 위치에 마커와 주소 보이기
             marker.mapPoint = p1!!
             reverseGeoCoder = MapReverseGeoCoder(
-                    "869b0ecf65dacae7d89ac1bba906e8cf",
-                    p1!!,
-                    this,
-                    this
+                "869b0ecf65dacae7d89ac1bba906e8cf",
+                p1!!,
+                this@FindAreaActivity,
+                this@FindAreaActivity
             )
             reverseGeoCoder.startFindingAddress()
             mapView.addPOIItem(marker)

@@ -63,7 +63,7 @@ class LoginActivity : AppCompatActivity() {
         //  네이버 아이디로 로그인
         val naver_client_id = "KHicI1oFhj5zdt5VGjma"
         val naver_client_secret = "oBclxogSES"
-        val naver_client_name = "끼양"
+        val naver_client_name = "쩝쩝"
 
         mContext = this@LoginActivity
         mOAuthLoginInstance = OAuthLogin.getInstance()

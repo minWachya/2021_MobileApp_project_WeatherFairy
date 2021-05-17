@@ -14,10 +14,10 @@ import com.google.firebase.database.*
 // 추가된 Memo 아이템이 리사이클러뷰에서 보여짐
 // 월별/온도별 Memo 보이기
 class SeeMemoActivity : AppCompatActivity() {
-    lateinit var tvSelect : TextView
-    lateinit var spinner : Spinner
-    lateinit var btnToggle : ToggleButton
-    lateinit var recyclerView : RecyclerView
+    lateinit var tvSelect : TextView                // 월별/온도별 텍스트뷰
+    lateinit var spinner : Spinner                  // 원별/온도별 값을 선택하는 스피너
+    lateinit var btnToggle : ToggleButton           // 월별/온도별을 선택하는 토글 버튼
+    lateinit var recyclerView : RecyclerView        // 검색 결과를 보여주는 리사이클러뷰
     lateinit var memoAdapter : WeatherMemoAdapter
     lateinit var databaseRef : DatabaseReference
     var dataSanpshot : DataSnapshot? = null
