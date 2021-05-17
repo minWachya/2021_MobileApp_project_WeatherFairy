@@ -60,8 +60,8 @@ class MainActivity : AppCompatActivity() {
 
     var base_date = ""          // 발표 일자
     var base_time = ""          // 발표 시각
-    var nx = "60"               // 예보지점 X 좌표
-    var ny = "129"              // 예보지점 Y 좌표
+    var nx = "60"               // 예보지점 X 좌표(덕성여대)
+    var ny = "129"              // 예보지점 Y 좌표(덕성여대)
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -25,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="일산서구"
+            android:text="쌍문동"
             android:textSize="30dp"/>
         <ImageView
             android:id="@+id/imgSearchArea"
