@@ -14,9 +14,16 @@
     <ImageButton
         android:id="@+id/btnKakaoLogin"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:adjustViewBounds="true"
         android:background="@android:color/transparent"
         android:src="@drawable/kakao_login_medium_wide"/>
+
+    <com.nhn.android.naverlogin.ui.view.OAuthLoginButton
+        android:id="@+id/btnNaverLogin"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_margin="10dp"
+        android:src="@drawable/btn_login_naver" />
 
 </LinearLayout>
