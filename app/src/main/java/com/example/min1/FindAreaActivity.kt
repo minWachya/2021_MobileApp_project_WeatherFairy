@@ -95,6 +95,9 @@ class FindAreaActivity  : AppCompatActivity(), MapReverseGeoCoder.ReverseGeoCodi
         super.onMapViewSingleTapped(p0, p1)
 
         if (p1 != null) {
+            mapView.removeAllPOIItems()           // 이전 마커 삭제하기
+
+            // 지도상 위경도 얻기
             lat = p1!!.mapPointGeoCoord.latitude
             lng = p1!!.mapPointGeoCoord.longitude
             Log.d("mmm 지도 클릭", lat.toString())
