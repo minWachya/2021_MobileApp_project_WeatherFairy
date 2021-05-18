@@ -92,6 +92,10 @@ class MainActivity : AppCompatActivity() {
             var intent = Intent(this@MainActivity, FindAreaActivity::class.java)
             startActivityForResult(intent, 0)
         }
+        // 지역명 클릭해도 돋보기 이미지 누른 것과 같은 처리
+        tvAreaName.setOnClickListener {
+            imgSearchArea.callOnClick()
+        }
 
         // <옷 기록하기> 버튼 누르면 기록하기 액티비티(WriteActivity)로 이동
         btnWrite.setOnClickListener {
@@ -251,7 +255,7 @@ class MainActivity : AppCompatActivity() {
         tvRainType.text = resultText
         imgWeather.setImageResource(resultImg)
         // 기본 옷 추천
-        Log.d("mmm", temp)
+        Log.d("mmm 현재 기온", temp)
         when (temp) {
             in "5".."8" -> resultText = "울 코트, 가죽 옷, 기모"
             in "9".."11" -> resultText = "트렌치 코트, 야상, 점퍼"

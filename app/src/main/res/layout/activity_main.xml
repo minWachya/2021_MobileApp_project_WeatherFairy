@@ -232,4 +232,11 @@
             android:text="내 기록보기"/>
     </LinearLayout>
 
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:itemIconTint="#FFFFFF"
+        app:labelVisibilityMode="unlabeled"
+        app:menu="@menu/menu_tabs"/>
+
 </LinearLayout>
