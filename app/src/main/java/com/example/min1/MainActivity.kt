@@ -251,6 +251,7 @@ class MainActivity : AppCompatActivity() {
         tvRainType.text = resultText
         imgWeather.setImageResource(resultImg)
         // 기본 옷 추천
+        Log.d("mmm", temp)
         when (temp) {
             in "5".."8" -> resultText = "울 코트, 가죽 옷, 기모"
             in "9".."11" -> resultText = "트렌치 코트, 야상, 점퍼"
