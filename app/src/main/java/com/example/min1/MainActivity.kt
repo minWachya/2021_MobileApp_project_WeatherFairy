@@ -47,6 +47,7 @@ object ApiObject {
 class MainActivity : AppCompatActivity() {
     lateinit var tvDate : TextView                  // 현재 날짜
     lateinit var tvAreaName : TextView              // 지역명
+    lateinit var tvTimes : Array<TextView>          // 현재/다음 시간
     lateinit var tvTemps : Array<TextView>          // 온도
     lateinit var imgWeathers : Array<ImageView>     // 날씨 이미지
     lateinit var imgSearchArea : ImageView          // 지역 찾기 이미지 버튼
@@ -70,6 +71,7 @@ class MainActivity : AppCompatActivity() {
 
         tvDate = findViewById(R.id.tvDate)
         tvAreaName = findViewById(R.id.tvAreaName)
+        tvTimes = arrayOf(findViewById(R.id.tvTime), findViewById(R.id.tvTime2))
         tvTemps = arrayOf(findViewById(R.id.tvTemp), findViewById(R.id.tvTemp2))
         imgWeathers = arrayOf(findViewById(R.id.imgWeather), findViewById(R.id.imgWeather2))
         imgSearchArea = findViewById(R.id.imgSearchArea)
@@ -178,10 +180,7 @@ class MainActivity : AppCompatActivity() {
 
                     }
                     // 날씨 정보 텍스트뷰에 보이게 하기
-                    setWeather(index, temp, humidity, sky, rainRatio, rainType)
-
-                    // 토스트 띄우기
-                    Toast.makeText(applicationContext, it[0].fcstDate + ", " + it[0].fcstTime + "의 날씨 정보입니다.", Toast.LENGTH_SHORT).show()
+                    setWeather(index, temp, humidity, sky, rainRatio, rainType, time)
                 }
             }
 
@@ -193,7 +192,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     // 텍스트 뷰에 날씨 정보 보여주기
-    fun setWeather(index : Int, temp : String, humidity : String, sky : String, rainRatio : String, rainType : String) {
+    fun setWeather(index : Int, temp : String, humidity : String, sky : String, rainRatio : String, rainType : String, time : String) {
         // 온도
         tvTemps[index].text = temp
         // 습도
@@ -268,6 +267,13 @@ class MainActivity : AppCompatActivity() {
             else -> resultText = "패딩, 누빔 옷, 목도리"
         }
         tvRecommends[index].text = resultText
+        // 현재/다음 시간 설정
+        if (index == 0) tvTimes[index].text = time
+        else {
+            var temp = (time.toInt() + 3).toString()
+            if (temp >= "21") temp = (time.toInt() - 24).toString()
+            tvTimes[index].text = temp
+        }
     }
 
     // 시간 설정하기
