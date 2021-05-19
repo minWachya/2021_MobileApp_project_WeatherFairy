@@ -8,10 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.FrameLayout
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import retrofit2.Call
 import retrofit2.Response
@@ -153,11 +150,21 @@ class FragmentHome : Fragment() {
         // API 가져오기 적당하게 변환
         base_time = getTime(index, time)
         // 동네예보  API는 3시간마다 현재시간+4시간 뒤의 날씨 예보를 알려주기 때문에
-        // 현재 시각이 00시가 넘었다면 어제 예보한 데이터를 가져와야함
-        if (base_time >= "2000") {
-            cal.add(Calendar.DATE, -1).toString()
-            base_date = SimpleDateFormat("yyyyMMdd", Locale.getDefault()).format(cal.time)
+        // 현재 시각이 00시가 넘었다면(=base_time이 2000이상이라면) 어제 예보한 데이터를 가져와야함
+        if (index == 0) {
+            if (base_time == "2000" || base_time == "2300") {
+                cal.add(Calendar.DATE, -1).toString()
+                base_date = SimpleDateFormat("yyyyMMdd", Locale.getDefault()).format(cal.time)
+            }
         }
+        else {
+             if (base_time == "2300") {
+                cal.add(Calendar.DATE, -1).toString()
+                base_date = SimpleDateFormat("yyyyMMdd", Locale.getDefault()).format(cal.time)
+            }
+        }
+        Log.d("mmm basetime", "${index}, " + base_time)
+        Log.d("mmm basetdate", "${index}, " + base_date)
 
         // 날씨 정보 가져오기
         // (응답 자료 형식-"JSON", 한 페이지 결과 수 = 10, 페이지 번호 = 1, 발표 날싸, 발표 시각, 예보지점 좌표)
@@ -189,6 +196,8 @@ class FragmentHome : Fragment() {
                     }
                     // 날씨 정보 텍스트뷰에 보이게 하기
                     setWeather(index, temp, humidity, sky, rainRatio, rainType, time)
+
+                    Toast.makeText(context, "${index}, baseTime = ${base_time}, baseDate = ${base_date}, fcstTime = ${it[0].fcstTime}의 날씨 정보입니다.", Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -279,8 +288,10 @@ class FragmentHome : Fragment() {
         if (index == 0) tvTimes[index].text = time
         else {
             var temp = (time.toInt() + 3).toString()
-            if (temp >= "21") temp = "0" + (24 - temp.toInt())
+            Log.d("mmm 몇시 날씨?1", "${index}, " + temp)
+            if (temp >= "21") temp = "0" + (26 - temp.toInt())
             tvTimes[index].text = temp
+            Log.d("mmm 몇시 날씨?2", "${index}, " + temp)
         }
 
         if (index == 0) {
@@ -310,6 +321,7 @@ class FragmentHome : Fragment() {
                 in "18".."20" -> result = "1400"    // 18~20
                 else -> result = "1700"             // 21~23
             }
+            Log.d("현재 다음 시간대", result)
         }
         // 다음 시간대 base_time 정하기
         else {
@@ -323,6 +335,7 @@ class FragmentHome : Fragment() {
                 in "18".."20" -> result = "1700"    // 18~20
                 else -> result = "2000"             // 21~23
             }
+            Log.d("mmm 다음 시간대", result)
         }
 
         return result
