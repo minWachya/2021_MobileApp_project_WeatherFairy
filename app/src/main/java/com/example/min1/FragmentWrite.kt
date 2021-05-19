@@ -3,12 +3,15 @@ package com.example.min1
 import android.app.DatePickerDialog
 import android.os.Bundle
 import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
+import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.widget.addTextChangedListener
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import java.util.*
@@ -31,6 +34,12 @@ class FragmentWrite : Fragment() {
     lateinit var databaseRef : DatabaseReference    // 파이어베이스 접근 가능한 자료형
 
     var temp = ""                                   // 온도
+
+    var memoTemp = true
+    var memoTop = false
+    var memoBottom = false
+    var memoOuter = false
+    var memo = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,27 +97,32 @@ class FragmentWrite : Fragment() {
             picker.show()
         }
 
+        setTextListener()
+
+
         // 연결된 파이어베이스에서 데이터 가져오기
         databaseRef = FirebaseDatabase.getInstance().reference
 
         // <기록 완료> 버튼 누르면 위에 적은 내용을 파이어베이스에 저장하고
         // 토스트 띄운 뒤 처음 화면으로 돌아가기
         btnCompleteMemo.setOnClickListener {
-            val date = tvDate.text.toString()
-            val temp = editTemp.text.toString()
-            val top = editTop.text.toString()
-            val bottom = editBottom.text.toString()
-            val outer = editOuter.text.toString()
-            val memo = editMemo.text.toString()
+            if (memoTemp && memoTop && memoBottom && memoOuter && memo) {
+                val date = tvDate.text.toString()
+                val temp = editTemp.text.toString()
+                val top = editTop.text.toString()
+                val bottom = editBottom.text.toString()
+                val outer = editOuter.text.toString()
+                val memo = editMemo.text.toString()
 
-            val month = date.substring(5, 7)
-            val tempGroup = getTempGroup(temp)
+                val month = date.substring(5, 7)
+                val tempGroup = getTempGroup(temp)
 
-            // 파이어베이스에 데이터 저장하기
-            saveMemo(date, temp, top, bottom, outer, memo, month, tempGroup)
+                // 파이어베이스에 데이터 저장하기
+                saveMemo(date, temp, top, bottom, outer, memo, month, tempGroup)
 
-            Toast.makeText(context, "기록 완료하였습니다.", Toast.LENGTH_SHORT).show()
-            //finish()
+                Toast.makeText(context, "기록 완료하였습니다.", Toast.LENGTH_SHORT).show()
+            }
+            else Toast.makeText(context, "빈칸없이 입력해주세요.", Toast.LENGTH_SHORT).show()
         }
 
         return view
@@ -160,4 +174,28 @@ class FragmentWrite : Fragment() {
 
         databaseRef.updateChildren(childUpdate)
     }
+
+    fun setTextListener() {
+        editTemp.addTextChangedListener {
+            if (editTemp.text.trim().toString().length == 0) memoTemp = false
+            else memoTemp = true
+        }
+        editTop.addTextChangedListener{
+            if (editTop.text.trim().toString().length == 0) memoTop = false
+            else memoTop = true
+        }
+        editBottom.addTextChangedListener{
+            if (editBottom.text.trim().toString().length == 0) memoBottom = false
+            else memoBottom = true
+        }
+        editOuter.addTextChangedListener{
+            if (editOuter.text.trim().toString().length == 0) memoOuter = false
+            else memoOuter = true
+        }
+        editMemo.addTextChangedListener {
+            if (editMemo.text.trim().toString().length == 0) memo = false
+            else memo = true
+        }
+    }
+
 }
