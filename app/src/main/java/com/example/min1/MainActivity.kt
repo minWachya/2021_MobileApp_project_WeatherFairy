@@ -45,18 +45,18 @@ object ApiObject {
 
 // 메인 액티비티
 class MainActivity : AppCompatActivity() {
-    lateinit var tvDate : TextView          // 현재 날짜
-    lateinit var tvAreaName : TextView      // 지역명
-    lateinit var tvTemp : TextView          // 온도
-    lateinit var imgWeather : ImageView     // 날씨 이미지
-    lateinit var imgSearchArea : ImageView  // 지역 찾기 이미지 버튼
-    lateinit var tvHumidity : TextView      // 습도
-    lateinit var tvSky : TextView           // 하늘 상태
-    lateinit var tvRainRatio : TextView     // 강수 확률
-    lateinit var tvRainType : TextView      // 강수 형태
-    lateinit var tvRecommend : TextView     // 기본 옷 추천
-    lateinit var btnWrite : Button          // <옷 기록하기> 버튼
-    lateinit var btnSeeMemo : Button        // <내 기록보기> 버튼
+    lateinit var tvDate : TextView                  // 현재 날짜
+    lateinit var tvAreaName : TextView              // 지역명
+    lateinit var tvTemps : Array<TextView>          // 온도
+    lateinit var imgWeathers : Array<ImageView>     // 날씨 이미지
+    lateinit var imgSearchArea : ImageView          // 지역 찾기 이미지 버튼
+    lateinit var tvHumiditys : Array<TextView>      // 습도
+    lateinit var tvSkys : Array<TextView>           // 하늘 상태
+    lateinit var tvRainRatios : Array<TextView>     // 강수 확률
+    lateinit var tvRainTypes : Array<TextView>      // 강수 형태
+    lateinit var tvRecommends : Array<TextView>     // 기본 옷 추천
+    lateinit var btnWrite : Button                  // <옷 기록하기> 버튼
+    lateinit var btnSeeMemo : Button                // <내 기록보기> 버튼
 
     var base_date = ""          // 발표 일자
     var base_time = ""          // 발표 시각
@@ -70,14 +70,14 @@ class MainActivity : AppCompatActivity() {
 
         tvDate = findViewById(R.id.tvDate)
         tvAreaName = findViewById(R.id.tvAreaName)
-        tvTemp = findViewById(R.id.tvTemp)
-        imgWeather = findViewById(R.id.imgWeather)
+        tvTemps = arrayOf(findViewById(R.id.tvTemp), findViewById(R.id.tvTemp2))
+        imgWeathers = arrayOf(findViewById(R.id.imgWeather), findViewById(R.id.imgWeather2))
         imgSearchArea = findViewById(R.id.imgSearchArea)
-        tvHumidity = findViewById(R.id.tvHumidity)
-        tvSky = findViewById(R.id.tvSky)
-        tvRainRatio = findViewById(R.id.tvRainRatio)
-        tvRainType = findViewById(R.id.tvRainType)
-        tvRecommend = findViewById(R.id.tvRecommend)
+        tvHumiditys = arrayOf(findViewById(R.id.tvHumidity), findViewById(R.id.tvHumidity2))
+        tvSkys = arrayOf(findViewById(R.id.tvSky), findViewById(R.id.tvSky2))
+        tvRainRatios = arrayOf(findViewById(R.id.tvRainRatio), findViewById(R.id.tvRainRatio2))
+        tvRainTypes = arrayOf(findViewById(R.id.tvRainType), findViewById(R.id.tvRainType2))
+        tvRecommends = arrayOf(findViewById(R.id.tvRecommend), findViewById(R.id.tvRecommend2))
         btnWrite = findViewById(R.id.btnWrite)
         btnSeeMemo = findViewById(R.id.btnSeeMemo)
 
@@ -85,7 +85,8 @@ class MainActivity : AppCompatActivity() {
         setDate()
 
         // nx, ny지점의 날씨 가져와서 설정하기
-        setWeather(nx, ny)
+        setWeather(0, nx, ny)       // 현재 시간대 날씨 설정
+        setWeather(1, nx, ny)       // 다음 시간대 날씨 설정
 
         // 돋보기 이미지 누르면 지역칮기 액티비티(FindAreaActivity)로 이동
         imgSearchArea.setOnClickListener {
@@ -100,7 +101,7 @@ class MainActivity : AppCompatActivity() {
         // <옷 기록하기> 버튼 누르면 기록하기 액티비티(WriteActivity)로 이동
         btnWrite.setOnClickListener {
             var intent = Intent(this@MainActivity, WriteActivity::class.java)
-            intent.putExtra("temp", tvTemp.text.toString())
+            intent.putExtra("temp", tvTemps[0].text.toString())
             startActivity(intent)
         }
 
@@ -133,14 +134,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     // 날씨 가져와서 설정하기
-    fun setWeather(nx : String, ny : String) {
+    fun setWeather(index : Int, nx : String, ny : String) {
         // 준비 단계 : base_date(발표 일자), base_time(발표 시각)
         // 현재 날짜, 시간 정보 가져오기
         val cal = Calendar.getInstance()
         base_date = SimpleDateFormat("yyyyMMdd", Locale.getDefault()).format(cal.time) // 현재 날짜
         val time = SimpleDateFormat("HH", Locale.getDefault()).format(cal.time) // 현재 시간
         // API 가져오기 적당하게 변환
-        base_time = getTime(time)
+        base_time = getTime(index, time)
         // 동네예보  API는 3시간마다 현재시간+4시간 뒤의 날씨 예보를 알려주기 때문에
         // 현재 시각이 00시가 넘었다면 어제 예보한 데이터를 가져와야함
         if (base_time >= "2000") {
@@ -177,7 +178,7 @@ class MainActivity : AppCompatActivity() {
 
                     }
                     // 날씨 정보 텍스트뷰에 보이게 하기
-                    setWeather(temp, humidity, sky, rainRatio, rainType)
+                    setWeather(index, temp, humidity, sky, rainRatio, rainType)
 
                     // 토스트 띄우기
                     Toast.makeText(applicationContext, it[0].fcstDate + ", " + it[0].fcstTime + "의 날씨 정보입니다.", Toast.LENGTH_SHORT).show()
@@ -192,11 +193,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     // 텍스트 뷰에 날씨 정보 보여주기
-    fun setWeather(temp : String, humidity : String, sky : String, rainRatio : String, rainType : String) {
+    fun setWeather(index : Int, temp : String, humidity : String, sky : String, rainRatio : String, rainType : String) {
         // 온도
-        tvTemp.text = temp
+        tvTemps[index].text = temp
         // 습도
-        tvHumidity.text = humidity + "%"
+        tvHumiditys[index].text = humidity + "%"
         // 하늘 상태
         var resultText = ""
         var resultImg = R.drawable.sun
@@ -215,9 +216,9 @@ class MainActivity : AppCompatActivity() {
             }
             else -> "오류"
         }
-        tvSky.text = resultText
+        tvSkys[index].text = resultText
         // 강수 확률
-        tvRainRatio.text = rainRatio + "%"
+        tvRainRatios[index].text = rainRatio + "%"
         // 강수 형태
         resultText = ""
         when(rainType) {
@@ -252,8 +253,8 @@ class MainActivity : AppCompatActivity() {
             }
             else -> "오류"
         }
-        tvRainType.text = resultText
-        imgWeather.setImageResource(resultImg)
+        tvRainTypes[index].text = resultText
+        imgWeathers[index].setImageResource(resultImg)
         // 기본 옷 추천
         Log.d("mmm 현재 기온", temp)
         when (temp) {
@@ -266,24 +267,41 @@ class MainActivity : AppCompatActivity() {
             in "28".."50" -> resultText = "민소매, 반바지, 린넨 옷"
             else -> resultText = "패딩, 누빔 옷, 목도리"
         }
-        tvRecommend.text = resultText
+        tvRecommends[index].text = resultText
     }
 
     // 시간 설정하기
     // 동네 예보 API는 3시간마다 현재시각+4시간 뒤의 날씨 예보를 보여줌
     // 따라서 현재 시간대의 날씨를 알기 위해서는 아래와 같은 과정이 필요함. 자세한 내용은 함께 제공된 파일 확인
-    fun getTime(time : String) : String {
+    fun getTime(index : Int, time : String) : String {
         var result = ""
-        when(time) {
-            in "00".."02" -> result = "2000"    // 00~02
-            in "03".."05" -> result = "2300"    // 03~05
-            in "06".."08" -> result = "0200"    // 06~08
-            in "09".."11" -> result = "0500"    // 09~11
-            in "12".."14" -> result = "0800"    // 12~14
-            in "15".."17" -> result = "1100"    // 15~17
-            in "18".."20" -> result = "1400"    // 18~20
-            else -> result = "1700"             // 21~23
+        // 현재 시간대 base_tome 정하기
+        if (index == 0) {
+            when(time) {
+                in "00".."02" -> result = "2000"    // 00~02
+                in "03".."05" -> result = "2300"    // 03~05
+                in "06".."08" -> result = "0200"    // 06~08
+                in "09".."11" -> result = "0500"    // 09~11
+                in "12".."14" -> result = "0800"    // 12~14
+                in "15".."17" -> result = "1100"    // 15~17
+                in "18".."20" -> result = "1400"    // 18~20
+                else -> result = "1700"             // 21~23
+            }
         }
+        // 다음 시간대 base_time 정하기
+        else {
+            when(time) {
+                in "00".."02" -> result = "2300"    // 00~02
+                in "03".."05" -> result = "0200"    // 03~05
+                in "06".."08" -> result = "0500"    // 06~08
+                in "09".."11" -> result = "0800"    // 09~11
+                in "12".."14" -> result = "1100"    // 12~14
+                in "15".."17" -> result = "1400"    // 15~17
+                in "18".."20" -> result = "1700"    // 18~20
+                else -> result = "2000"             // 21~23
+            }
+        }
+
         return result
     }
 
@@ -298,7 +316,8 @@ class MainActivity : AppCompatActivity() {
 
             // 해당 지역의 날씨 정보 보이기
             tvAreaName.text = areaName  // 해당 지역명으로 바꾸기
-            setWeather(nx, ny)
+            setWeather(0, nx, ny)   // 현재 시간대 낼씨 설정
+            setWeather(1, nx, ny)   // 다음 시간대 날씨 설정
         }
     }
 
