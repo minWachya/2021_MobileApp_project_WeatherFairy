@@ -100,10 +100,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     // 프레그먼트에서 전달하는 데이터 담아주기
-    fun setDataAtFragment(bundle : Bundle) {
+    fun setDataAtHomeFragment(bundle : Bundle) {
         fragmentHome.arguments = bundle
-
         setFragment(fragmentHome)
+    }
+    // 프레그먼트에서 전달하는 데이터 담아주기
+    fun setDataAtWriteFragment(bundle : Bundle) {
+        fragmentWrite.arguments = bundle
     }
 
     // 데이터가 셋팅된 프레그먼트 띄우기

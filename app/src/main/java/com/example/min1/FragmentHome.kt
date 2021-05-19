@@ -47,7 +47,6 @@ object ApiObject {
 
 
 class FragmentHome : Fragment() {
-    // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
@@ -282,6 +281,15 @@ class FragmentHome : Fragment() {
             var temp = (time.toInt() + 3).toString()
             if (temp >= "21") temp = (time.toInt() - 24).toString()
             tvTimes[index].text = temp
+        }
+
+        if (index == 0) {
+            // 번들에 담아서 메인 액티비티에 보내기
+            val bundle = Bundle()
+            bundle.putString("temp", tvTemps[index].text.toString())
+            // 메인 액티비티는 Weite 프레그먼트에 데이터를 보냄
+            val mActivity = activity as MainActivity
+            mActivity.setDataAtWriteFragment(bundle)
         }
     }
 

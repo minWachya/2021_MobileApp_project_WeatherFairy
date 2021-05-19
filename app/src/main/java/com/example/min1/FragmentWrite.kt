@@ -3,6 +3,7 @@ package com.example.min1
 import android.app.DatePickerDialog
 import android.os.Bundle
 import android.text.Editable
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -19,21 +20,25 @@ class FragmentWrite : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-    lateinit var tvDate : TextView
-    lateinit var imgCalendar : ImageView
-    lateinit var editTemp : EditText
-    lateinit var editTop : EditText
-    lateinit var editBottom : EditText
-    lateinit var editOuter : EditText
-    lateinit var editMemo : EditText
-    lateinit var btnCompleteMemo : Button
+    lateinit var tvDate : TextView                  // 날짜
+    lateinit var imgCalendar : ImageView            // 달력 이미지(누르면 데이트피터 다이얼로그)
+    lateinit var editTemp : EditText                // 온도 입력
+    lateinit var editTop : EditText                 // 상의 입력
+    lateinit var editBottom : EditText              // 하의 입력
+    lateinit var editOuter : EditText               // 아우터 입력
+    lateinit var editMemo : EditText                // 메모 입력
+    lateinit var btnCompleteMemo : Button           // <기록 완료> 버튼
     lateinit var databaseRef : DatabaseReference    // 파이어베이스 접근 가능한 자료형
+
+    var temp = ""                                   // 온도
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
+
+            temp = it.getString("temp").toString()
         }
     }
 
@@ -41,7 +46,7 @@ class FragmentWrite : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_weite, container, false)
+        val view = inflater.inflate(R.layout.fragment_write, container, false)
 
         tvDate = view.findViewById(R.id.tvDate)
         imgCalendar = view.findViewById(R.id.imgCalendar)
@@ -52,9 +57,8 @@ class FragmentWrite : Fragment() {
         editMemo = view.findViewById(R.id.editMemo)
         btnCompleteMemo = view.findViewById(R.id.btnCompleteMemo)
 
-        // intent에서 온도 정보 받이서 온도 설정하기
-        //val temp = intent.getStringExtra("temp").toString()
-        //editTemp.text = Editable.Factory.getInstance().newEditable(temp)
+        // FragmentHome에서 온도 정보 받이서 온도 설정하기
+        editTemp.text = Editable.Factory.getInstance().newEditable(temp)
 
         // 텍스트뷰에 오늘 날짜 미리 보이기
         var calender = Calendar.getInstance()

@@ -91,7 +91,7 @@ class FragmentFindArea : Fragment(), MapReverseGeoCoder.ReverseGeoCodingResultLi
             bundle.putString("areaName", areaName)
             // 메인 액티비티는 fragmentHome에 데이터를 보냄
             val mActivity = activity as MainActivity
-            mActivity.setDataAtFragment(bundle)
+            mActivity.setDataAtHomeFragment(bundle)
         }
         return view
     }
