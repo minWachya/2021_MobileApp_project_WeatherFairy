@@ -2,6 +2,7 @@ package com.example.min1
 
 import android.app.Activity
 import android.content.Intent
+import android.location.LocationManager
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -9,17 +10,13 @@ import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.annotation.RequiresApi
-import com.google.firebase.database.DataSnapshot
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 // xml 파일 형식을 data class로 구현
@@ -58,6 +55,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var tvRecommends : Array<TextView>     // 기본 옷 추천
     lateinit var btnWrite : Button                  // <옷 기록하기> 버튼
     lateinit var btnSeeMemo : Button                // <내 기록보기> 버튼
+    lateinit var bottomNavi : BottomNavigationView  // 하단 네비게이션
 
     var base_date = ""          // 발표 일자
     var base_time = ""          // 발표 시각
@@ -82,6 +80,7 @@ class MainActivity : AppCompatActivity() {
         tvRecommends = arrayOf(findViewById(R.id.tvRecommend), findViewById(R.id.tvRecommend2))
         btnWrite = findViewById(R.id.btnWrite)
         btnSeeMemo = findViewById(R.id.btnSeeMemo)
+        bottomNavi = findViewById(R.id.bottomNavi)
 
         // 날짜 초기화
         setDate()
@@ -111,6 +110,31 @@ class MainActivity : AppCompatActivity() {
         btnSeeMemo.setOnClickListener {
             var intent = Intent(this@MainActivity, SeeMemoActivity::class.java)
             startActivity(intent)
+        }
+
+        // 네비게이션
+        bottomNavi.setOnNavigationItemSelectedListener {
+            when(it.itemId) {
+                R.id.tab1_write -> {
+                    btnWrite.callOnClick()
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.tab2_show_memo -> {
+                    btnSeeMemo.callOnClick()
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.tab3_home -> {
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.tab4_find_addreaa -> {
+                    imgSearchArea.callOnClick()
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.tab5_setting -> {
+                    return@setOnNavigationItemSelectedListener true
+                }
+            }
+            return@setOnNavigationItemSelectedListener false
         }
     }
 
@@ -256,14 +280,14 @@ class MainActivity : AppCompatActivity() {
         imgWeathers[index].setImageResource(resultImg)
         // 기본 옷 추천
         Log.d("mmm 현재 기온", temp)
-        when (temp) {
-            in "5".."8" -> resultText = "울 코트, 가죽 옷, 기모"
-            in "9".."11" -> resultText = "트렌치 코트, 야상, 점퍼"
-            in "12".."16" -> resultText = "자켓, 가디건, 청자켓"
-            in "17".."19" -> resultText = "니트, 맨투맨, 후드, 긴바지"
-            in "20".."22" -> resultText = "블라우스, 긴팔 티, 슬랙스"
-            in "23".."27" -> resultText = "얇은 셔츠, 반바지, 면바지"
-            in "28".."50" -> resultText = "민소매, 반바지, 린넨 옷"
+        when (temp.toInt()) {
+            in 5..8 -> resultText = "울 코트, 가죽 옷, 기모"
+            in 9..11 -> resultText = "트렌치 코트, 야상, 점퍼"
+            in 12..16 -> resultText = "자켓, 가디건, 청자켓"
+            in 17..19 -> resultText = "니트, 맨투맨, 후드, 긴바지"
+            in 20..22 -> resultText = "블라우스, 긴팔 티, 슬랙스"
+            in 23..27 -> resultText = "얇은 셔츠, 반바지, 면바지"
+            in 28..50 -> resultText = "민소매, 반바지, 린넨 옷"
             else -> resultText = "패딩, 누빔 옷, 목도리"
         }
         tvRecommends[index].text = resultText
@@ -281,7 +305,7 @@ class MainActivity : AppCompatActivity() {
     // 따라서 현재 시간대의 날씨를 알기 위해서는 아래와 같은 과정이 필요함. 자세한 내용은 함께 제공된 파일 확인
     fun getTime(index : Int, time : String) : String {
         var result = ""
-        // 현재 시간대 base_tome 정하기
+        // 현재 시간대 base_time 정하기
         if (index == 0) {
             when(time) {
                 in "00".."02" -> result = "2000"    // 00~02
