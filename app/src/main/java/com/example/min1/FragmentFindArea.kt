@@ -1,23 +1,26 @@
 package com.example.min1
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
-import android.widget.ArrayAdapter
-import androidx.appcompat.app.AppCompatActivity
+import android.widget.Button
+import android.widget.LinearLayout
+import android.widget.TextView
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapReverseGeoCoder
 import net.daum.mf.map.api.MapView
 
+private const val ARG_PARAM1 = "param1"
+private const val ARG_PARAM2 = "param2"
 
-// 카카오맵으로 지역 찾기
-// 찾은 지역의 위,경도를 기상청에서 사용하는 격자 좌표로 변환해서 메인 액티비티에 돌려줌
-class FindAreaActivity  : AppCompatActivity(), MapReverseGeoCoder.ReverseGeoCodingResultListener, MyMapViewEventListener {
+class FragmentFindArea : Fragment(), MapReverseGeoCoder.ReverseGeoCodingResultListener, MyMapViewEventListener  {
+    private var param1: String? = null
+    private var param2: String? = null
+
     lateinit var tvAreaName : TextView                  // 지역명
     lateinit var btnBack1 : Button                      // <지역 설정 완료> 버튼
     lateinit var map : LinearLayout                     // 지도가 담길 레이아웃
@@ -31,13 +34,23 @@ class FindAreaActivity  : AppCompatActivity(), MapReverseGeoCoder.ReverseGeoCodi
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_find_area)
+        arguments?.let {
+            param1 = it.getString(ARG_PARAM1)
+            param2 = it.getString(ARG_PARAM2)
+        }
+    }
 
-        tvAreaName = findViewById(R.id.tvAreaName)
-        btnBack1 = findViewById(R.id.btnBack1)
-        map = findViewById(R.id.map)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.fragment_find_area, container, false)
+
+        tvAreaName = view.findViewById(R.id.tvAreaName)
+        btnBack1 = view.findViewById(R.id.btnBack1)
+        map = view.findViewById(R.id.map)
         // 카카오맵
-        mapView = MapView(this)
+        mapView = MapView(activity)
         val mapViewContainer = map as ViewGroup
         mapView.setMapViewEventListener(this)
         mapViewContainer.addView(mapView)
@@ -56,29 +69,42 @@ class FindAreaActivity  : AppCompatActivity(), MapReverseGeoCoder.ReverseGeoCodi
         reverseGeoCoder = MapReverseGeoCoder(
             "869b0ecf65dacae7d89ac1bba906e8cf",
             marker.mapPoint,
-            this,
-            this
+            this@FragmentFindArea,
+            activity
         )
         reverseGeoCoder.startFindingAddress()
 
         // 지역 설정 완료하면 메인 화면으로 돌아감
         // 변환한 격자 좌표와 지역명 반환
         btnBack1.setOnClickListener {
-            var outIntent = Intent(this@FindAreaActivity, MainActivity::class.java)
-
             // 격자 좌표 담기
             var (x, y) = dfs_xy_conv(lat, lng)
-            outIntent.putExtra("Find_nx", x)
-            outIntent.putExtra("Find_ny", y)
             // 지역명 담기
             var splitArray = tvAreaName.text.split(" ")
             var areaName = splitArray[splitArray.size - 2]
             if (areaName == "산") areaName = splitArray[splitArray.size - 3]
-            outIntent.putExtra("areaName", areaName)
-            // 반환
-            setResult(Activity.RESULT_OK, outIntent)
-            finish()
+
+            // 번들에 담아서 메인 액티비티에 보내기
+            val bundle = Bundle()
+            bundle.putString("nx", x)
+            bundle.putString("ny", y)
+            bundle.putString("areaName", areaName)
+            // 메인 액티비티는 fragmentHome에 데이터를 보냄
+            val mActivity = activity as MainActivity
+            mActivity.setDataAtFragment(bundle)
         }
+        return view
+    }
+
+    companion object {
+        @JvmStatic
+        fun newInstance(param1: String, param2: String) =
+            FragmentFindArea().apply {
+                arguments = Bundle().apply {
+                    putString(ARG_PARAM1, param1)
+                    putString(ARG_PARAM2, param2)
+                }
+            }
     }
 
     // ReverseGeoCodingResultListener 재정의
@@ -113,8 +139,8 @@ class FindAreaActivity  : AppCompatActivity(), MapReverseGeoCoder.ReverseGeoCodi
             reverseGeoCoder = MapReverseGeoCoder(
                 "869b0ecf65dacae7d89ac1bba906e8cf",
                 p1!!,
-                this@FindAreaActivity,
-                this@FindAreaActivity
+                this@FragmentFindArea,
+                activity
             )
             reverseGeoCoder.startFindingAddress()
             mapView.addPOIItem(marker)
@@ -158,5 +184,4 @@ class FindAreaActivity  : AppCompatActivity(), MapReverseGeoCoder.ReverseGeoCodi
         var y = (ro - ra * Math.cos(theta) + YO + 0.5).toInt().toString()
         return Pair(x, y)
     }
-
 }

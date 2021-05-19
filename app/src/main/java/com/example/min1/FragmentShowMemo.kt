@@ -1,19 +1,26 @@
 package com.example.min1
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.*
 
-// 메인 액티비티
+private const val ARG_PARAM1 = "param1"
+private const val ARG_PARAM2 = "param2"
+
 // 추가된 Memo 아이템이 리사이클러뷰에서 보여짐
 // 월별/온도별 Memo 보이기
-class SeeMemoActivity : AppCompatActivity() {
+class FragmentShowMemo : Fragment() {
+    // TODO: Rename and change types of parameters
+    private var param1: String? = null
+    private var param2: String? = null
+
     lateinit var tvSelect : TextView                // 월별/온도별 텍스트뷰
     lateinit var spinner : Spinner                  // 원별/온도별 값을 선택하는 스피너
     lateinit var btnToggle : ToggleButton           // 월별/온도별을 선택하는 토글 버튼
@@ -24,12 +31,22 @@ class SeeMemoActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_see_memo)
+        arguments?.let {
+            param1 = it.getString(ARG_PARAM1)
+            param2 = it.getString(ARG_PARAM2)
+        }
+    }
 
-        tvSelect = findViewById(R.id.tvSelect)
-        spinner = findViewById(R.id.spinner)
-        btnToggle = findViewById(R.id.btnToggle)
-        recyclerView = findViewById(R.id.recyclerView)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.fragment_show_memo, container, false)
+
+        tvSelect = view.findViewById(R.id.tvSelect)
+        spinner = view.findViewById(R.id.spinner)
+        btnToggle = view.findViewById(R.id.btnToggle)
+        recyclerView = view.findViewById(R.id.recyclerView)
 
         // 검색 설정 월별/1월로 초기화
         var searchWord = "01"
@@ -54,7 +71,7 @@ class SeeMemoActivity : AppCompatActivity() {
 
         // 스피너 어댑터 설정
         // 온도별
-        val tempAdapter = ArrayAdapter.createFromResource(this, R.array.tempGroup, android.R.layout.simple_spinner_item)
+        val tempAdapter = ArrayAdapter.createFromResource(context!!, R.array.tempGroup, android.R.layout.simple_spinner_item)
             .also { adapter ->
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             }
@@ -73,11 +90,10 @@ class SeeMemoActivity : AppCompatActivity() {
                     7 -> searchWord = "_4"
                 }
                 if (dataSanpshot != null) search(dataSanpshot!!, searchWord, searchOption)
-                Toast.makeText(this@SeeMemoActivity, "${searchWord} 선택", Toast.LENGTH_SHORT).show()
             }
         }
         // 월별
-        val monthAdapter = ArrayAdapter.createFromResource(this, R.array.month, android.R.layout.simple_spinner_item)
+        val monthAdapter = ArrayAdapter.createFromResource(context!!, R.array.month, android.R.layout.simple_spinner_item)
             .also { adapter ->
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 spinner.adapter = adapter
@@ -101,7 +117,6 @@ class SeeMemoActivity : AppCompatActivity() {
                     11 -> searchWord = "12"
                 }
                 if (dataSanpshot != null) search(dataSanpshot!!, searchWord, searchOption)
-                Toast.makeText(this@SeeMemoActivity, "${searchWord} 선택", Toast.LENGTH_SHORT).show()
             }
         }
         // 스피너 초기화는 월별/1월
@@ -109,7 +124,7 @@ class SeeMemoActivity : AppCompatActivity() {
         spinner.onItemSelectedListener = monthSpinnerAdapter
 
         // 리사이클러뷰 매니저 설정
-        val layoutManager = LinearLayoutManager(this)
+        val layoutManager = LinearLayoutManager(context)
         // 최신 글 먼저 보기(가장 나중에 저장된 글 제일 먼저 보기)
         // 파이어베이스에서 역조회 안 됨
         // -> 저장을 역순으로 하겟다.
@@ -134,6 +149,18 @@ class SeeMemoActivity : AppCompatActivity() {
                 searchOption = "month"
             }
         }
+        return view
+    }
+
+    companion object {
+        @JvmStatic
+        fun newInstance(param1: String, param2: String) =
+            FragmentShowMemo().apply {
+                arguments = Bundle().apply {
+                    putString(ARG_PARAM1, param1)
+                    putString(ARG_PARAM2, param2)
+                }
+            }
     }
 
     // 월별/온도별 검색하여 해당 결과만 보이기
