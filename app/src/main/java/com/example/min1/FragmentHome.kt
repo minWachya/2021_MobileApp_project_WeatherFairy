@@ -279,7 +279,7 @@ class FragmentHome : Fragment() {
         if (index == 0) tvTimes[index].text = time
         else {
             var temp = (time.toInt() + 3).toString()
-            if (temp >= "21") temp = (time.toInt() - 24).toString()
+            if (temp >= "21") temp = "0" + (24 - temp.toInt())
             tvTimes[index].text = temp
         }
 

@@ -27,11 +27,11 @@ class MainActivity : AppCompatActivity() {
     lateinit var bottomNavi : BottomNavigationView  // 하단 네비게이션
     lateinit var container : FrameLayout            // 프레임 레이아웃
 
-    val fragmentWrite = FragmentWrite()
-    val fragmentShowMemo = FragmentShowMemo()
-    val fragmentHome = FragmentHome()
-    val fragmentFindArea = FragmentFindArea()
-    val fragmentSetting = FragmentSetting()
+    val fragmentWrite = FragmentWrite()             // 기록하기 프레그먼트
+    val fragmentShowMemo = FragmentShowMemo()       // 내 기록 보기 프레그먼트
+    val fragmentHome = FragmentHome()               // 홈 프레그먼트
+    val fragmentFindArea = FragmentFindArea()       // 지역 찾기 프레그먼트
+    val fragmentSetting = FragmentSetting()         // 설정 프레그먼트
 
     var temp = ""
 
