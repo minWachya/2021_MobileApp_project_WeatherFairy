@@ -1,5 +1,6 @@
 package com.example.min1
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,6 +8,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 
+// Setting 프레그먼트의 리사이클러뷰 어댑터
 class SettingAdapter : RecyclerView.Adapter<SettingAdapter.ViewHolder>() {
     // SettingArea 배열
     var settingAreaArr = ArrayList<SettingArea>()
@@ -19,6 +21,8 @@ class SettingAdapter : RecyclerView.Adapter<SettingAdapter.ViewHolder>() {
         // 클릭하면 토스트 띄우기
         return ViewHolder(view).apply {
             itemView.setOnClickListener {
+                Log.d("mmm 클릭", settingAreaArr[position].settingAreaName)
+
                 Toast.makeText(parent.context, "클릭", Toast.LENGTH_SHORT).show()
             }
         }

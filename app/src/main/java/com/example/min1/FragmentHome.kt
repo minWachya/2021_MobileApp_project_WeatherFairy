@@ -200,7 +200,7 @@ class FragmentHome : Fragment() {
 
                     }
                     // 날씨 정보 텍스트뷰에 보이게 하기
-                    setWeather(index, temp, humidity, sky, rainRatio, rainType, time)
+                    setTextView(index, temp, humidity, sky, rainRatio, rainType, time)
 
                     Toast.makeText(context,
                             "${index}, baseTime = ${base_time}, baseDate = ${base_date}, fcstTime = ${it[0].fcstTime}의 날씨 정보입니다.",
@@ -216,7 +216,7 @@ class FragmentHome : Fragment() {
     }
 
     // 텍스트 뷰에 날씨 정보 보여주기
-    fun setWeather(index : Int, temp : String, humidity : String, sky : String, rainRatio : String, rainType : String, time : String) {
+    fun setTextView(index : Int, temp : String, humidity : String, sky : String, rainRatio : String, rainType : String, time : String) {
         // 온도
         tvTemps[index].text = temp
         // 습도
