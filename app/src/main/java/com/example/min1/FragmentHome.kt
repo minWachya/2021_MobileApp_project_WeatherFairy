@@ -281,9 +281,8 @@ class FragmentHome : Fragment() {
         if (index == 0) tvTimes[index].text = time
         else {
             var temp = (time.toInt() + 3).toString()
-            Log.d("mmm 시간확인합쉬다1", "${index}, ${temp}")
-            if (temp.toInt() >= 21) temp = "0" + (temp.toInt() - 24)
-            Log.d("mmm 시간확인합쉬다2", "${index}, ${temp}")
+            if (temp.toInt() >= 21) temp = (temp.toInt() - 24).toString()
+            if (temp.toInt() < 10) temp = "0" + temp
             tvTimes[index].text = temp
         }
 
@@ -327,7 +326,6 @@ class FragmentHome : Fragment() {
                 in "18".."20" -> result = "1700"    // 18~20
                 else -> result = "2000"             // 21~23
             }
-            Log.d("mmm 시간 확인", result)
         }
 
         return result
