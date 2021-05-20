@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.kakao.sdk.user.UserApiClient
 
 private const val ARG_PARAM1 = "param1"
@@ -17,13 +19,23 @@ class FragmentSetting : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-    lateinit var btnLogOut : Button
+    lateinit var settingRecyclerView : RecyclerView
+    private lateinit var adapter : SettingAdapter
+
+    var nx = ""
+    var ny = ""
+    var areaName = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
+
+            nx = it.getString("nx").toString()
+            ny = it.getString("ny").toString()
+            areaName = it.getString("areaName").toString()
+            Log.d("mmm setting 받은 데이터", nx + "," + ny + ", " + areaName)
         }
     }
 
@@ -33,22 +45,14 @@ class FragmentSetting : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_setting, container, false)
 
-        btnLogOut = view.findViewById(R.id.btnLogOut)
+        settingRecyclerView = view.findViewById(R.id.settingRecylerView)
 
-        // 로그아웃하기
-        btnLogOut.setOnClickListener {
-            // 카카오 디벨로퍼 홈페이지의 "로그아웃" 복붙
-            // 로그아웃
-            UserApiClient.instance.logout { error ->
-                if (error != null) {
-                    Log.e("mmm", "로그아웃 실패. SDK에서 토큰 삭제됨", error)
-                }
-                else {
-                    Log.i("mmm", "로그아웃 성공. SDK에서 토큰 삭제됨")
-                    Toast.makeText(context, "정상적으로 로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
+        // 리사이클러뷰 매니저 설정
+        settingRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        settingRecyclerView.setHasFixedSize(true)
+        // 리아시클러뷰에 어댑터 달기
+        adapter = SettingAdapter()
+        settingRecyclerView.adapter = adapter
 
         return view
     }

@@ -33,7 +33,7 @@ class FragmentWrite : Fragment() {
     lateinit var btnCompleteMemo : Button           // <기록 완료> 버튼
     lateinit var databaseRef : DatabaseReference    // 파이어베이스 접근 가능한 자료형
 
-    var temp = ""                                   // 온도
+    var temp : String = ""                          // 온도
 
     var memoTemp = true
     var memoTop = false
@@ -48,6 +48,7 @@ class FragmentWrite : Fragment() {
             param2 = it.getString(ARG_PARAM2)
 
             temp = it.getString("temp").toString()
+            Log.d("mmm받은 온도...", temp)
         }
     }
 
@@ -67,7 +68,8 @@ class FragmentWrite : Fragment() {
         btnCompleteMemo = view.findViewById(R.id.btnCompleteMemo)
 
         // FragmentHome에서 온도 정보 받이서 온도 설정하기
-        editTemp.text = Editable.Factory.getInstance().newEditable(temp)
+        editTemp.setText(temp)
+        Log.d("mmm받은 온도...2", temp)
 
         // 텍스트뷰에 오늘 날짜 미리 보이기
         var calender = Calendar.getInstance()
@@ -97,9 +99,6 @@ class FragmentWrite : Fragment() {
             picker.show()
         }
 
-        setTextListener()
-
-
         // 연결된 파이어베이스에서 데이터 가져오기
         databaseRef = FirebaseDatabase.getInstance().reference
 
@@ -124,6 +123,9 @@ class FragmentWrite : Fragment() {
             }
             else Toast.makeText(context, "빈칸없이 입력해주세요.", Toast.LENGTH_SHORT).show()
         }
+
+        // 에디드텍스트 리스너 설정
+        setTextListener()
 
         return view
     }
@@ -175,6 +177,7 @@ class FragmentWrite : Fragment() {
         databaseRef.updateChildren(childUpdate)
     }
 
+    // 에디트 텍스트 모두 값이 있어야지만 데아터 저장 가능
     fun setTextListener() {
         editTemp.addTextChangedListener {
             if (editTemp.text.trim().toString().length == 0) memoTemp = false

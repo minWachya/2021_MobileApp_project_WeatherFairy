@@ -52,12 +52,13 @@ class FragmentHome : Fragment() {
     lateinit var tvTimes : Array<TextView>          // 현재/다음 시간
     lateinit var tvTemps : Array<TextView>          // 온도
     lateinit var imgWeathers : Array<ImageView>     // 날씨 이미지
-    lateinit var imgSearchArea : ImageView          // 지역 찾기 이미지 버튼
     lateinit var tvHumiditys : Array<TextView>      // 습도
     lateinit var tvSkys : Array<TextView>           // 하늘 상태
     lateinit var tvRainRatios : Array<TextView>     // 강수 확률
     lateinit var tvRainTypes : Array<TextView>      // 강수 형태
     lateinit var tvRecommends : Array<TextView>     // 기본 옷 추천
+
+    lateinit var btnSettingArea : Button            // 관심 지역 설정 버튼
 
     var base_date = ""          // 발표 일자
     var base_time = ""          // 발표 시각
@@ -90,12 +91,13 @@ class FragmentHome : Fragment() {
         tvTimes = arrayOf(view.findViewById(R.id.tvTime), view.findViewById(R.id.tvTime2))
         tvTemps = arrayOf(view.findViewById(R.id.tvTemp), view.findViewById(R.id.tvTemp2))
         imgWeathers = arrayOf(view.findViewById(R.id.imgWeather), view.findViewById(R.id.imgWeather2))
-        imgSearchArea = view.findViewById(R.id.imgSearchArea)
         tvHumiditys = arrayOf(view.findViewById(R.id.tvHumidity), view.findViewById(R.id.tvHumidity2))
         tvSkys = arrayOf(view.findViewById(R.id.tvSky), view.findViewById(R.id.tvSky2))
         tvRainRatios = arrayOf(view.findViewById(R.id.tvRainRatio), view.findViewById(R.id.tvRainRatio2))
         tvRainTypes = arrayOf(view.findViewById(R.id.tvRainType), view.findViewById(R.id.tvRainType2))
         tvRecommends = arrayOf(view.findViewById(R.id.tvRecommend), view.findViewById(R.id.tvRecommend2))
+
+        btnSettingArea = view.findViewById(R.id.btnSettingArea)
 
         // 날짜 초기화
         setDate()
@@ -105,18 +107,18 @@ class FragmentHome : Fragment() {
         setWeather(1, nx, ny)       // 다음 시간대 날씨 설정
         tvAreaName.text = areaName         // 지역 이름 설정
 
-        return view
-    }
+        btnSettingArea.setOnClickListener {
+            // 번들에 담아서 메인 액티비티에 보내기
+            val bundle = Bundle()
+            bundle.putString("areaName", areaName)
+            bundle.putString("nx", nx)
+            bundle.putString("ny", ny)
+            // 메인 액티비티는 Setting 프레그먼트에 데이터를 보냄
+            val mActivity = activity as MainActivity
+            mActivity.setDataAtSettingFragment(bundle)
+        }
 
-    companion object {
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            FragmentHome().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+        return view
     }
 
     // 날짜 설정하기
@@ -163,8 +165,6 @@ class FragmentHome : Fragment() {
                 base_date = SimpleDateFormat("yyyyMMdd", Locale.getDefault()).format(cal.time)
             }
         }
-        Log.d("mmm basetime", "${index}, " + base_time)
-        Log.d("mmm basetdate", "${index}, " + base_date)
 
         // 날씨 정보 가져오기
         // (응답 자료 형식-"JSON", 한 페이지 결과 수 = 10, 페이지 번호 = 1, 발표 날싸, 발표 시각, 예보지점 좌표)
@@ -197,7 +197,9 @@ class FragmentHome : Fragment() {
                     // 날씨 정보 텍스트뷰에 보이게 하기
                     setWeather(index, temp, humidity, sky, rainRatio, rainType, time)
 
-                    Toast.makeText(context, "${index}, baseTime = ${base_time}, baseDate = ${base_date}, fcstTime = ${it[0].fcstTime}의 날씨 정보입니다.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context,
+                            "${index}, baseTime = ${base_time}, baseDate = ${base_date}, fcstTime = ${it[0].fcstTime}의 날씨 정보입니다.",
+                            Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -272,7 +274,6 @@ class FragmentHome : Fragment() {
         tvRainTypes[index].text = resultText
         imgWeathers[index].setImageResource(resultImg)
         // 기본 옷 추천
-        Log.d("mmm 현재 기온", temp)
         when (temp.toInt()) {
             in 5..8 -> resultText = "울 코트, 가죽 옷, 기모"
             in 9..11 -> resultText = "트렌치 코트, 야상, 점퍼"
@@ -288,10 +289,8 @@ class FragmentHome : Fragment() {
         if (index == 0) tvTimes[index].text = time
         else {
             var temp = (time.toInt() + 3).toString()
-            Log.d("mmm 몇시 날씨?1", "${index}, " + temp)
-            if (temp >= "21") temp = "0" + (26 - temp.toInt())
+            if (temp.toInt() >= 21) temp = "0" + (26 - temp.toInt())
             tvTimes[index].text = temp
-            Log.d("mmm 몇시 날씨?2", "${index}, " + temp)
         }
 
         if (index == 0) {
@@ -321,7 +320,6 @@ class FragmentHome : Fragment() {
                 in "18".."20" -> result = "1400"    // 18~20
                 else -> result = "1700"             // 21~23
             }
-            Log.d("현재 다음 시간대", result)
         }
         // 다음 시간대 base_time 정하기
         else {
@@ -335,10 +333,20 @@ class FragmentHome : Fragment() {
                 in "18".."20" -> result = "1700"    // 18~20
                 else -> result = "2000"             // 21~23
             }
-            Log.d("mmm 다음 시간대", result)
         }
 
         return result
+    }
+
+    companion object {
+        @JvmStatic
+        fun newInstance(param1: String, param2: String) =
+                FragmentHome().apply {
+                    arguments = Bundle().apply {
+                        putString(ARG_PARAM1, param1)
+                        putString(ARG_PARAM2, param2)
+                    }
+                }
     }
 
 }

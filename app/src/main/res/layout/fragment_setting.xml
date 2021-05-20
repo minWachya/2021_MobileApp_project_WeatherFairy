@@ -4,13 +4,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".FragmentSetting"
-    android:orientation="vertical"
-    android:gravity="center">
+    android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btnLogOut"
-        android:layout_width="wrap_content"
+    <TextView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="로그아웃"/>
+        android:text="즐겨찾는 지역"
+        android:textSize="30dp"
+        android:layout_margin="20dp"
+        android:gravity="center"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/settingRecylerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"/>
 
 </LinearLayout>

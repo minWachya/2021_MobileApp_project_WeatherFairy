@@ -26,12 +26,6 @@
             android:layout_margin="10dp"
             android:text="쌍문동"
             android:textSize="30dp"/>
-        <ImageView
-            android:id="@+id/imgSearchArea"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_margin="10dp"
-            android:src="@drawable/loupe"/>
     </LinearLayout>
 
     <LinearLayout
@@ -406,5 +400,11 @@
                 android:textColor="#000000"/>
         </LinearLayout>
     </LinearLayout>
+
+    <Button
+        android:id="@+id/btnSettingArea"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="현재 위치를 관심 지역으로 설정하기"/>
 
 </LinearLayout>
