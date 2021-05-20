@@ -2,10 +2,7 @@ package com.example.min1
 
 import android.app.DatePickerDialog
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
-import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -35,6 +32,7 @@ class FragmentWrite : Fragment() {
 
     var temp : String = ""                          // 온도
 
+    // 에디트 텍스트에 빈칸이 없는지 확인하는 변수
     var memoTemp = true
     var memoTop = false
     var memoBottom = false
@@ -130,17 +128,6 @@ class FragmentWrite : Fragment() {
         return view
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            FragmentWrite().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
-
     // 온도 그룹(TempGroup) 정하기
     fun getTempGroup(temp : String) : String {
         val tempInt = temp.toInt()
@@ -199,6 +186,17 @@ class FragmentWrite : Fragment() {
             if (editMemo.text.trim().toString().length == 0) memo = false
             else memo = true
         }
+    }
+
+    companion object {
+        @JvmStatic
+        fun newInstance(param1: String, param2: String) =
+                FragmentWrite().apply {
+                    arguments = Bundle().apply {
+                        putString(ARG_PARAM1, param1)
+                        putString(ARG_PARAM2, param2)
+                    }
+                }
     }
 
 }

@@ -96,17 +96,6 @@ class FragmentFindArea : Fragment(), MapReverseGeoCoder.ReverseGeoCodingResultLi
         return view
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            FragmentFindArea().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
-
     // ReverseGeoCodingResultListener 재정의
     // 주소 찾기 성공 - 지도에 마커 달기 + 지역명 텍스트뷰에 보이기
     override fun onReverseGeoCoderFoundAddress(p0: MapReverseGeoCoder?, p1: String?) {
@@ -183,5 +172,16 @@ class FragmentFindArea : Fragment(), MapReverseGeoCoder.ReverseGeoCodingResultLi
         var x = (ra * Math.sin(theta) + XO + 0.5).toInt().toString()
         var y = (ro - ra * Math.cos(theta) + YO + 0.5).toInt().toString()
         return Pair(x, y)
+    }
+
+    companion object {
+        @JvmStatic
+        fun newInstance(param1: String, param2: String) =
+                FragmentFindArea().apply {
+                    arguments = Bundle().apply {
+                        putString(ARG_PARAM1, param1)
+                        putString(ARG_PARAM2, param2)
+                    }
+                }
     }
 }

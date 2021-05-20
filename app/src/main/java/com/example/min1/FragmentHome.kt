@@ -1,7 +1,5 @@
 package com.example.min1
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -10,15 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import com.example.min1.FragmentSetting.Companion.addSettingArea
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.text.SimpleDateFormat
 import java.util.*
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
@@ -58,7 +54,6 @@ class FragmentHome : Fragment() {
     lateinit var tvRainRatios : Array<TextView>     // 강수 확률
     lateinit var tvRainTypes : Array<TextView>      // 강수 형태
     lateinit var tvRecommends : Array<TextView>     // 기본 옷 추천
-
     lateinit var btnSettingArea : Button            // 관심 지역 설정 버튼
 
     var base_date = ""          // 발표 일자
@@ -97,7 +92,6 @@ class FragmentHome : Fragment() {
         tvRainRatios = arrayOf(view.findViewById(R.id.tvRainRatio), view.findViewById(R.id.tvRainRatio2))
         tvRainTypes = arrayOf(view.findViewById(R.id.tvRainType), view.findViewById(R.id.tvRainType2))
         tvRecommends = arrayOf(view.findViewById(R.id.tvRecommend), view.findViewById(R.id.tvRecommend2))
-
         btnSettingArea = view.findViewById(R.id.btnSettingArea)
 
         // 날짜 초기화
@@ -110,17 +104,9 @@ class FragmentHome : Fragment() {
 
         // 관심 지역 설정하기 버튼 누르면
         btnSettingArea.setOnClickListener {
-            // 번들에 담아서 메인 액티비티에 보내기
-            val bundle = Bundle()
-            bundle.putString("areaName", areaName)
-            bundle.putString("nx", nx)
-            bundle.putString("ny", ny)
-            // 메인 액티비티는 Setting 프레그먼트에 데이터를 보냄
-            //val mActivity = activity as MainActivity
-            //mActivity.setDataAtSettingFragment(bundle)
-
+            // 해당 지역을 추가
             val settingArea = SettingArea(areaName, nx, ny)
-            addSettingArea(settingArea)
+            addSettingArea(context!!, settingArea)
         }
 
         return view
@@ -170,6 +156,7 @@ class FragmentHome : Fragment() {
                 base_date = SimpleDateFormat("yyyyMMdd", Locale.getDefault()).format(cal.time)
             }
         }
+        Log.d("mmm 시간 확인^^", "${index}, ${base_time}")
 
         // 날씨 정보 가져오기
         // (응답 자료 형식-"JSON", 한 페이지 결과 수 = 10, 페이지 번호 = 1, 발표 날싸, 발표 시각, 예보지점 좌표)
@@ -294,7 +281,9 @@ class FragmentHome : Fragment() {
         if (index == 0) tvTimes[index].text = time
         else {
             var temp = (time.toInt() + 3).toString()
-            if (temp.toInt() >= 21) temp = "0" + (26 - temp.toInt())
+            Log.d("mmm 시간확인합쉬다1", "${index}, ${temp}")
+            if (temp.toInt() >= 21) temp = "0" + (temp.toInt() - 24)
+            Log.d("mmm 시간확인합쉬다2", "${index}, ${temp}")
             tvTimes[index].text = temp
         }
 
@@ -338,6 +327,7 @@ class FragmentHome : Fragment() {
                 in "18".."20" -> result = "1700"    // 18~20
                 else -> result = "2000"             // 21~23
             }
+            Log.d("mmm 시간 확인", result)
         }
 
         return result

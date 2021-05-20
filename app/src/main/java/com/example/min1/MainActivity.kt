@@ -1,5 +1,7 @@
 package com.example.min1
 
+import android.app.Activity
+import android.content.Context
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -98,12 +100,6 @@ class MainActivity : AppCompatActivity() {
     // 프레그먼트에서 전달하는 데이터 담아주기
     fun setDataAtWriteFragment(bundle : Bundle) {
         fragmentWrite.arguments = bundle
-    }
-    // Setting 프레그먼트로 데이터 보내기
-    // 프레그먼트에서 전달하는 데이터 담아주기
-    fun setDataAtSettingFragment(bundle : Bundle) {
-
-        fragmentSetting.arguments = bundle
     }
 
 }
