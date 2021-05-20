@@ -6,11 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.kakao.sdk.user.UserApiClient
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -20,7 +17,6 @@ class FragmentSetting : Fragment() {
     private var param2: String? = null
 
     lateinit var settingRecyclerView : RecyclerView
-    private lateinit var adapter : SettingAdapter
 
     var nx = ""
     var ny = ""
@@ -51,13 +47,16 @@ class FragmentSetting : Fragment() {
         settingRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         settingRecyclerView.setHasFixedSize(true)
         // 리아시클러뷰에 어댑터 달기
-        adapter = SettingAdapter()
         settingRecyclerView.adapter = adapter
+
+        Log.d("mmm 아이템 갯수", adapter.itemCount.toString())
 
         return view
     }
 
     companion object {
+        var adapter = SettingAdapter()
+
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             FragmentSetting().apply {
@@ -66,5 +65,12 @@ class FragmentSetting : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+
+        @JvmStatic
+        fun addSettingArea(sArea : SettingArea) {
+            // 해당 지역을 배열에 추가
+            adapter.settingAreaArr.add(sArea)
+            Log.d("mmm 설정 완료", "완료했다고 하네요.")
+        }
     }
 }

@@ -18,9 +18,9 @@ class SettingAdapter : RecyclerView.Adapter<SettingAdapter.ViewHolder>() {
 
         // 클릭하면 토스트 띄우기
         return ViewHolder(view).apply {
-            val currentPosition : Int = adapterPosition // 현재 위치
-            val sArea : SettingArea = settingAreaArr.get(currentPosition)  // 현재 위치 아이템
-            Toast.makeText(parent.context, "클릭 ${sArea.settingAreaName}", Toast.LENGTH_SHORT).show()
+            itemView.setOnClickListener {
+                Toast.makeText(parent.context, "클릭", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 

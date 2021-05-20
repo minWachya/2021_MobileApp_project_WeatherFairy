@@ -1,25 +1,12 @@
 package com.example.min1
 
-import android.app.Activity
-import android.content.Intent
-import android.location.LocationManager
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
 import android.widget.FrameLayout
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.annotation.RequiresApi
-import androidx.fragment.app.Fragment
-import com.google.android.gms.dynamic.FragmentWrapper
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import retrofit2.Call
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import java.text.SimpleDateFormat
 import java.util.*
 
 // 메인 액티비티
@@ -32,8 +19,6 @@ class MainActivity : AppCompatActivity() {
     val fragmentHome = FragmentHome()               // 홈 프레그먼트
     val fragmentFindArea = FragmentFindArea()       // 지역 찾기 프레그먼트
     val fragmentSetting = FragmentSetting()         // 설정 프레그먼트
-
-    var temp = ""
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -117,6 +102,7 @@ class MainActivity : AppCompatActivity() {
     // Setting 프레그먼트로 데이터 보내기
     // 프레그먼트에서 전달하는 데이터 담아주기
     fun setDataAtSettingFragment(bundle : Bundle) {
+
         fragmentSetting.arguments = bundle
     }
 

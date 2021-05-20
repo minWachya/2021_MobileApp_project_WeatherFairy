@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import com.example.min1.FragmentSetting.Companion.addSettingArea
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import retrofit2.Call
 import retrofit2.Response
@@ -107,6 +108,7 @@ class FragmentHome : Fragment() {
         setWeather(1, nx, ny)       // 다음 시간대 날씨 설정
         tvAreaName.text = areaName         // 지역 이름 설정
 
+        // 관심 지역 설정하기 버튼 누르면
         btnSettingArea.setOnClickListener {
             // 번들에 담아서 메인 액티비티에 보내기
             val bundle = Bundle()
@@ -114,8 +116,11 @@ class FragmentHome : Fragment() {
             bundle.putString("nx", nx)
             bundle.putString("ny", ny)
             // 메인 액티비티는 Setting 프레그먼트에 데이터를 보냄
-            val mActivity = activity as MainActivity
-            mActivity.setDataAtSettingFragment(bundle)
+            //val mActivity = activity as MainActivity
+            //mActivity.setDataAtSettingFragment(bundle)
+
+            val settingArea = SettingArea(areaName, nx, ny)
+            addSettingArea(settingArea)
         }
 
         return view
