@@ -20,6 +20,8 @@ class FragmentWrite : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    lateinit var imgCheck : ImageView               // 입력 제어 이미지
+    lateinit var tvCheck : TextView                 // 입력 제어 문구
     lateinit var tvDate : TextView                  // 날짜
     lateinit var imgCalendar : ImageView            // 달력 이미지(누르면 데이트피터 다이얼로그)
     lateinit var editTemp : EditText                // 온도 입력
@@ -56,6 +58,8 @@ class FragmentWrite : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_write, container, false)
 
+        imgCheck = view.findViewById(R.id.imgCheck)
+        tvCheck = view.findViewById(R.id.tvCheck)
         tvDate = view.findViewById(R.id.tvDate)
         imgCalendar = view.findViewById(R.id.imgCalendar)
         editTemp = view.findViewById(R.id.editTemp)
@@ -103,23 +107,22 @@ class FragmentWrite : Fragment() {
         // <기록 완료> 버튼 누르면 위에 적은 내용을 파이어베이스에 저장하고
         // 토스트 띄운 뒤 처음 화면으로 돌아가기
         btnCompleteMemo.setOnClickListener {
-            if (memoTemp && memoTop && memoBottom && memoOuter && memo) {
-                val date = tvDate.text.toString()
-                val temp = editTemp.text.toString()
-                val top = editTop.text.toString()
-                val bottom = editBottom.text.toString()
-                val outer = editOuter.text.toString()
-                val memo = editMemo.text.toString()
+            val date = tvDate.text.toString()
+            val temp = editTemp.text.toString()
+            val top = editTop.text.toString()
+            val bottom = editBottom.text.toString()
+            val outer = editOuter.text.toString()
+            val memo = editMemo.text.toString()
 
-                val month = date.substring(5, 7)
-                val tempGroup = getTempGroup(temp)
+            val month = date.substring(5, 7)
+            val tempGroup = getTempGroup(temp)
 
-                // 파이어베이스에 데이터 저장하기
-                saveMemo(date, temp, top, bottom, outer, memo, month, tempGroup)
+            // 파이어베이스에 데이터 저장하기
+            saveMemo(date, temp, top, bottom, outer, memo, month, tempGroup)
 
-                Toast.makeText(context, "기록 완료하였습니다.", Toast.LENGTH_SHORT).show()
-            }
-            else Toast.makeText(context, "빈칸없이 입력해주세요.", Toast.LENGTH_SHORT).show()
+            // 텍스트뷰 초기화
+            initTextView()
+            Toast.makeText(context, "기록 완료하였습니다.", Toast.LENGTH_SHORT).show()
         }
 
         // 에디드텍스트 리스너 설정
@@ -166,26 +169,69 @@ class FragmentWrite : Fragment() {
 
     // 에디트 텍스트 모두 값이 있어야지만 데아터 저장 가능
     fun setTextListener() {
+        // 온도
         editTemp.addTextChangedListener {
             if (editTemp.text.trim().toString().length == 0) memoTemp = false
             else memoTemp = true
+            check()
         }
+        // 상의
         editTop.addTextChangedListener{
             if (editTop.text.trim().toString().length == 0) memoTop = false
             else memoTop = true
+            check()
         }
+        // 하의
         editBottom.addTextChangedListener{
             if (editBottom.text.trim().toString().length == 0) memoBottom = false
             else memoBottom = true
+            check()
         }
+        // 아우터
         editOuter.addTextChangedListener{
             if (editOuter.text.trim().toString().length == 0) memoOuter = false
             else memoOuter = true
+            check()
         }
+        // 메모
         editMemo.addTextChangedListener {
             if (editMemo.text.trim().toString().length == 0) memo = false
             else memo = true
+            check()
         }
+    }
+
+    // 모두 입력 시 버튼 활성화
+    fun check() {
+        if (memoTemp && memoTop && memoBottom && memoOuter && memo) {
+            btnCompleteMemo.isEnabled = true
+            imgCheck.setImageResource(R.drawable.verified)
+            tvCheck.text = "기록 완료 버튼을 눌러주세요."
+        }
+        else {
+            btnCompleteMemo.isEnabled = false
+            imgCheck.setImageResource(R.drawable.x_mark)
+            tvCheck.text="모든 항목을 입력해주세요."
+        }
+    }
+
+    // 텍스트뷰 초기화
+    fun initTextView() {
+        // 온도
+        editTemp.setText("")
+        editTemp.clearFocus()
+        // 상의
+        editTop.setText("")
+        editTop.clearFocus()
+        // 하의
+        editBottom.setText("")
+        editBottom.clearFocus()
+        // 아우터
+        editOuter.setText("")
+        editOuter.clearFocus()
+        // 메모
+        editMemo.setText("")
+        editMemo.clearFocus()
     }
 
     companion object {

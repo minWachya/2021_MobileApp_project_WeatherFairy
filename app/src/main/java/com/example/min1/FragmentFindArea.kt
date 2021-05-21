@@ -102,11 +102,13 @@ class FragmentFindArea : Fragment(), MapReverseGeoCoder.ReverseGeoCodingResultLi
         Log.d("mmm 주소 성공", p1!!)
         tvAreaName.text = p1!!
         marker.itemName = p1!!
+        btnBack1.isEnabled = true
         mapView.addPOIItem(marker)
     }
     // 주소 찾기 실패
     override fun onReverseGeoCoderFailedToFindAddress(p0: MapReverseGeoCoder?) {
         tvAreaName.text = "주소를 찾지 못하였습니다."
+        btnBack1.isEnabled = false
         Log.d("mmm 주소 실패", "주소 찾기 실패")
     }
 
