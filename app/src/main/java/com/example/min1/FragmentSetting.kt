@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -14,11 +15,13 @@ import androidx.recyclerview.widget.RecyclerView
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
+// 관심 지역 보이기
 class FragmentSetting : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
     lateinit var settingRecyclerView : RecyclerView     // 관심 지역 리사이클러뷰
+    lateinit var tvSetting : TextView                   // 간단한 설명
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +37,7 @@ class FragmentSetting : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_setting, container, false)
 
+        tvSetting = view.findViewById(R.id.tvSetting)
         settingRecyclerView = view.findViewById(R.id.settingRecylerView)
 
         // 리사이클러뷰 매니저 설정
@@ -41,6 +45,10 @@ class FragmentSetting : Fragment() {
         settingRecyclerView.setHasFixedSize(true)
         // 리아시클러뷰에 어댑터 달기
         settingRecyclerView.adapter = adapter
+
+        // 관심 지역 0개면 텍스트 보이기
+        if (adapter.itemCount == 0)  tvSetting.setVisibility(View.VISIBLE)
+        else  tvSetting.setVisibility(View.GONE)
 
         Log.d("mmm 아이템 갯수", adapter.itemCount.toString())
 
