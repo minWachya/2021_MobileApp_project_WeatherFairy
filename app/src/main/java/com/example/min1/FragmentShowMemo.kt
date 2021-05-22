@@ -11,16 +11,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.*
 
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
 // 추가된 Memo 아이템이 리사이클러뷰에서 보여짐
 // 월별/온도별 Memo 보이기
 class FragmentShowMemo : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
     lateinit var tvSelect : TextView                // 월별/온도별 텍스트뷰
     lateinit var spinner : Spinner                  // 원별/온도별 값을 선택하는 스피너
     lateinit var btnToggle : ToggleButton           // 월별/온도별을 선택하는 토글 버튼
@@ -32,8 +25,6 @@ class FragmentShowMemo : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
         }
     }
 
@@ -152,17 +143,6 @@ class FragmentShowMemo : Fragment() {
         return view
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            FragmentShowMemo().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
-
     // 월별/온도별 검색하여 해당 결과만 보이기
     fun search(dataSanpshot : DataSnapshot, searchWord : String, option : String) {
         // memo에서 쭉 내려옴
@@ -200,5 +180,8 @@ class FragmentShowMemo : Fragment() {
             // 데이터 바뀌었다고 알려주기
             memoAdapter.notifyDataSetChanged()
         }
+    }
+
+    companion object {
     }
 }

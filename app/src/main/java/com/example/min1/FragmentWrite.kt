@@ -13,13 +13,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import java.util.*
 
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
 class FragmentWrite : Fragment() {
-    private var param1: String? = null
-    private var param2: String? = null
-
     lateinit var imgCheck : ImageView               // 입력 제어 이미지
     lateinit var tvCheck : TextView                 // 입력 제어 문구
     lateinit var tvDate : TextView                  // 날짜
@@ -32,8 +26,6 @@ class FragmentWrite : Fragment() {
     lateinit var btnCompleteMemo : Button           // <기록 완료> 버튼
     lateinit var databaseRef : DatabaseReference    // 파이어베이스 접근 가능한 자료형
 
-    var temp : String = ""                          // 온도
-
     // 에디트 텍스트에 빈칸이 없는지 확인하는 변수
     var memoTemp = true
     var memoTop = false
@@ -44,11 +36,6 @@ class FragmentWrite : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-
-            temp = it.getString("temp").toString()
-            Log.d("mmm받은 온도...", temp)
         }
     }
 
@@ -70,8 +57,8 @@ class FragmentWrite : Fragment() {
         btnCompleteMemo = view.findViewById(R.id.btnCompleteMemo)
 
         // FragmentHome에서 온도 정보 받이서 온도 설정하기
-        editTemp.setText(temp)
-        Log.d("mmm받은 온도...2", temp)
+        editTemp.setText(FragmentHome.curTemp)
+        Log.d("mmm공공 온도오오ㅗㅇ", FragmentHome.curTemp)
 
         // 텍스트뷰에 오늘 날짜 미리 보이기
         var calender = Calendar.getInstance()
@@ -235,14 +222,6 @@ class FragmentWrite : Fragment() {
     }
 
     companion object {
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-                FragmentWrite().apply {
-                    arguments = Bundle().apply {
-                        putString(ARG_PARAM1, param1)
-                        putString(ARG_PARAM2, param2)
-                    }
-                }
     }
 
 }

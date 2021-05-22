@@ -100,13 +100,8 @@ class MainActivity : AppCompatActivity() {
         transaction.replace(R.id.container, fragmentHome)
         transaction.commit()
     }
-    // Write 프레그먼트로 데이터 보내기
-    // 프레그먼트에서 전달하는 데이터 담아주기
-    fun setDataAtWriteFragment(bundle : Bundle) {
-        bundle.putString("email", email)
-        fragmentWrite.arguments = bundle
-    }
 
+    // 이메일 전역변수
     companion object {
         var email = ""
     }

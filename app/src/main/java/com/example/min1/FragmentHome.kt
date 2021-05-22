@@ -15,9 +15,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.text.SimpleDateFormat
 import java.util.*
 
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
 // xml 파일 형식을 data class로 구현
 data class WEATHER (val response : RESPONSE)
 data class RESPONSE(val header : HEADER, val body : BODY)
@@ -41,9 +38,6 @@ object ApiObject {
 
 
 class FragmentHome : Fragment() {
-    private var param1: String? = null
-    private var param2: String? = null
-
     lateinit var tvDate : TextView                  // 현재 날짜
     lateinit var tvAreaName : TextView              // 지역명
     lateinit var tvTimes : Array<TextView>          // 현재/다음 시간
@@ -65,9 +59,6 @@ class FragmentHome : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-
             nx = it.getString("nx").toString()
             ny = it.getString("ny").toString()
             areaName = it.getString("areaName").toString()
@@ -281,18 +272,13 @@ class FragmentHome : Fragment() {
         if (index == 0) tvTimes[index].text = time
         else {
             var temp = (time.toInt() + 3).toString()
-            if (temp.toInt() >= 21) temp = (temp.toInt() - 24).toString()
+            if (temp.toInt() > 23) temp = (temp.toInt() - 24).toString()
             if (temp.toInt() < 10) temp = "0" + temp
             tvTimes[index].text = temp
         }
 
         if (index == 0) {
-            // 번들에 담아서 메인 액티비티에 보내기
-            val bundle = Bundle()
-            bundle.putString("temp", tvTemps[index].text.toString())
-            // 메인 액티비티는 Weite 프레그먼트에 데이터를 보냄
-            val mActivity = activity as MainActivity
-            mActivity.setDataAtWriteFragment(bundle)
+            curTemp = tvTemps[0].text.toString() // 현재 온도
         }
     }
 
@@ -331,15 +317,9 @@ class FragmentHome : Fragment() {
         return result
     }
 
+    // 현재 온도 전역변수
     companion object {
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-                FragmentHome().apply {
-                    arguments = Bundle().apply {
-                        putString(ARG_PARAM1, param1)
-                        putString(ARG_PARAM2, param2)
-                    }
-                }
+        var curTemp = ""
     }
 
 }

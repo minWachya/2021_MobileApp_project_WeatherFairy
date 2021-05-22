@@ -12,22 +12,14 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
 // 관심 지역 보이기
 class FragmentSetting : Fragment() {
-    private var param1: String? = null
-    private var param2: String? = null
-
     lateinit var settingRecyclerView : RecyclerView     // 관심 지역 리사이클러뷰
     lateinit var tvSetting : TextView                   // 간단한 설명
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
         }
     }
 
@@ -55,17 +47,10 @@ class FragmentSetting : Fragment() {
         return view
     }
 
+
+    // 어댑터 전역변수,  관심 지역 추가 전역 함수
     companion object {
         var adapter = SettingAdapter()  // 어댑터
-
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            FragmentSetting().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
 
         // 해당 지역을 배열에 추가하고 토스트 보이기
         @JvmStatic

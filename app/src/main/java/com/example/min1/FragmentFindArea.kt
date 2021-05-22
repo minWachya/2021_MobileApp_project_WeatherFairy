@@ -14,13 +14,7 @@ import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapReverseGeoCoder
 import net.daum.mf.map.api.MapView
 
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
 class FragmentFindArea : Fragment(), MapReverseGeoCoder.ReverseGeoCodingResultListener, MyMapViewEventListener  {
-    private var param1: String? = null
-    private var param2: String? = null
-
     lateinit var tvAreaName : TextView                  // 지역명
     lateinit var btnBack1 : Button                      // <지역 설정 완료> 버튼
     lateinit var map : LinearLayout                     // 지도가 담길 레이아웃
@@ -35,8 +29,6 @@ class FragmentFindArea : Fragment(), MapReverseGeoCoder.ReverseGeoCodingResultLi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
         }
     }
 
@@ -177,13 +169,5 @@ class FragmentFindArea : Fragment(), MapReverseGeoCoder.ReverseGeoCodingResultLi
     }
 
     companion object {
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-                FragmentFindArea().apply {
-                    arguments = Bundle().apply {
-                        putString(ARG_PARAM1, param1)
-                        putString(ARG_PARAM2, param2)
-                    }
-                }
     }
 }
