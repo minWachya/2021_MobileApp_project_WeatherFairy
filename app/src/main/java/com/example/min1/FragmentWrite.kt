@@ -155,7 +155,7 @@ class FragmentWrite : Fragment() {
         var key : String? = databaseRef.child("memo").push().getKey()
 
         // 객체 생성
-        val obj = WeatherMemo(key!!, date, temp, top, bottom, outer, memo, month, tempGroup)
+        val obj = WeatherMemo(key!!, date, temp, top, bottom, outer, memo, month, tempGroup, MainActivity.email)
         // 객체를 맵 형으로 변환
         val memotValues : HashMap<String, String> = obj.toMap()
 

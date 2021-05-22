@@ -1,19 +1,32 @@
 package com.example.min1
 
 
+import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageButton
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.user.UserApiClient
 import com.nhn.android.naverlogin.OAuthLogin
 import com.nhn.android.naverlogin.OAuthLoginHandler
+import com.nhn.android.naverlogin.data.OAuthLoginState
 import com.nhn.android.naverlogin.ui.view.OAuthLoginButton
+import okhttp3.internal.Util
+import org.json.JSONObject
+import java.io.BufferedReader
+import java.io.IOException
+import java.io.InputStream
+import java.io.InputStreamReader
+import java.lang.Exception
+import java.net.HttpURLConnection
+import java.net.MalformedURLException
+import java.net.URL
 
 // 로그인 액티비티(시작 화면)
 class LoginActivity : AppCompatActivity() {
@@ -23,6 +36,8 @@ class LoginActivity : AppCompatActivity() {
     lateinit var mContext: Context
 
     var TAG = "Login"
+
+    private lateinit var nhnOAuthLoginModule: OAuthLogin
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

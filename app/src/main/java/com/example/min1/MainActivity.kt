@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         container = findViewById(R.id.container)
 
         // 사용자 정보 받기(이메일)
-        var email = intent.getStringExtra("email")
+        email = intent.getStringExtra("email").toString()
         Log.d("mmm 메인에서 받은 이메일", "${email}")
 
         // 시작은 Home 프레그먼트로 초기화
@@ -103,7 +103,12 @@ class MainActivity : AppCompatActivity() {
     // Write 프레그먼트로 데이터 보내기
     // 프레그먼트에서 전달하는 데이터 담아주기
     fun setDataAtWriteFragment(bundle : Bundle) {
+        bundle.putString("email", email)
         fragmentWrite.arguments = bundle
+    }
+
+    companion object {
+        var email = ""
     }
 
 }

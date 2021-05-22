@@ -14,7 +14,8 @@ data class WeatherMemo (
     var outer:String,       // 아우터
     var memo:String,        // 메모
     var month:String,       // 월별
-    var tempGroup:String    // 온도별
+    var tempGroup:String,   // 온도별
+    var email:String        // 이메일
 ) {
     // 파이어베이스에 있는 데이터를 가지고와서 리사이클러뷰를 만들 때
     // Memo 맵이라는 자료형으로 저장해주어야함.
@@ -37,6 +38,7 @@ data class WeatherMemo (
         result["memo"] = memo
         result["month"] = month
         result["tempGroup"] = tempGroup
+        result["email"] = email
 
         return result   // 파이어베이스의 DB에 저장 가능한 자료형으로 변환 완료
     }

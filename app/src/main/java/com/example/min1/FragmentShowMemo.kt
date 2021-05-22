@@ -180,7 +180,8 @@ class FragmentShowMemo : Fragment() {
                 // 해시맵 형태로 읽어오기(저장도 해시맵 형태로 해야하니까)
                 val map = currentItem.value as HashMap<String, String>
 
-                if (map[option] != searchWord) continue
+                if (map["email"] != MainActivity.email) continue    // 내 데이터 아니면 지나가기
+                if (map[option] != searchWord) continue             // 설정한 값이 아니면 지나가기
 
                 // 데이터 변수로 만들기
                 val objectId = map["objectId"].toString()
@@ -194,7 +195,7 @@ class FragmentShowMemo : Fragment() {
                 val tempGroup = map["tempGroup"].toString()
 
                 // 리사이클러뷰에 연결
-                memoAdapter.items.add(WeatherMemo(objectId, date, temp, top, bottom, outer, memo, month, tempGroup))
+                memoAdapter.items.add(WeatherMemo(objectId, date, temp, top, bottom, outer, memo, month, tempGroup, MainActivity.email))
             }
             // 데이터 바뀌었다고 알려주기
             memoAdapter.notifyDataSetChanged()
