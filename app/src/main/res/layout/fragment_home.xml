@@ -17,14 +17,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="4/29 (목)"
+            android:text="로딩중"
             android:textSize="30dp"/>
         <TextView
             android:id="@+id/tvAreaName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="쌍문동"
+            android:text="..."
             android:textSize="30dp"/>
     </LinearLayout>
 
@@ -114,7 +114,7 @@
                 android:id="@+id/tvHumidity"
                 android:layout_column="2"
                 android:layout_row="1"
-                android:text="16%"
+                android:text=""
                 android:textSize="14dp"
                 android:textColor="#000000"
                 android:paddingRight="20dp"/>
@@ -138,7 +138,7 @@
                 android:id="@+id/tvSky"
                 android:layout_column="2"
                 android:layout_row="2"
-                android:text="맑음"
+                android:text=""
                 android:textSize="14dp"
                 android:textColor="#000000" />
 
@@ -161,7 +161,7 @@
                 android:id="@+id/tvRainRatio"
                 android:layout_column="2"
                 android:layout_row="3"
-                android:text="0%"
+                android:text=""
                 android:textSize="14dp"
                 android:textColor="#000000"/>
 
@@ -184,7 +184,7 @@
                 android:id="@+id/tvRainType"
                 android:layout_column="2"
                 android:layout_row="4"
-                android:text="없음"
+                android:text=""
                 android:textSize="14dp"
                 android:textColor="#000000" />
         </GridLayout>
@@ -212,7 +212,7 @@
                 android:id="@+id/tvRecommend"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="자켓, 가디건, 청자켓"
+                android:text=""
                 android:paddingRight="40dp"
                 android:textSize="14dp"
                 android:textColor="#000000"/>
@@ -301,7 +301,7 @@
                 android:id="@+id/tvHumidity2"
                 android:layout_column="2"
                 android:layout_row="1"
-                android:text="16%"
+                android:text=""
                 android:textSize="14dp"
                 android:textColor="#000000"
                 android:paddingRight="20dp"/>
@@ -325,7 +325,7 @@
                 android:id="@+id/tvSky2"
                 android:layout_column="2"
                 android:layout_row="2"
-                android:text="맑음"
+                android:text=""
                 android:textSize="14dp"
                 android:textColor="#000000" />
 
@@ -348,7 +348,7 @@
                 android:id="@+id/tvRainRatio2"
                 android:layout_column="2"
                 android:layout_row="3"
-                android:text="0%"
+                android:text=""
                 android:textSize="14dp"
                 android:textColor="#000000"/>
 
@@ -371,7 +371,7 @@
                 android:id="@+id/tvRainType2"
                 android:layout_column="2"
                 android:layout_row="4"
-                android:text="없음"
+                android:text=""
                 android:textSize="14dp"
                 android:textColor="#000000" />
         </GridLayout>
@@ -399,7 +399,7 @@
                 android:id="@+id/tvRecommend2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="자켓, 가디건, 청자켓"
+                android:text=""
                 android:paddingRight="40dp"
                 android:textSize="14dp"
                 android:textColor="#000000"/>

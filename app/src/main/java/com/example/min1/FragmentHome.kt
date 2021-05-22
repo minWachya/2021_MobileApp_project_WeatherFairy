@@ -7,7 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import com.example.min1.FragmentSetting.Companion.adapter
 import com.example.min1.FragmentSetting.Companion.addSettingArea
+import com.example.min1.SettingAdapter.Companion.settingAreaArr
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -88,9 +90,22 @@ class FragmentHome : Fragment() {
 
         // 관심 지역 설정하기 버튼 누르면
         btnSettingArea.setOnClickListener {
-            // 해당 지역을 추가
-            val settingArea = SettingArea(areaName, nx, ny)
-            addSettingArea(context!!, settingArea)
+            // 중복 검사
+            var check = true
+            for (i in 0..adapter.itemCount-1) {
+                Log.d("mmm index", "${i}")
+                if (settingAreaArr[i].settingAreaName == areaName) {
+                    check = false
+                    Toast.makeText(context, "이미 추가된 지역입니다.", Toast.LENGTH_SHORT).show()
+                    break
+                }
+            }
+
+            if (check) {
+                // 해당 지역을 추가
+                val settingArea = SettingArea(areaName, nx, ny)
+                addSettingArea(context!!, settingArea)  // FragmentSetting의 전역 함수
+            }
         }
 
         return view
@@ -140,7 +155,6 @@ class FragmentHome : Fragment() {
                 base_date = SimpleDateFormat("yyyyMMdd", Locale.getDefault()).format(cal.time)
             }
         }
-        Log.d("mmm 시간 확인^^", "${index}, ${base_time}")
 
         // 날씨 정보 가져오기
         // (응답 자료 형식-"JSON", 한 페이지 결과 수 = 10, 페이지 번호 = 1, 발표 날싸, 발표 시각, 예보지점 좌표)
@@ -172,10 +186,6 @@ class FragmentHome : Fragment() {
                     }
                     // 날씨 정보 텍스트뷰에 보이게 하기
                     setTextView(index, temp, humidity, sky, rainRatio, rainType, time)
-
-                    Toast.makeText(context,
-                            "${index}, baseTime = ${base_time}, baseDate = ${base_date}, fcstTime = ${it[0].fcstTime}의 날씨 정보입니다.",
-                            Toast.LENGTH_SHORT).show()
                 }
             }
 

@@ -1,23 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginLeft="20dp"
-    android:layout_marginRight="20dp"
-    android:layout_marginTop="5dp"
-    android:layout_marginBottom="5dp">
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
-    <ImageView
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:src="@drawable/filled_point"/>
-
-    <TextView
-        android:id="@+id/tvSettingAreaName"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="지역명"
-        android:textSize="30dp"
-        android:layout_marginLeft="20dp"/>
+        android:orientation="horizontal"
+        android:layout_margin="10dp">
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:src="@drawable/filled_point"
+            android:layout_marginRight="20dp"/>
+        <TextView
+            android:id="@+id/tvSettingAreaName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="지역명"
+            android:textSize="30dp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#707070"
+        android:layout_marginTop="2dp"/>
 
 </LinearLayout>
