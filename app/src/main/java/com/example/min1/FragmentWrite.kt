@@ -1,6 +1,7 @@
 package com.example.min1
 
 import android.app.DatePickerDialog
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -192,12 +193,12 @@ class FragmentWrite : Fragment() {
     fun check() {
         if (memoTemp && memoTop && memoBottom && memoOuter && memo) {
             btnCompleteMemo.isEnabled = true
-            imgCheck.setImageResource(R.drawable.verified)
+            imgCheck.setImageResource(R.drawable.check)
             tvCheck.text = "기록 완료 버튼을 눌러주세요."
         }
         else {
             btnCompleteMemo.isEnabled = false
-            imgCheck.setImageResource(R.drawable.x_mark)
+            imgCheck.setImageResource(R.drawable.cancel)
             tvCheck.text="모든 항목을 입력해주세요."
         }
     }
