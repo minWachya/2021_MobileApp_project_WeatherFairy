@@ -52,17 +52,10 @@ class FragmentHome : Fragment() {
 
     var base_date = ""          // 발표 일자
     var base_time = ""          // 발표 시각
-    var nx = "60"               // 예보지점 X 좌표(덕성여대)
-    var ny = "129"              // 예보지점 Y 좌표(덕성여대)
-    var areaName = "쌍문동"      // 사용자가 설정한 위치(덕성여대)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            nx = it.getString("nx").toString()
-            ny = it.getString("ny").toString()
-            areaName = it.getString("areaName").toString()
-            Log.d("mmm 받은 데이터", nx + "," + ny + ", " + areaName)
         }
     }
 
@@ -317,9 +310,13 @@ class FragmentHome : Fragment() {
         return result
     }
 
-    // 현재 온도 전역변수
+    // 전역변수
     companion object {
-        var curTemp = ""
+        var curTemp = ""            // 현재 온도
+
+        var nx = "60"               // 예보지점 X 좌표(덕성여대)
+        var ny = "129"              // 예보지점 Y 좌표(덕성여대)
+        var areaName = "쌍문동"      // 사용자가 설정한 위치(덕성여대)
     }
 
 }

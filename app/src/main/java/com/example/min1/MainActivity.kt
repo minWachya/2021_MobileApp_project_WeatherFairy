@@ -36,7 +36,6 @@ class MainActivity : AppCompatActivity() {
 
         // 시작은 Home 프레그먼트로 초기화
         with(supportFragmentManager.beginTransaction()) {
-            var fragmentHome = FragmentHome()
             replace(R.id.container, fragmentHome)
             commit()
         }
@@ -90,12 +89,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // Home 프레그먼트로 데이터 보내기
-    // 프레그먼트에서 전달하는 데이터 담아주기
-    fun setDataAtHomeFragment(bundle : Bundle) {
-        fragmentHome.arguments = bundle
-
-        // 데이터가 셋팅된 프레그먼트 띄우기
+    // 데이터가 셋팅된 프레그먼트 띄우기
+    fun setHomeFragment() {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.container, fragmentHome)
         transaction.commit()

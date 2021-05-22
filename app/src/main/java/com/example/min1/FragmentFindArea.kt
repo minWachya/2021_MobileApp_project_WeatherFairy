@@ -76,14 +76,14 @@ class FragmentFindArea : Fragment(), MapReverseGeoCoder.ReverseGeoCodingResultLi
             var areaName = splitArray[splitArray.size - 2]
             if (areaName == "산") areaName = splitArray[splitArray.size - 3]
 
-            // 번들에 담아서 메인 액티비티에 보내기
-            val bundle = Bundle()
-            bundle.putString("nx", x)
-            bundle.putString("ny", y)
-            bundle.putString("areaName", areaName)
-            // 메인 액티비티는 fragmentHome에 데이터를 보냄
+            // FragmentHome의 지역 정보 수정
+            FragmentHome.nx = x
+            FragmentHome.ny = y
+            FragmentHome.areaName = areaName
+
+            // 메인 액티비티는 FramgentHome 띄워주기
             val mActivity = activity as MainActivity
-            mActivity.setDataAtHomeFragment(bundle)
+            mActivity.setHomeFragment()
         }
         return view
     }

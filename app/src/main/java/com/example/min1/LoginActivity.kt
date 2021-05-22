@@ -2,7 +2,6 @@ package com.example.min1
 
 
 import android.annotation.SuppressLint
-import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.os.AsyncTask
@@ -17,16 +16,6 @@ import com.nhn.android.naverlogin.OAuthLogin
 import com.nhn.android.naverlogin.OAuthLoginHandler
 import com.nhn.android.naverlogin.data.OAuthLoginState
 import com.nhn.android.naverlogin.ui.view.OAuthLoginButton
-import okhttp3.internal.Util
-import org.json.JSONObject
-import java.io.BufferedReader
-import java.io.IOException
-import java.io.InputStream
-import java.io.InputStreamReader
-import java.lang.Exception
-import java.net.HttpURLConnection
-import java.net.MalformedURLException
-import java.net.URL
 
 // 로그인 액티비티(시작 화면)
 class LoginActivity : AppCompatActivity() {
@@ -132,7 +121,13 @@ class LoginActivity : AppCompatActivity() {
         mContext = this@LoginActivity
         mOAuthLoginInstance = OAuthLogin.getInstance()
         mOAuthLoginInstance.init(mContext, naver_client_id, naver_client_secret, naver_client_name)
-        btnNaverLogin.setOAuthLoginHandler(mOAuthLoginHandler)
+        //btnNaverLogin.setOAuthLoginHandler(mOAuthLoginHandler)
+
+        // 복붙
+        nhnOAuthLoginModule = OAuthLogin.getInstance()
+        nhnOAuthLoginModule.init(this, naver_client_id, naver_client_secret, naver_client_name)
+        initOnClickListener()
+
     }
 
     val mOAuthLoginHandler: OAuthLoginHandler = object : OAuthLoginHandler() {
@@ -150,5 +145,70 @@ class LoginActivity : AppCompatActivity() {
         }
 
     }
+
+    // 복붙
+    fun successLogin(){
+        startActivity(Intent(this, MainActivity::class.java))
+        finish() }
+
+    private fun initOnClickListener(){ //네이버 로그인
+        btnNaverLogin.setOnClickListener { nhnSignIn() }
+    }
+
+
+    /** * 네이버 로그인 콜백 */
+    private fun nhnSignIn(){
+        if(nhnOAuthLoginModule.getState(this@LoginActivity) == OAuthLoginState.OK){
+            Log.d(TAG, "Nhn status don't need login")
+            RequestNHNLoginApiTask().execute()
+        }
+        else{
+            Log.d(TAG, "Nhn status need login")
+            nhnOAuthLoginModule.startOauthLoginActivity(this@LoginActivity, @SuppressLint("HandlerLeak")
+            object: OAuthLoginHandler(){
+                override fun run(success: Boolean) {
+                    if (success) {
+                        val accessToken = nhnOAuthLoginModule.getAccessToken(this@LoginActivity)
+                        val refreshToken = nhnOAuthLoginModule.getRefreshToken(this@LoginActivity)
+                        val expiresAt = nhnOAuthLoginModule.getExpiresAt(this@LoginActivity)
+                        val tokenType = nhnOAuthLoginModule.getTokenType(this@LoginActivity)
+                        Log.i(TAG, "nhn Login Access Token : $accessToken")
+                        Log.i(TAG, "nhn Login refresh Token : $refreshToken")
+                        Log.i(TAG, "nhn Login expiresAt : $expiresAt")
+                        Log.i(TAG, "nhn Login Token Type : $tokenType")
+                        Log.i(TAG, "nhn Login Module State : " + nhnOAuthLoginModule.getState(this@LoginActivity).toString())
+                        successLogin()
+                    } else {
+                        val errorCode = nhnOAuthLoginModule.getLastErrorCode(this@LoginActivity).getCode()
+                        val errorDesc = nhnOAuthLoginModule.getLastErrorDesc(this@LoginActivity)
+                        Toast.makeText(this@LoginActivity, "errorCode:$errorCode, errorDesc:$errorDesc", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            })
+        }
+    }
+
+    inner class RequestNHNLoginApiTask : AsyncTask<Void, Void, String>() {
+        override fun onPostExecute(result: String?) {
+            Log.d(TAG, "onPreExecute : $result")
+            val startToken = "<message>"
+            val endToken = "</message>"
+            val startIndex = result?.indexOf(startToken) ?: -1
+            val endIndex = result?.indexOf(endToken) ?: -1
+            if (startIndex == -1 || endIndex <= 0){ return }
+            val message = result?.substring(startIndex + startToken.length, endIndex)?.trim()
+            if(message.equals("success")) {
+                Log.d(TAG, "Success RequestNHNLoginApiTask")
+                successLogin()
+            }
+            else Log.e(TAG, "Login Fail")
+        }
+
+        override fun doInBackground(vararg params: Void?): String {
+            val url = "https://apis.naver.com/nidlogin/nid/getHashId_v2.xml"
+            val at = nhnOAuthLoginModule.getAccessToken(this@LoginActivity)
+            return nhnOAuthLoginModule.requestApi(this@LoginActivity, at, url) }
+
+        override fun onPreExecute() { } }
 
 }

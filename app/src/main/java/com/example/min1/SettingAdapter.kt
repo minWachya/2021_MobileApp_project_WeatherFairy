@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 // Setting 프레그먼트의 리사이클러뷰 어댑터
 class SettingAdapter : RecyclerView.Adapter<SettingAdapter.ViewHolder>() {
     // SettingArea 배열
-    var settingAreaArr = ArrayList<SettingArea>()
+    //var settingAreaArr = ArrayList<SettingArea>()
 
 
     // 뷰 홀더 생성(area_list.xml을 어댑터에 붙여주기)
@@ -22,9 +22,14 @@ class SettingAdapter : RecyclerView.Adapter<SettingAdapter.ViewHolder>() {
         // 클릭하면 토스트 띄우기
         return ViewHolder(view).apply {
             itemView.setOnClickListener {
-                Log.d("mmm 클릭", settingAreaArr[position].settingAreaName)
+                // FragmentHome의 지역 정보 수정
+                FragmentHome.nx = settingAreaArr[position].nx
+                FragmentHome.ny = settingAreaArr[position].ny
+                FragmentHome.areaName = settingAreaArr[position].settingAreaName
 
-                Toast.makeText(parent.context, "클릭", Toast.LENGTH_SHORT).show()
+                var areaName = settingAreaArr[position].settingAreaName
+
+                Toast.makeText(parent.context, areaName + "의 날씨 정보로 변경하였습니다.", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -45,5 +50,10 @@ class SettingAdapter : RecyclerView.Adapter<SettingAdapter.ViewHolder>() {
         fun setItem(item : SettingArea) {
             tvSettingAreaName.text = item.settingAreaName // 관심지역 이름
         }
+    }
+
+    companion object {
+        // SettingArea 배열
+        var settingAreaArr = ArrayList<SettingArea>()
     }
 }
