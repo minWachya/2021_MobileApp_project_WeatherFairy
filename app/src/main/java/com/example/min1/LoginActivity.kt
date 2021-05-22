@@ -42,10 +42,59 @@ class LoginActivity : AppCompatActivity() {
             else if (token != null) {
                 Log.i(TAG, "카카오 로그인 성공 ${token.accessToken}")
 
-                // MainActivity로 넘어가기
-                var intent = Intent(this@LoginActivity, MainActivity::class.java)
-                startActivity(intent)
-                finish()
+                UserApiClient.instance.me { user, error ->
+                    // 정보 요청 실패했을 때
+                    if (error != null) {
+                        Log.e(TAG, "사용자 정보 요청 실패", error)
+                    }
+                    // 정보 요청 성공했을 때
+                    else if (user != null) {
+                        var scopes = mutableListOf<String>()
+
+                        // 이메일 바로 얻을 수 있으면 로그로 출력해보기
+                        if (user.kakaoAccount?.email != null) {
+                            Log.i("mmmm Login-email 성공", "email:${user.kakaoAccount?.email.toString()}")
+                        }
+                        // 사용자가 이메일 동의 했는지 확인
+                        // 동의 했으면
+                        else if (user.kakaoAccount?.emailNeedsAgreement == true) {
+                            // 동의 요청 후 이메일 획득
+                            scopes.add("account_email") // 이메일 동의 구하기
+                            UserApiClient.instance.loginWithNewScopes(this@LoginActivity, scopes) { token, erroe ->
+                                // 사용자 동의 구하기 실패
+                                if (error != null) {
+                                    Log.e(TAG, "사용자 추가 동의 실패", error)
+                                }
+                                // 사용지 동의 구하기 성공
+                                else {
+                                    // 다시 사용자 정보 가져오기
+                                    UserApiClient.instance.me { user, error ->
+                                        // 에러가 있으면
+                                        if (error != null) {
+                                            Log.e(TAG, "사용자 정보 요청 실패", error)
+                                        }
+                                        // 성공하면
+                                        else if (user != null){
+                                            Log.i(TAG, "사용자 정보 요청 성공 : ${user.kakaoAccount?.email}")
+                                        }
+
+                                    }
+                                }
+                            }
+
+                        }
+                        // 사용자 동의를 설정하지 않았다면 이메일 확득 불가
+                        else {
+                            Toast.makeText(this@LoginActivity, "이메일 획득 불가", Toast.LENGTH_SHORT).show()
+                        }
+
+                        // MainActivity로 넘어가고 정보 전달하기
+                        var intent = Intent(this@LoginActivity, MainActivity::class.java)
+                        intent.putExtra("email", user.kakaoAccount?.email.toString())
+                        startActivity(intent)
+                        finish()
+                    }
+                }
             }
         }
 

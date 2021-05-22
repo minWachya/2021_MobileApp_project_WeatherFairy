@@ -30,6 +30,10 @@ class MainActivity : AppCompatActivity() {
         bottomNavi = findViewById(R.id.bottomNavi)
         container = findViewById(R.id.container)
 
+        // 사용자 정보 받기(이메일)
+        var email = intent.getStringExtra("email")
+        Log.d("mmm 메인에서 받은 이메일", "${email}")
+
         // 시작은 Home 프레그먼트로 초기화
         with(supportFragmentManager.beginTransaction()) {
             var fragmentHome = FragmentHome()
