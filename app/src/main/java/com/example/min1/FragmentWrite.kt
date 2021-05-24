@@ -59,7 +59,6 @@ class FragmentWrite : Fragment() {
 
         // FragmentHome에서 온도 정보 받이서 온도 설정하기
         editTemp.setText(FragmentHome.curTemp)
-        Log.d("mmm공공 온도오오ㅗㅇ", FragmentHome.curTemp)
 
         // 텍스트뷰에 오늘 날짜 미리 보이기
         var calender = Calendar.getInstance()

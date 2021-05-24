@@ -42,6 +42,7 @@ object ApiObject {
 class FragmentHome : Fragment() {
     lateinit var tvDate : TextView                  // 현재 날짜
     lateinit var tvAreaName : TextView              // 지역명
+    lateinit var imgRefresh : ImageView             // 새로고침 이미지
     lateinit var tvTimes : Array<TextView>          // 현재/다음 시간
     lateinit var tvTemps : Array<TextView>          // 온도
     lateinit var imgWeathers : Array<ImageView>     // 날씨 이미지
@@ -70,6 +71,7 @@ class FragmentHome : Fragment() {
 
         tvDate = view.findViewById(R.id.tvDate)
         tvAreaName = view.findViewById(R.id.tvAreaName)
+        imgRefresh = view.findViewById(R.id.imgRefresh)
         tvTimes = arrayOf(view.findViewById(R.id.tvTime), view.findViewById(R.id.tvTime2))
         tvTemps = arrayOf(view.findViewById(R.id.tvTemp), view.findViewById(R.id.tvTemp2))
         imgWeathers = arrayOf(view.findViewById(R.id.imgWeather), view.findViewById(R.id.imgWeather2))
@@ -106,6 +108,17 @@ class FragmentHome : Fragment() {
                 val settingArea = SettingArea(areaName, nx, ny)
                 addSettingArea(context!!, settingArea)  // FragmentSetting의 전역 함수
             }
+        }
+
+        // 새로고침 이미지 클릭
+        imgRefresh.setOnClickListener {
+            // 날짜 초기화
+            setDate()
+
+            // nx, ny지점의 날씨 가져와서 설정하기
+            setWeather(0, nx, ny)       // 현재 시간대 날씨 설정
+            setWeather(1, nx, ny)       // 다음 시간대 날씨 설정
+            tvAreaName.text = areaName         // 지역 이름 설정
         }
 
         return view
@@ -282,7 +295,7 @@ class FragmentHome : Fragment() {
 
         if (index == 0) {
             curTemp = tvTemps[0].text.toString() // 현재 온도
-        }
+        } else Toast.makeText(context, "${areaName}의 날씨입니다.", Toast.LENGTH_SHORT).show()
     }
 
     // 시간 설정하기
