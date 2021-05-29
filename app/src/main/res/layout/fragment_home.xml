@@ -6,6 +6,13 @@
     tools:context=".FragmentHome"
     android:orientation="vertical">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="오늘의 날씨"
+        android:textSize="30dp"
+        android:gravity="center"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -424,6 +431,11 @@
         </LinearLayout>
     </LinearLayout>
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <Button
         android:id="@+id/btnSettingArea"
