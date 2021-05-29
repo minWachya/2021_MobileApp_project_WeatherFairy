@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:text="오늘의 날씨"
         android:textSize="30dp"
+        android:layout_margin="20dp"
         android:gravity="center"/>
 
     <LinearLayout
@@ -436,23 +437,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_margin="20dp"
         android:layout_weight="1">
         <TextView
-            android:id="@+id/tvSidoName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:text="시도명"/>
-        <TextView
-            android:id="@+id/tvStationName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:text="측정소명"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="미세먼지 정보 : "/>
+            android:text="미세먼지 정보 - "/>
         <TextView
             android:id="@+id/tvAirPollution"
             android:layout_width="wrap_content"

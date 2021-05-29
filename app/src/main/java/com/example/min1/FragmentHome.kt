@@ -33,8 +33,8 @@ data class AIR_POLLUTION (val response : RESPONSE_AIR_POLLUTION)
 data class RESPONSE_AIR_POLLUTION(val header : HEADER_AIR_POLLUTION, val body : BODY_AIR_POLLUTION)
 data class HEADER_AIR_POLLUTION(val resultCode : String, val resultMsg : String)
 data class BODY_AIR_POLLUTION(val items : List<ITEM_AIR_POLLUTION>)
-// pm25Grade1h : 미세먼지(PM2.5) 1시간 등급자료, sidoName : 시도명, stationName : 측정소명
-data class ITEM_AIR_POLLUTION(val pm25Grade1h : String, val sidoName : String, val stationName : String)
+// informCode : 통보 코드, informGrade : 예보 등급, dataTime : 통보 시간
+data class ITEM_AIR_POLLUTION(val informCode : String, val informGrade : String, val dataTime : String)
 
 
 // retrofit을 사용하기 위한 빌더 생성(날씨)
@@ -73,8 +73,6 @@ class FragmentHome : Fragment() {
     lateinit var tvRainRatios : Array<TextView>     // 강수 확률
     lateinit var tvRainTypes : Array<TextView>      // 강수 형태
     lateinit var tvRecommends : Array<TextView>     // 기본 옷 추천
-    lateinit var tvSidoName : TextView              // 시도명
-    lateinit var tvStationName : TextView           // 측정소명
     lateinit var tvAirPollution : TextView          // 미세먼지 정보
     lateinit var btnSettingArea : Button            // 관심 지역 설정 버튼
 
@@ -105,8 +103,6 @@ class FragmentHome : Fragment() {
         tvRainRatios = arrayOf(view.findViewById(R.id.tvRainRatio), view.findViewById(R.id.tvRainRatio2))
         tvRainTypes = arrayOf(view.findViewById(R.id.tvRainType), view.findViewById(R.id.tvRainType2))
         tvRecommends = arrayOf(view.findViewById(R.id.tvRecommend), view.findViewById(R.id.tvRecommend2))
-        tvSidoName = view.findViewById(R.id.tvSidoName)
-        tvStationName = view.findViewById(R.id.tvStationName)
         tvAirPollution = view.findViewById(R.id.tvAirPollution)
         btnSettingArea = view.findViewById(R.id.btnSettingArea)
 
@@ -119,7 +115,7 @@ class FragmentHome : Fragment() {
         tvAreaName.text = areaName        // 지역 이름 설정
 
         // 미세먼지 정보 받아오기
-        setAirPollution(sidoName, stationName)
+        setAirPollution(sidoName)
 
         // 관심 지역 설정하기 버튼 누르면
         btnSettingArea.setOnClickListener {
@@ -156,9 +152,13 @@ class FragmentHome : Fragment() {
     }
 
     // 미세먼지 정보 가져오기
-    private fun setAirPollution(sidoName : String, stationName : String) {
-        // (데이터 표출 방식=json, 한 페이지 결과 수=100, 페이지 번호=1, 시도 명, 오퍼레이션 버전=)
-        val call = ApiObjectAirPollutuon.retrofitService.GetAirPollution("json", 100, 1, sidoName, "1.3")
+    private fun setAirPollution(sidoName : String) {
+        // 현재 날짜 정보 가져오기
+        val cal = Calendar.getInstance()
+        var search_date = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(cal.time) // 현재 날짜
+
+        // (데이터 표출 방식=json, 한 페이지 결과 수=100, 페이지 번호=1, 조회 날짜, 통보 코드=PM25)
+        val call = ApiObjectAirPollutuon.retrofitService.GetAirPollution("json", 100, 1, search_date, "PM25")
 
         // 비동기적으로 실행하기
         call.enqueue(object : retrofit2.Callback<AIR_POLLUTION> {
@@ -168,28 +168,25 @@ class FragmentHome : Fragment() {
                     // 미세먼지 정보 가져오기
                     var it: List<ITEM_AIR_POLLUTION> = response.body()!!.response.body.items
 
-                    for (i in 0..100) {
-                        if (it[i].stationName.contains(stationName)) {
-                            var result = "오류"
-                            when(it[i].pm25Grade1h.toInt()) {
-                                1 -> result = "좋음"
-                                2 -> result = "보통"
-                                3 -> result = "나쁨"
-                                4 -> result = "매우 나쁨"
-                            }
+                    for (i in 0..it.size-1) {
+                        if (it[i].informCode == "PM25" && it[i].dataTime.contains(search_date)) {
                             // 미세먼지 정보 텍스트뷰에 보이게 하기
-                            tvSidoName.text = it[i].sidoName
-                            tvStationName.text = it[i].stationName
-                            tvAirPollution.text = result
+                            var arr = it[i].informGrade.split(",")
+                            for (j in 0..arr.size-1) {
+                                if (arr[j].contains(sidoName)) {
+                                    tvAirPollution.text = arr[j]
+                                    break
+                                }
+                            }
                             break
-                        }
+                        } else continue
                     }
                 }
             }
 
             // 응답 실패 시
             override fun onFailure(call: Call<AIR_POLLUTION>, t: Throwable) {
-                Log.d("mmm 미먼 api fail", t.message.toString())
+                Log.d("api fail", t.message.toString())
             }
         })
     }
@@ -412,7 +409,6 @@ class FragmentHome : Fragment() {
         var areaName = "쌍문동"      // 사용자가 설정한 위치(덕성여대)
 
         var sidoName = "서울"        // 시도명
-        var stationName = "강북구"   // 측정소명
     }
 
 }
