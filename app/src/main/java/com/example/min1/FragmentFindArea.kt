@@ -80,6 +80,8 @@ class FragmentFindArea : Fragment(), MapReverseGeoCoder.ReverseGeoCodingResultLi
             FragmentHome.nx = x
             FragmentHome.ny = y
             FragmentHome.areaName = areaName
+            FragmentHome.sidoName = splitArray[0].substring(0, 2)
+            FragmentHome.stationName = splitArray[1].substring(0, 2)
 
             // 메인 액티비티는 FramgentHome 띄워주기
             val mActivity = activity as MainActivity

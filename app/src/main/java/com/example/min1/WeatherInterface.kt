@@ -9,12 +9,12 @@ interface WeatherInterface {
     // getVilageFcst : 동네 예보 조회
     @GET("getVilageFcst?serviceKey=edSnzhmFwkaoSFwGnzfI%2FVoqtQcqDM67Uzv%2BQmbp7OkjHCY6j%2B9Pq%2BriPr7jQXagfQA0GRllEZL%2BhWBQSljPIw%3D%3D")
 
-    fun GetWeather(@Query("dataType") data_type : String,
-                   @Query("numOfRows") num_of_rows : Int,
-                   @Query("pageNo") page_no : Int,
-                   @Query("base_date") base_date : String,
-                   @Query("base_time") base_time : String,
-                   @Query("nx") nx : String,
-                   @Query("ny") ny : String)
+    fun GetWeather(@Query("dataType") data_type : String,   // 응답 자료 형식
+                   @Query("numOfRows") num_of_rows : Int,   // 한 페이지 결과 수
+                   @Query("pageNo") page_no : Int,          // 페이지 번호
+                   @Query("base_date") base_date : String,  // 날표 일자
+                   @Query("base_time") base_time : String,  // 발표 시각
+                   @Query("nx") nx : String,                // 예보지점 x
+                   @Query("ny") ny : String)                // 예보지점 y
             : Call<WEATHER>
 }

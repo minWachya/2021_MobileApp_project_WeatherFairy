@@ -11,19 +11,25 @@
         android:layout_margin="20dp"
         android:gravity="center"/>
 
-    <ImageButton
-        android:id="@+id/btnKakaoLogin"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:adjustViewBounds="true"
-        android:background="@android:color/transparent"
-        android:src="@drawable/kakao_login_medium_wide"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+        <ImageButton
+            android:id="@+id/btnKakaoLogin"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:src="@drawable/kakao_login_medium_wide"/>
 
-    <com.nhn.android.naverlogin.ui.view.OAuthLoginButton
-        android:id="@+id/btnNaverLogin"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_margin="10dp"
-        android:src="@drawable/btn_login_naver" />
+        <com.nhn.android.naverlogin.ui.view.OAuthLoginButton
+            android:id="@+id/btnNaverLogin"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_margin="10dp"
+            android:src="@drawable/btn_login_naver" />
+    </LinearLayout>
 
 </LinearLayout>

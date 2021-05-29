@@ -16,25 +16,47 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.concurrent.fixedRateTimer
 
+// 날씨 정보
 // xml 파일 형식을 data class로 구현
-data class WEATHER (val response : RESPONSE)
-data class RESPONSE(val header : HEADER, val body : BODY)
-data class HEADER(val resultCode : Int, val resultMsg : String)
-data class BODY(val dataType : String, val items : ITEMS)
-data class ITEMS(val item : List<ITEM>)
+data class WEATHER (val response : RESPONSE_ITEM_WEATHER)
+data class RESPONSE_ITEM_WEATHER(val header : HEADER_ITEM_WEATHER, val body : BODY_WEATHER)
+data class HEADER_ITEM_WEATHER(val resultCode : Int, val resultMsg : String)
+data class BODY_WEATHER(val dataType : String, val items : ITEMS_WEATHER)
+data class ITEMS_WEATHER(val item : List<ITEM_WEATHER>)
 // category : 자료 구분 코드, fcstDate : 예측 날짜, fcstTime : 예측 시간, fcstValue : 예보 값
-data class ITEM(val category : String, val fcstDate : String, val fcstTime : String, val fcstValue : String)
+data class ITEM_WEATHER(val category : String, val fcstDate : String, val fcstTime : String, val fcstValue : String)
 
-// retrofit을 사용하기 위한 빌더 생성
-private val retrofit = Retrofit.Builder()
+// 미세먼지 정보
+data class AIR_POLLUTION (val response : RESPONSE_AIR_POLLUTION)
+data class RESPONSE_AIR_POLLUTION(val header : HEADER_AIR_POLLUTION, val body : BODY_AIR_POLLUTION)
+data class HEADER_AIR_POLLUTION(val resultCode : String, val resultMsg : String)
+data class BODY_AIR_POLLUTION(val items : List<ITEM_AIR_POLLUTION>)
+// pm25Grade1h : 미세먼지(PM2.5) 1시간 등급자료, sidoName : 시도명, stationName : 측정소명
+data class ITEM_AIR_POLLUTION(val pm25Grade1h : String, val sidoName : String, val stationName : String)
+
+
+// retrofit을 사용하기 위한 빌더 생성(날씨)
+private val retrofit_weather = Retrofit.Builder()
     .baseUrl("http://apis.data.go.kr/1360000/VilageFcstInfoService/")
     .addConverterFactory(GsonConverterFactory.create())
     .build()
 
-object ApiObject {
+// retrofit을 사용하기 위한 빌더 생성(미세먼지)
+private val retrofit_air_pollutuon = Retrofit.Builder()
+        .baseUrl("http://apis.data.go.kr/B552584/ArpltnInforInqireSvc/")
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+
+object ApiObjectWeather {
     val retrofitService: WeatherInterface by lazy {
-        retrofit.create(WeatherInterface::class.java)
+        retrofit_weather.create(WeatherInterface::class.java)
+    }
+}
+object ApiObjectAirPollutuon {
+    val retrofitService: AirPollutionInterface by lazy {
+        retrofit_air_pollutuon.create(AirPollutionInterface::class.java)
     }
 }
 
@@ -51,6 +73,9 @@ class FragmentHome : Fragment() {
     lateinit var tvRainRatios : Array<TextView>     // 강수 확률
     lateinit var tvRainTypes : Array<TextView>      // 강수 형태
     lateinit var tvRecommends : Array<TextView>     // 기본 옷 추천
+    lateinit var tvSidoName : TextView              // 시도명
+    lateinit var tvStationName : TextView           // 측정소명
+    lateinit var tvAirPollution : TextView          // 미세먼지 정보
     lateinit var btnSettingArea : Button            // 관심 지역 설정 버튼
 
     var base_date = ""          // 발표 일자
@@ -80,6 +105,9 @@ class FragmentHome : Fragment() {
         tvRainRatios = arrayOf(view.findViewById(R.id.tvRainRatio), view.findViewById(R.id.tvRainRatio2))
         tvRainTypes = arrayOf(view.findViewById(R.id.tvRainType), view.findViewById(R.id.tvRainType2))
         tvRecommends = arrayOf(view.findViewById(R.id.tvRecommend), view.findViewById(R.id.tvRecommend2))
+        tvSidoName = view.findViewById(R.id.tvSidoName)
+        tvStationName = view.findViewById(R.id.tvStationName)
+        tvAirPollution = view.findViewById(R.id.tvAirPollution)
         btnSettingArea = view.findViewById(R.id.btnSettingArea)
 
         // 날짜 초기화
@@ -88,7 +116,10 @@ class FragmentHome : Fragment() {
         // nx, ny지점의 날씨 가져와서 설정하기
         setWeather(0, nx, ny)       // 현재 시간대 날씨 설정
         setWeather(1, nx, ny)       // 다음 시간대 날씨 설정
-        tvAreaName.text = areaName         // 지역 이름 설정
+        tvAreaName.text = areaName        // 지역 이름 설정
+
+        // 미세먼지 정보 받아오기
+        setAirPollution(sidoName, stationName)
 
         // 관심 지역 설정하기 버튼 누르면
         btnSettingArea.setOnClickListener {
@@ -122,6 +153,45 @@ class FragmentHome : Fragment() {
         }
 
         return view
+    }
+
+    // 미세먼지 정보 가져오기
+    private fun setAirPollution(sidoName : String, stationName : String) {
+        // (데이터 표출 방식=json, 한 페이지 결과 수=100, 페이지 번호=1, 시도 명, 오퍼레이션 버전=)
+        val call = ApiObjectAirPollutuon.retrofitService.GetAirPollution("json", 100, 1, sidoName, "1.3")
+
+        // 비동기적으로 실행하기
+        call.enqueue(object : retrofit2.Callback<AIR_POLLUTION> {
+            // 응답 성공 시
+            override fun onResponse(call: Call<AIR_POLLUTION>, response: Response<AIR_POLLUTION>) {
+                if (response.isSuccessful) {
+                    // 미세먼지 정보 가져오기
+                    var it: List<ITEM_AIR_POLLUTION> = response.body()!!.response.body.items
+
+                    for (i in 0..100) {
+                        if (it[i].stationName.contains(stationName)) {
+                            var result = "오류"
+                            when(it[i].pm25Grade1h.toInt()) {
+                                1 -> result = "좋음"
+                                2 -> result = "보통"
+                                3 -> result = "나쁨"
+                                4 -> result = "매우 나쁨"
+                            }
+                            // 미세먼지 정보 텍스트뷰에 보이게 하기
+                            tvSidoName.text = it[i].sidoName
+                            tvStationName.text = it[i].stationName
+                            tvAirPollution.text = result
+                            break
+                        }
+                    }
+                }
+            }
+
+            // 응답 실패 시
+            override fun onFailure(call: Call<AIR_POLLUTION>, t: Throwable) {
+                Log.d("mmm 미먼 api fail", t.message.toString())
+            }
+        })
     }
 
     // 날짜 설정하기
@@ -171,7 +241,7 @@ class FragmentHome : Fragment() {
 
         // 날씨 정보 가져오기
         // (응답 자료 형식-"JSON", 한 페이지 결과 수 = 10, 페이지 번호 = 1, 발표 날싸, 발표 시각, 예보지점 좌표)
-        val call = ApiObject.retrofitService.GetWeather("JSON", 10, 1, base_date, base_time, nx, ny)
+        val call = ApiObjectWeather.retrofitService.GetWeather("JSON", 10, 1, base_date, base_time, nx, ny)
 
         // 비동기적으로 실행하기
         call.enqueue(object : retrofit2.Callback<WEATHER> {
@@ -179,7 +249,7 @@ class FragmentHome : Fragment() {
             override fun onResponse(call: Call<WEATHER>, response: Response<WEATHER>) {
                 if (response.isSuccessful) {
                     // 날씨 정보 가져오기
-                    var it: List<ITEM> = response.body()!!.response.body.items.item
+                    var it: List<ITEM_WEATHER> = response.body()!!.response.body.items.item
 
                     var temp = ""           // 기온
                     var humidity = ""       // 습도
@@ -198,7 +268,7 @@ class FragmentHome : Fragment() {
 
                     }
                     // 날씨 정보 텍스트뷰에 보이게 하기
-                    setTextView(index, temp, humidity, sky, rainRatio, rainType, time)
+                    setWeatherTextView(index, temp, humidity, sky, rainRatio, rainType, time)
                 }
             }
 
@@ -210,7 +280,7 @@ class FragmentHome : Fragment() {
     }
 
     // 텍스트 뷰에 날씨 정보 보여주기
-    fun setTextView(index : Int, temp : String, humidity : String, sky : String, rainRatio : String, rainType : String, time : String) {
+    fun setWeatherTextView(index : Int, temp : String, humidity : String, sky : String, rainRatio : String, rainType : String, time : String) {
         // 온도
         tvTemps[index].text = temp
         // 습도
@@ -340,6 +410,9 @@ class FragmentHome : Fragment() {
         var nx = "60"               // 예보지점 X 좌표(덕성여대)
         var ny = "129"              // 예보지점 Y 좌표(덕성여대)
         var areaName = "쌍문동"      // 사용자가 설정한 위치(덕성여대)
+
+        var sidoName = "서울"        // 시도명
+        var stationName = "강북구"   // 측정소명
     }
 
 }
