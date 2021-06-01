@@ -89,6 +89,12 @@ class FragmentFindArea : Fragment(), MapReverseGeoCoder.ReverseGeoCodingResultLi
                 if (NorthernGyeonggi.contains(area)) sidoName = "경기북부"
                 else sidoName = "경기남부"
             }
+            if (sidoName == "강원") {
+                var NorthernGyeonggi = "고성, 속초, 강릉, 양양, 동해, 삼척"   // 영동
+                var area = splitArray[1].substring(0, 2)
+                if (NorthernGyeonggi.contains(area)) sidoName = "영동"
+                else sidoName = "영서"
+            }
             FragmentHome.sidoName = sidoName
 
             // 메인 액티비티는 FramgentHome 띄워주기
