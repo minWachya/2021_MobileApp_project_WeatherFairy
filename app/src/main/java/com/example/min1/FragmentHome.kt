@@ -39,9 +39,9 @@ data class ITEM_AIR_POLLUTION(val informCode : String, val informGrade : String,
 
 // retrofit을 사용하기 위한 빌더 생성(날씨)
 private val retrofit_weather = Retrofit.Builder()
-    .baseUrl("http://apis.data.go.kr/1360000/VilageFcstInfoService/")
-    .addConverterFactory(GsonConverterFactory.create())
-    .build()
+        .baseUrl("http://apis.data.go.kr/1360000/VilageFcstInfoService/")
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
 
 // retrofit을 사용하기 위한 빌더 생성(미세먼지)
 private val retrofit_air_pollutuon = Retrofit.Builder()
@@ -74,6 +74,7 @@ class FragmentHome : Fragment() {
     lateinit var tvRainTypes : Array<TextView>      // 강수 형태
     lateinit var tvRecommends : Array<TextView>     // 기본 옷 추천
     lateinit var tvAirPollution : TextView          // 미세먼지 정보
+    lateinit var imgAir : ImageView                 // 미세먼지 이미지
     lateinit var btnSettingArea : Button            // 관심 지역 설정 버튼
 
     var base_date = ""          // 발표 일자
@@ -87,8 +88,8 @@ class FragmentHome : Fragment() {
 
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
@@ -104,6 +105,7 @@ class FragmentHome : Fragment() {
         tvRainTypes = arrayOf(view.findViewById(R.id.tvRainType), view.findViewById(R.id.tvRainType2))
         tvRecommends = arrayOf(view.findViewById(R.id.tvRecommend), view.findViewById(R.id.tvRecommend2))
         tvAirPollution = view.findViewById(R.id.tvAirPollution)
+        imgAir = view.findViewById(R.id.imgAir)
         btnSettingArea = view.findViewById(R.id.btnSettingArea)
 
         // 날짜 초기화
@@ -175,6 +177,14 @@ class FragmentHome : Fragment() {
                             for (j in 0..arr.size-1) {
                                 if (arr[j].contains(sidoName)) {
                                     tvAirPollution.text = arr[j]
+                                    var result = arr[j].split(" ")
+                                    when (result[2]) {
+                                        "좋음" -> imgAir.setImageResource(R.drawable.smile)
+                                        "보통" -> imgAir.setImageResource(R.drawable.confused)
+                                        "나쁨"-> imgAir.setImageResource(R.drawable.anger)
+                                        "매우 나쁨" -> imgAir.setImageResource(R.drawable.angry)
+                                        else -> imgAir.setImageResource(R.drawable.smile)
+                                    }
                                     break
                                 }
                             }
@@ -186,7 +196,7 @@ class FragmentHome : Fragment() {
 
             // 응답 실패 시
             override fun onFailure(call: Call<AIR_POLLUTION>, t: Throwable) {
-                Log.d("api fail", t.message.toString())
+                Log.d("mmm api fail", t.message.toString())
             }
         })
     }
@@ -196,7 +206,7 @@ class FragmentHome : Fragment() {
         // 현재 날짜 텍스트뷰에 보이기
         val cal = Calendar.getInstance()
         // 현재 날짜
-        var date = SimpleDateFormat("M/dd", Locale.getDefault()).format(cal.time)
+        var date = SimpleDateFormat("M/d", Locale.getDefault()).format(cal.time)
         // 현재 요일
         var dayInt = cal.get(Calendar.DAY_OF_WEEK)
         var day = "?"
@@ -230,7 +240,7 @@ class FragmentHome : Fragment() {
             }
         }
         else {
-             if (base_time == "2300") {
+            if (base_time == "2300") {
                 cal.add(Calendar.DATE, -1).toString()
                 base_date = SimpleDateFormat("yyyyMMdd", Locale.getDefault()).format(cal.time)
             }

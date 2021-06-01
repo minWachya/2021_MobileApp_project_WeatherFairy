@@ -80,7 +80,15 @@ class FragmentFindArea : Fragment(), MapReverseGeoCoder.ReverseGeoCodingResultLi
             FragmentHome.nx = x
             FragmentHome.ny = y
             FragmentHome.areaName = areaName
-            FragmentHome.sidoName = splitArray[0].substring(0, 2)
+
+            var sidoName = splitArray[0].substring(0, 2)
+            if (sidoName == "경기") {
+                var NorthernGyeonggi = "가평, 고양, 구리, 남양, 동두천, 양주, 연천, 의정부, 파주, 포천"   // 경기 북부
+                var area = splitArray[1].substring(0, 2)
+                if (NorthernGyeonggi.contains(area)) sidoName = "경기북부"
+                else sidoName = "경기남부"
+            }
+            FragmentHome.sidoName = sidoName
 
             // 메인 액티비티는 FramgentHome 띄워주기
             val mActivity = activity as MainActivity
@@ -92,7 +100,6 @@ class FragmentFindArea : Fragment(), MapReverseGeoCoder.ReverseGeoCodingResultLi
     // ReverseGeoCodingResultListener 재정의
     // 주소 찾기 성공 - 지도에 마커 달기 + 지역명 텍스트뷰에 보이기
     override fun onReverseGeoCoderFoundAddress(p0: MapReverseGeoCoder?, p1: String?) {
-        Log.d("mmm 주소 성공", p1!!)
         tvAreaName.text = p1!!
         marker.itemName = p1!!
         btnBack1.isEnabled = true
@@ -102,7 +109,6 @@ class FragmentFindArea : Fragment(), MapReverseGeoCoder.ReverseGeoCodingResultLi
     override fun onReverseGeoCoderFailedToFindAddress(p0: MapReverseGeoCoder?) {
         tvAreaName.text = "주소를 찾지 못하였습니다."
         btnBack1.isEnabled = false
-        Log.d("mmm 주소 실패", "주소 찾기 실패")
     }
 
     // 지도를 한 번 클릭하였을 때
@@ -115,8 +121,6 @@ class FragmentFindArea : Fragment(), MapReverseGeoCoder.ReverseGeoCodingResultLi
             // 지도상 위경도 얻기
             lat = p1!!.mapPointGeoCoord.latitude
             lng = p1!!.mapPointGeoCoord.longitude
-            Log.d("mmm 지도 클릭", lat.toString())
-            Log.d("mmm 지도 클릭", lng.toString())
 
             // 클릭한 위치에 마커와 주소 보이기
             marker.mapPoint = p1!!

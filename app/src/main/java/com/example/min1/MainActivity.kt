@@ -1,7 +1,5 @@
 package com.example.min1
 
-import android.app.Activity
-import android.content.Context
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

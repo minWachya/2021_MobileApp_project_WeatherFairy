@@ -6,14 +6,6 @@
     tools:context=".FragmentHome"
     android:orientation="vertical">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="오늘의 날씨"
-        android:textSize="30dp"
-        android:layout_margin="20dp"
-        android:gravity="center"/>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -439,15 +431,29 @@
         android:orientation="horizontal"
         android:layout_margin="20dp"
         android:layout_weight="1">
-        <TextView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="미세먼지 정보 - "/>
-        <TextView
-            android:id="@+id/tvAirPollution"
+            android:orientation="vertical"
+            android:layout_weight="1">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="미세먼지"
+                android:textSize="20dp"
+                android:layout_marginBottom="10dp"/>
+            <TextView
+                android:id="@+id/tvAirPollution"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="정보 불러오는 중..."
+                android:textSize="14dp"/>
+        </LinearLayout>
+        <ImageView
+            android:id="@+id/imgAir"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="정보 불러오는 중..."/>
+            android:src="@drawable/smile"/>
     </LinearLayout>
 
     <Button
