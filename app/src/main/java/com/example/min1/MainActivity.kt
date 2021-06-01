@@ -1,9 +1,12 @@
 package com.example.min1
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.ActionMenuView
 import android.widget.FrameLayout
 import androidx.annotation.RequiresApi
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -14,7 +17,6 @@ class MainActivity : AppCompatActivity() {
     lateinit var bottomNavi : BottomNavigationView  // 하단 네비게이션
     lateinit var container : FrameLayout            // 프레임 레이아웃
 
-    val fragmentWrite = FragmentWrite()             // 기록하기 프레그먼트
     val fragmentShowMemo = FragmentShowMemo()       // 내 기록 보기 프레그먼트
     val fragmentHome = FragmentHome()               // 홈 프레그먼트
     val fragmentFindArea = FragmentFindArea()       // 지역 찾기 프레그먼트
@@ -43,11 +45,8 @@ class MainActivity : AppCompatActivity() {
             when(it.itemId) {
                 // 옷차림 기록하기
                 R.id.tab1_write -> {
-                    // container 부분에 FrameHome 넣기
-                    with(supportFragmentManager.beginTransaction()) {
-                        replace(R.id.container, fragmentWrite)
-                        commit()
-                    }
+                    var intent = Intent(applicationContext, WriteActivity::class.java)
+                    startActivity(intent)
                     return@setOnNavigationItemSelectedListener true
                 }
                 // 내 기록 보기

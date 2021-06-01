@@ -1,26 +1,24 @@
 package com.example.min1
 
-import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.example.min1.FragmentSetting.Companion.adapter
+import android.app.AlertDialog
+import android.util.Log
 
 // Setting 프레그먼트의 리사이클러뷰 어댑터
 class SettingAdapter : RecyclerView.Adapter<SettingAdapter.ViewHolder>() {
-    // SettingArea 배열
-    //var settingAreaArr = ArrayList<SettingArea>()
-
-
     // 뷰 홀더 생성(area_list.xml을 어댑터에 붙여주기)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SettingAdapter.ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.area_list, parent, false)
 
         // 클릭하면 토스트 띄우기
         return ViewHolder(view).apply {
+            // 클릭 시 해당 날씨 정보로 변경
             itemView.setOnClickListener {
                 // FragmentHome의 지역 정보 수정
                 FragmentHome.nx = settingAreaArr[position].nx
@@ -30,6 +28,21 @@ class SettingAdapter : RecyclerView.Adapter<SettingAdapter.ViewHolder>() {
                 var areaName = settingAreaArr[position].settingAreaName
 
                 Toast.makeText(parent.context, areaName + "의 날씨 정보로 변경하였습니다.", Toast.LENGTH_SHORT).show()
+            }
+            // 오래 클릭 시 삭제 여부 묻고 삭제하기
+            itemView.setOnLongClickListener {
+                var alert = AlertDialog.Builder(parent.context)
+                alert.setTitle("삭제 확인")
+                alert.setMessage("관심 지역에서 삭제하시겠습니까? : " + settingAreaArr[position].settingAreaName)
+                alert.setPositiveButton("네") { dialog, which ->
+                    settingAreaArr.removeAt(position)
+                    adapter.notifyDataSetChanged()
+                    Toast.makeText(parent.context,  "삭제하였습니다.", Toast.LENGTH_SHORT).show()
+                }
+                alert.setNegativeButton("아니오", null)
+                alert.show()
+
+                return@setOnLongClickListener true
             }
         }
     }

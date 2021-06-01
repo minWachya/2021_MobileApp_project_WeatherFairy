@@ -1,20 +1,15 @@
 package com.example.min1
 
 import android.app.DatePickerDialog
-import android.graphics.Color
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.*
 import androidx.core.widget.addTextChangedListener
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import java.util.*
 
-class FragmentWrite : Fragment() {
+class WriteActivity : AppCompatActivity() {
     lateinit var imgCheck : ImageView               // 입력 제어 이미지
     lateinit var tvCheck : TextView                 // 입력 제어 문구
     lateinit var tvDate : TextView                  // 날짜
@@ -34,28 +29,21 @@ class FragmentWrite : Fragment() {
     var memoOuter = false
     var memo = false
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-        }
-    }
+        setContentView(R.layout.activity_write)
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_write, container, false)
-
-        imgCheck = view.findViewById(R.id.imgCheck)
-        tvCheck = view.findViewById(R.id.tvCheck)
-        tvDate = view.findViewById(R.id.tvDate)
-        imgCalendar = view.findViewById(R.id.imgCalendar)
-        editTemp = view.findViewById(R.id.editTemp)
-        editTop = view.findViewById(R.id.editTop)
-        editBottom = view.findViewById(R.id.editBottom)
-        editOuter = view.findViewById(R.id.editOuter)
-        editMemo = view.findViewById(R.id.editMemo)
-        btnCompleteMemo = view.findViewById(R.id.btnCompleteMemo)
+        imgCheck = findViewById(R.id.imgCheck)
+        tvCheck = findViewById(R.id.tvCheck)
+        tvDate = findViewById(R.id.tvDate)
+        imgCalendar = findViewById(R.id.imgCalendar)
+        editTemp = findViewById(R.id.editTemp)
+        editTop = findViewById(R.id.editTop)
+        editBottom = findViewById(R.id.editBottom)
+        editOuter = findViewById(R.id.editOuter)
+        editMemo = findViewById(R.id.editMemo)
+        btnCompleteMemo = findViewById(R.id.btnCompleteMemo)
 
         // FragmentHome에서 온도 정보 받이서 온도 설정하기
         editTemp.setText(FragmentHome.curTemp)
@@ -84,7 +72,7 @@ class FragmentWrite : Fragment() {
             }
 
             // 오늘 날짜가 선택된 다이얼로그 보이기
-            var picker = DatePickerDialog(context!!, listner, year, month, day)
+            var picker = DatePickerDialog(applicationContext!!, listner, year, month, day)
             picker.show()
         }
 
@@ -109,13 +97,11 @@ class FragmentWrite : Fragment() {
 
             // 텍스트뷰 초기화
             initTextView()
-            Toast.makeText(context, "기록 완료하였습니다.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(applicationContext, "기록 완료하였습니다.", Toast.LENGTH_SHORT).show()
         }
 
         // 에디드텍스트 리스너 설정
         setTextListener()
-
-        return view
     }
 
     // 온도 그룹(TempGroup) 정하기
@@ -220,8 +206,4 @@ class FragmentWrite : Fragment() {
         editMemo.setText("")
         editMemo.clearFocus()
     }
-
-    companion object {
-    }
-
 }

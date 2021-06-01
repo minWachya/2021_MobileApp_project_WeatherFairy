@@ -1,5 +1,6 @@
 package com.example.min1
 
+import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
@@ -41,8 +42,6 @@ class FragmentSetting : Fragment() {
         // 관심 지역 0개면 텍스트 보이기
         if (adapter.itemCount == 0)  tvSetting.setVisibility(View.VISIBLE)
         else  tvSetting.setVisibility(View.GONE)
-
-        Log.d("mmm 아이템 갯수", adapter.itemCount.toString())
 
         return view
     }
