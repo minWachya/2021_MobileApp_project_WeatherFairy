@@ -94,7 +94,8 @@ class LoginActivity : AppCompatActivity() {
 
                         // MainActivity로 넘어가고 정보 전달하기
                         var intent = Intent(this@LoginActivity, MainActivity::class.java)
-                        intent.putExtra("email", user.kakaoAccount?.email.toString())
+                        var email = user.kakaoAccount?.email!!.split("@")
+                        intent.putExtra("email", email[0])
                         startActivity(intent)
                         finish()
                     }

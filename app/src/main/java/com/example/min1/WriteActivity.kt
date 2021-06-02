@@ -3,6 +3,7 @@ package com.example.min1
 import android.app.DatePickerDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.*
 import androidx.core.widget.addTextChangedListener
 import com.google.firebase.database.DatabaseReference
@@ -125,7 +126,7 @@ class WriteActivity : AppCompatActivity() {
     fun saveMemo(date: String, temp: String, top: String, bottom: String, outer: String,
                  memo: String, month: String, tempGroup: String) {
         // memo에 child로 감상평 추가(이때 키 자동 생성, 이 키 얻어오기)
-        var key : String? = databaseRef.child("memo").push().getKey()
+        var key : String? = databaseRef.child("memo/${MainActivity.email}").push().getKey()
 
         // 객체 생성
         val obj = WeatherMemo(key!!, date, temp, top, bottom, outer, memo, month, tempGroup, MainActivity.email)
@@ -135,7 +136,7 @@ class WriteActivity : AppCompatActivity() {
         // 파이어베이스에 넣어주기(인자에 해시맵과 해시맵에 접근할 수 있는 경로 들어가야함)
         // -> 별도의 해시맵을 만들어줘야함
         val childUpdate : MutableMap<String, Any> = HashMap()
-        childUpdate["/memo/$key"] = memotValues
+        childUpdate["/memo/${MainActivity.email}/$key"] = memotValues
 
         databaseRef.updateChildren(childUpdate)
     }

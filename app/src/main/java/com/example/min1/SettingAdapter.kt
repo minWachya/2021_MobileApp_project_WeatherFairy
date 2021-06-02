@@ -9,12 +9,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.min1.FragmentSetting.Companion.adapter
 import android.app.AlertDialog
 import android.util.Log
+import android.widget.ImageView
 
 // Setting 프레그먼트의 리사이클러뷰 어댑터
 class SettingAdapter : RecyclerView.Adapter<SettingAdapter.ViewHolder>() {
     // 뷰 홀더 생성(area_list.xml을 어댑터에 붙여주기)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SettingAdapter.ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.area_list, parent, false)
+        val imgRemove : ImageView = view.findViewById(R.id.imgRemove)
 
         // 클릭하면 토스트 띄우기
         return ViewHolder(view).apply {
@@ -29,8 +31,7 @@ class SettingAdapter : RecyclerView.Adapter<SettingAdapter.ViewHolder>() {
 
                 Toast.makeText(parent.context, areaName + "의 날씨 정보로 변경하였습니다.", Toast.LENGTH_SHORT).show()
             }
-            // 오래 클릭 시 삭제 여부 묻고 삭제하기
-            itemView.setOnLongClickListener {
+            imgRemove.setOnClickListener {
                 var alert = AlertDialog.Builder(parent.context)
                 alert.setTitle("삭제 확인")
                 alert.setMessage("관심 지역에서 삭제하시겠습니까? : " + settingAreaArr[position].settingAreaName)
@@ -41,8 +42,6 @@ class SettingAdapter : RecyclerView.Adapter<SettingAdapter.ViewHolder>() {
                 }
                 alert.setNegativeButton("아니오", null)
                 alert.show()
-
-                return@setOnLongClickListener true
             }
         }
     }

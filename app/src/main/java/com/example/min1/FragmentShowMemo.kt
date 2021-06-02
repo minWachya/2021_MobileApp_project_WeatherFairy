@@ -44,7 +44,7 @@ class FragmentShowMemo : Fragment() {
         var searchOption = "month"
 
         // 연결된 파이어베이스에서 데이터 가져오기
-        databaseRef = FirebaseDatabase.getInstance().reference
+        databaseRef = FirebaseDatabase.getInstance().getReference("memo").child("${MainActivity.email}")
 
         // 데이터 불러오기
         databaseRef.orderByChild("temp").addValueEventListener(object: ValueEventListener {
@@ -151,16 +151,16 @@ class FragmentShowMemo : Fragment() {
         if (collectionIterator.hasNext()) {
             // 예전 아이템 지우기
             memoAdapter.items.clear()
-            // 모든 한줄평 읽어오기
+            // 모든 기록 읽어오기
             val memos = collectionIterator.next()
             val itemsIterator = memos.children.iterator()
             while (itemsIterator.hasNext()) {
                 // 매 반복마다 itemsIterator가 가리키는 아이템 가져오기
                 val currentItem = itemsIterator.next()
+                Log.d("mmmitems", currentItem.toString())
                 // 해시맵 형태로 읽어오기(저장도 해시맵 형태로 해야하니까)
                 val map = currentItem.value as HashMap<String, String>
 
-                if (map["email"] != MainActivity.email) continue    // 내 데이터 아니면 지나가기
                 if (map[option] != searchWord) continue             // 설정한 값이 아니면 지나가기
 
                 // 데이터 변수로 만들기
