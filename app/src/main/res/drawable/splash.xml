@@ -2,7 +2,7 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--배경-->
-    <item android:drawable="@android:color/background_dark" />
+    <item android:drawable="@drawable/background_sky" />
 
     <!--서비스 로고-->
     <item>
