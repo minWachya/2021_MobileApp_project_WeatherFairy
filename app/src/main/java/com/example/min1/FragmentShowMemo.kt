@@ -44,7 +44,7 @@ class FragmentShowMemo : Fragment() {
         var searchOption = "month"
 
         // 연결된 파이어베이스에서 데이터 가져오기
-        databaseRef = FirebaseDatabase.getInstance().getReference("memo").child("${MainActivity.email}")
+        databaseRef = FirebaseDatabase.getInstance().reference
 
         // 데이터 불러오기
         databaseRef.orderByChild("temp").addValueEventListener(object: ValueEventListener {
@@ -146,25 +146,23 @@ class FragmentShowMemo : Fragment() {
     // 월별/온도별 검색하여 해당 결과만 보이기
     fun search(dataSanpshot : DataSnapshot, searchWord : String, option : String) {
         // memo에서 쭉 내려옴
-        val collectionIterator = dataSanpshot.children.iterator()
+        val collectionIterator = dataSanpshot.children.iterator()   // Firebase DB
         // memo가 있다 == 사용자가 작성한 Memo가 존재한다
         if (collectionIterator.hasNext()) {
             // 예전 아이템 지우기
             memoAdapter.items.clear()
             // 모든 기록 읽어오기
-            val memos = collectionIterator.next()
-            val itemsIterator = memos.children.iterator()
+            val memos = collectionIterator.next()  // memo 폴더
+            val itemsIterator = memos.child("${MainActivity.email}").children.iterator()   // memo/이메일/child 폴더
             while (itemsIterator.hasNext()) {
                 // 매 반복마다 itemsIterator가 가리키는 아이템 가져오기
                 val currentItem = itemsIterator.next()
-                Log.d("mmmitems", currentItem.toString())
                 // 해시맵 형태로 읽어오기(저장도 해시맵 형태로 해야하니까)
                 val map = currentItem.value as HashMap<String, String>
-
                 if (map[option] != searchWord) continue             // 설정한 값이 아니면 지나가기
 
                 // 데이터 변수로 만들기
-                val objectId = map["objectId"].toString()
+                val objectId = currentItem.key.toString()
                 val date = map["date"].toString()
                 val temp = map["temp"].toString()
                 val top = map["top"].toString()
@@ -175,7 +173,8 @@ class FragmentShowMemo : Fragment() {
                 val tempGroup = map["tempGroup"].toString()
 
                 // 리사이클러뷰에 연결
-                memoAdapter.items.add(WeatherMemo(objectId, date, temp, top, bottom, outer, memo, month, tempGroup, MainActivity.email))
+                memoAdapter.items.add(WeatherMemo(objectId, date, temp, top, bottom, outer, memo, month, tempGroup))
+                Log.d("mmmmdata1", memoAdapter.items.toString())
             }
             // 데이터 바뀌었다고 알려주기
             memoAdapter.notifyDataSetChanged()

@@ -58,6 +58,7 @@ class LoginActivity : AppCompatActivity() {
                         // 이메일 바로 얻을 수 있으면 로그로 출력해보기
                         if (user.kakaoAccount?.email != null) {
                             Log.i("mmmm Login-email 성공", "email:${user.kakaoAccount?.email.toString()}")
+                            Log.d("mmm user id", user.id.toString())
                         }
                         // 사용자가 이메일 동의 했는지 확인
                         // 동의 했으면

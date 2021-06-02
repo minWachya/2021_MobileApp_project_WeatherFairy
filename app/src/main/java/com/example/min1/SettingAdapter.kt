@@ -18,7 +18,7 @@ class SettingAdapter : RecyclerView.Adapter<SettingAdapter.ViewHolder>() {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.area_list, parent, false)
         val imgRemove : ImageView = view.findViewById(R.id.imgRemove)
 
-        // 클릭하면 토스트 띄우기
+        // 리스너 달기
         return ViewHolder(view).apply {
             // 클릭 시 해당 날씨 정보로 변경
             itemView.setOnClickListener {
@@ -31,6 +31,7 @@ class SettingAdapter : RecyclerView.Adapter<SettingAdapter.ViewHolder>() {
 
                 Toast.makeText(parent.context, areaName + "의 날씨 정보로 변경하였습니다.", Toast.LENGTH_SHORT).show()
             }
+            //  x 이미지 클릭 시 관심 지역 삭제
             imgRemove.setOnClickListener {
                 var alert = AlertDialog.Builder(parent.context)
                 alert.setTitle("삭제 확인")

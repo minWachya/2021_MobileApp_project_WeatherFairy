@@ -10,6 +10,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import java.util.*
 
+// 옷차림을 기록하는 액티비티
 class WriteActivity : AppCompatActivity() {
     lateinit var imgCheck : ImageView               // 입력 제어 이미지
     lateinit var tvCheck : TextView                 // 입력 제어 문구
@@ -129,7 +130,7 @@ class WriteActivity : AppCompatActivity() {
         var key : String? = databaseRef.child("memo/${MainActivity.email}").push().getKey()
 
         // 객체 생성
-        val obj = WeatherMemo(key!!, date, temp, top, bottom, outer, memo, month, tempGroup, MainActivity.email)
+        val obj = WeatherMemo(key!!, date, temp, top, bottom, outer, memo, month, tempGroup)
         // 객체를 맵 형으로 변환
         val memotValues : HashMap<String, String> = obj.toMap()
 
