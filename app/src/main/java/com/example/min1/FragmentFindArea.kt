@@ -34,8 +34,8 @@ class FragmentFindArea : Fragment(), MapReverseGeoCoder.ReverseGeoCodingResultLi
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_find_area, container, false)
 
@@ -54,16 +54,16 @@ class FragmentFindArea : Fragment(), MapReverseGeoCoder.ReverseGeoCodingResultLi
         mapView.addPOIItem(marker)                                  // 지도에 마커 붙이기
         mapView.setMapCenterPoint(marker.mapPoint, true)   // 지도 화면의 중심점 설정
         Log.d(
-            "mmm 지도 중심좌표",
-            "${marker.mapPoint.mapPointGeoCoord.latitude}, ${marker.mapPoint.mapPointGeoCoord.longitude}"
+                "mmm 지도 중심좌표",
+                "${marker.mapPoint.mapPointGeoCoord.latitude}, ${marker.mapPoint.mapPointGeoCoord.longitude}"
         )
 
         // 마커의 위경도로 주소 찾아서 마커 위에 띄우기
         reverseGeoCoder = MapReverseGeoCoder(
-            "869b0ecf65dacae7d89ac1bba906e8cf",
-            marker.mapPoint,
-            this@FragmentFindArea,
-            activity
+                "869b0ecf65dacae7d89ac1bba906e8cf",
+                marker.mapPoint,
+                this@FragmentFindArea,
+                activity
         )
         reverseGeoCoder.startFindingAddress()
 
@@ -132,10 +132,10 @@ class FragmentFindArea : Fragment(), MapReverseGeoCoder.ReverseGeoCodingResultLi
             // 클릭한 위치에 마커와 주소 보이기
             marker.mapPoint = p1!!
             reverseGeoCoder = MapReverseGeoCoder(
-                "869b0ecf65dacae7d89ac1bba906e8cf",
-                p1!!,
-                this@FragmentFindArea,
-                activity
+                    "869b0ecf65dacae7d89ac1bba906e8cf",
+                    p1!!,
+                    this@FragmentFindArea,
+                    activity
             )
             reverseGeoCoder.startFindingAddress()
             mapView.addPOIItem(marker)

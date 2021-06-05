@@ -174,7 +174,6 @@ class FragmentShowMemo : Fragment() {
 
                 // 리사이클러뷰에 연결
                 memoAdapter.items.add(WeatherMemo(objectId, date, temp, top, bottom, outer, memo, month, tempGroup))
-                Log.d("mmmmdata1", memoAdapter.items.toString())
             }
             // 데이터 바뀌었다고 알려주기
             memoAdapter.notifyDataSetChanged()
