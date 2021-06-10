@@ -18,7 +18,8 @@
         android:id="@+id/bottomNavi"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:itemIconTint="#FFFFFF"
+        android:background="#ffffff"
+        app:itemIconTint="@drawable/bottom_icon_color"
         app:labelVisibilityMode="unlabeled"
         app:menu="@menu/menu_tabs"/>
 

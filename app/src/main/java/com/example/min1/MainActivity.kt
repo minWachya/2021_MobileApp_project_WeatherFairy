@@ -39,6 +39,8 @@ class MainActivity : AppCompatActivity() {
             replace(R.id.container, fragmentHome)
             commit()
         }
+        //bottomNavi.menu.getItem(0).isCheckable = false    // 기본 선택 해제
+        bottomNavi.menu.getItem(2).isChecked = true         // 홈 버튼을 기본 선택으로
 
         // 네비게이션
         bottomNavi.setOnNavigationItemSelectedListener {

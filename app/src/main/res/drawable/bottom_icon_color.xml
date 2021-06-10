@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--클릭했을 때 아이콘 색-->
+    <item android:state_checked="true" android:color="#11aaff" />
+    <!--클릭 안 되었을 때 아이콘 색-->
+    <item android:color="#000000"  />
+</selector>
