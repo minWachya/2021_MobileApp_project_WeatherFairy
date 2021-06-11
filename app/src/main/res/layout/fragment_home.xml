@@ -37,11 +37,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="right">
-
             <ImageView
                 android:id="@+id/imgRefresh"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
+                android:layout_marginRight="10dp"
                 android:src="@drawable/refresh" />
         </LinearLayout>
     </LinearLayout>

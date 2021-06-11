@@ -6,13 +6,27 @@
     tools:context=".WriteActivity"
     android:orientation="vertical">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="옷차림 기록"
-        android:layout_margin="20dp"
-        android:textSize="30dp"
-        android:gravity="center"/>
+        android:orientation="horizontal">
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="10dp"
+            android:background="@android:color/transparent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/back"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="옷차림 기록"
+            android:layout_margin="20dp"
+            android:textSize="30dp"
+            android:gravity="center"/>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -12,6 +12,7 @@ import java.util.*
 
 // 옷차림을 기록하는 액티비티
 class WriteActivity : AppCompatActivity() {
+    lateinit var btnBack : ImageButton              // 뒤로가기 버튼
     lateinit var imgCheck : ImageView               // 입력 제어 이미지
     lateinit var tvCheck : TextView                 // 입력 제어 문구
     lateinit var tvDate : TextView                  // 날짜
@@ -36,6 +37,7 @@ class WriteActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_write)
 
+        btnBack = findViewById(R.id.btnBack)
         imgCheck = findViewById(R.id.imgCheck)
         tvCheck = findViewById(R.id.tvCheck)
         tvDate = findViewById(R.id.tvDate)
@@ -49,6 +51,11 @@ class WriteActivity : AppCompatActivity() {
 
         // FragmentHome에서 온도 정보 받이서 온도 설정하기
         editTemp.setText(FragmentHome.curTemp)
+
+        // <뒤로가기> 버튼 누르면 액티비티 종료
+        btnBack.setOnClickListener {
+            finish()
+        }
 
         // 텍스트뷰에 오늘 날짜 미리 보이기
         var calender = Calendar.getInstance()
@@ -65,7 +72,7 @@ class WriteActivity : AppCompatActivity() {
         imgCalendar.setOnClickListener {
             var listner = DatePickerDialog.OnDateSetListener { datePicker, i, i2, i3 ->
                 // 한자리 숫자 앞에 0 붙여서 2자리로 통일
-                m = "${i2}"
+                m = "${i2 + 1}"
                 d = "${i3}"
                 if (i2 + 1 < 10) m = "0" + (i2 + 1)
                 if (i3 < 10) d = "0" + i3
@@ -74,7 +81,7 @@ class WriteActivity : AppCompatActivity() {
             }
 
             // 오늘 날짜가 선택된 다이얼로그 보이기
-            var picker = DatePickerDialog(applicationContext!!, listner, year, month, day)
+            var picker = DatePickerDialog(this@WriteActivity, listner, year, month, day)
             picker.show()
         }
 
@@ -99,7 +106,7 @@ class WriteActivity : AppCompatActivity() {
 
             // 텍스트뷰 초기화
             initTextView()
-            Toast.makeText(applicationContext, "기록 완료하였습니다.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@WriteActivity, "기록 완료하였습니다.", Toast.LENGTH_SHORT).show()
         }
 
         // 에디드텍스트 리스너 설정
