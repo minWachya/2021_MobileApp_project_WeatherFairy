@@ -119,7 +119,7 @@ class FragmentHome : Fragment() {
         // 미세먼지 정보 받아오기
         setAirPollution(sidoName)
 
-        // 관심 지역 설정하기 버튼 누르면
+        // <관심 지역 설정하기> 버튼 누르면
         btnSettingArea.setOnClickListener {
             // 중복 검사
             var check = true
@@ -148,6 +148,8 @@ class FragmentHome : Fragment() {
             setWeather(0, nx, ny)       // 현재 시간대 날씨 설정
             setWeather(1, nx, ny)       // 다음 시간대 날씨 설정
             tvAreaName.text = areaName         // 지역 이름 설정
+
+            Toast.makeText(context, "${areaName}의 날씨입니다.", Toast.LENGTH_SHORT).show()
         }
 
         return view
@@ -370,9 +372,8 @@ class FragmentHome : Fragment() {
             tvTimes[index].text = temp
         }
 
-        if (index == 0) {
-            curTemp = tvTemps[0].text.toString() // 현재 온도
-        } else Toast.makeText(context, "${areaName}의 날씨입니다.", Toast.LENGTH_SHORT).show()
+        if (index == 0) curTemp = tvTemps[0].text.toString() // 현재 온도
+
     }
 
     // 시간 설정하기

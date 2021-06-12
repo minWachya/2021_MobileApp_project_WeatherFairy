@@ -12,7 +12,7 @@ import java.util.*
 
 // 옷차림을 기록하는 액티비티
 class WriteActivity : AppCompatActivity() {
-    lateinit var btnBack : ImageButton              // 뒤로가기 버튼
+    lateinit var imgBack : ImageView              // 뒤로가기 버튼
     lateinit var imgCheck : ImageView               // 입력 제어 이미지
     lateinit var tvCheck : TextView                 // 입력 제어 문구
     lateinit var tvDate : TextView                  // 날짜
@@ -37,7 +37,7 @@ class WriteActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_write)
 
-        btnBack = findViewById(R.id.btnBack)
+        imgBack = findViewById(R.id.imgBack)
         imgCheck = findViewById(R.id.imgCheck)
         tvCheck = findViewById(R.id.tvCheck)
         tvDate = findViewById(R.id.tvDate)
@@ -53,7 +53,7 @@ class WriteActivity : AppCompatActivity() {
         editTemp.setText(FragmentHome.curTemp)
 
         // <뒤로가기> 버튼 누르면 액티비티 종료
-        btnBack.setOnClickListener {
+        imgBack.setOnClickListener {
             finish()
         }
 
