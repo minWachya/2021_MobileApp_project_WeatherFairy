@@ -42,9 +42,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".WriteActivity" />
+        <activity android:name=".MainActivity" android:label="메인 액티비티" />
+        <activity android:name=".LoginActivity" android:label="로그인 액티비티"/>
+        <activity android:name=".WriteActivity" android:label="기록하기 액티비티"/>
     </application>
 
 </manifest>

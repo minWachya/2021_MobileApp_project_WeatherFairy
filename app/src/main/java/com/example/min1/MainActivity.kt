@@ -93,6 +93,8 @@ class MainActivity : AppCompatActivity() {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.container, fragmentHome)
         transaction.commit()
+
+        bottomNavi.menu.getItem(2).isChecked = true         // 홈 버튼을 기본 선택으로
     }
 
     // 이메일 전역변수

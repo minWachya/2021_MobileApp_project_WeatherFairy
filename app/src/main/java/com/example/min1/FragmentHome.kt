@@ -148,8 +148,6 @@ class FragmentHome : Fragment() {
             setWeather(0, nx, ny)       // 현재 시간대 날씨 설정
             setWeather(1, nx, ny)       // 다음 시간대 날씨 설정
             tvAreaName.text = areaName         // 지역 이름 설정
-
-            Toast.makeText(context, "${areaName}의 날씨입니다.", Toast.LENGTH_SHORT).show()
         }
 
         return view
@@ -373,6 +371,7 @@ class FragmentHome : Fragment() {
         }
 
         if (index == 0) curTemp = tvTemps[0].text.toString() // 현재 온도
+        else Toast.makeText(context, "${areaName}의 날씨입니다.", Toast.LENGTH_SHORT).show()
 
     }
 
