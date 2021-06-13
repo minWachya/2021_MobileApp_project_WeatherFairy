@@ -2,12 +2,12 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--배경-->
-    <item android:drawable="@drawable/background_sky" />
+    <item android:drawable="@drawable/splash_back" />
 
     <!--서비스 로고-->
     <item>
         <bitmap
-            android:src="@drawable/fairy"
-            android:gravity="center"/>
+            android:src="@drawable/logo"
+            android:gravity="right"/>
     </item>
 </layer-list>

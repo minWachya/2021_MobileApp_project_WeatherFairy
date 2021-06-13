@@ -11,7 +11,7 @@
         <ImageView
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:src="@drawable/filled_point"
+            android:src="@drawable/location"
             android:layout_marginRight="20dp"/>
         <TextView
             android:id="@+id/tvSettingAreaName"

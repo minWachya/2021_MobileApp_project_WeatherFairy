@@ -1,6 +1,8 @@
 package com.example.min1
 
 import android.app.DatePickerDialog
+import android.graphics.Color
+import android.graphics.Color.BLUE
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -12,7 +14,7 @@ import java.util.*
 
 // 옷차림을 기록하는 액티비티
 class WriteActivity : AppCompatActivity() {
-    lateinit var imgBack : ImageView              // 뒤로가기 버튼
+    lateinit var imgBack : ImageView                // 뒤로가기 버튼
     lateinit var imgCheck : ImageView               // 입력 제어 이미지
     lateinit var tvCheck : TextView                 // 입력 제어 문구
     lateinit var tvDate : TextView                  // 날짜

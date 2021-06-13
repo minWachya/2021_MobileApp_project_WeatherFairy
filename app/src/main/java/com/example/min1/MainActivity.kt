@@ -10,7 +10,7 @@ import androidx.annotation.RequiresApi
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.util.*
 
-// 메인 액티비티
+// 메인 액티비티(하단 네비게이션)
 class MainActivity : AppCompatActivity() {
     lateinit var bottomNavi : BottomNavigationView  // 하단 네비게이션
     lateinit var container : FrameLayout            // 프레임 레이아웃
@@ -37,7 +37,6 @@ class MainActivity : AppCompatActivity() {
             replace(R.id.container, fragmentHome)
             commit()
         }
-        //bottomNavi.menu.getItem(0).isCheckable = false    // 기본 선택 해제
         bottomNavi.menu.getItem(2).isChecked = true         // 홈 버튼을 기본 선택으로
 
         // 네비게이션
@@ -47,7 +46,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.tab1_write -> {
                     var intent = Intent(applicationContext, WriteActivity::class.java)
                     startActivity(intent)
-                    return@setOnNavigationItemSelectedListener true
+                    return@setOnNavigationItemSelectedListener false    // 기록하기 액티비티 끝나면 이전 화면이 보여지기 때문에 해당 네비 버튼이 선택되어있지 않게
                 }
                 // 내 기록 보기
                 R.id.tab2_show_memo -> {
@@ -57,7 +56,7 @@ class MainActivity : AppCompatActivity() {
                     }
                     return@setOnNavigationItemSelectedListener true
                 }
-                // 메인 화면
+                // 홈 화면
                 R.id.tab3_home -> {
                     with(supportFragmentManager.beginTransaction()) {
                         replace(R.id.container, fragmentHome)
@@ -84,6 +83,7 @@ class MainActivity : AppCompatActivity() {
             }
             return@setOnNavigationItemSelectedListener false
         }
+
     }
 
     // 데이터가 셋팅된 프레그먼트 띄우기
