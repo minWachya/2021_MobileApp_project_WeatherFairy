@@ -80,7 +80,6 @@ class FindAreaFragment : Fragment(), MapReverseGeoCoder.ReverseGeoCodingResultLi
                     14 -> p = MapPoint.mapPointWithGeoCoord(34.81643878614751, 126.46290274011228)  // 전남
                     15 -> p = MapPoint.mapPointWithGeoCoord(37.429586595374424, 127.25523865738475) // 광주
                     16 -> p = MapPoint.mapPointWithGeoCoord(33.48921428666983, 126.49837084551882)  // 제주
-                        //서울 경기 인천 강원 충북 충남 세종 대전 경븍 경남 대구 울산 부산 전북 전남 광주 제주
                 }
 
                 // 클릭한 위치에 마커와 주소 보이기
@@ -207,6 +206,4 @@ class FindAreaFragment : Fragment(), MapReverseGeoCoder.ReverseGeoCodingResultLi
         return Pair(x, y)
     }
 
-    companion object {
-    }
 }

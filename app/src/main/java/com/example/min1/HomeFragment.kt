@@ -17,49 +17,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.text.SimpleDateFormat
 import java.util.*
 
-// 날씨 정보
-// xml 파일 형식을 data class로 구현
-data class WEATHER (val response : RESPONSE_ITEM_WEATHER)
-data class RESPONSE_ITEM_WEATHER(val header : HEADER_ITEM_WEATHER, val body : BODY_WEATHER)
-data class HEADER_ITEM_WEATHER(val resultCode : Int, val resultMsg : String)
-data class BODY_WEATHER(val dataType : String, val items : ITEMS_WEATHER)
-data class ITEMS_WEATHER(val item : List<ITEM_WEATHER>)
-// category : 자료 구분 코드, fcstDate : 예측 날짜, fcstTime : 예측 시간, fcstValue : 예보 값
-data class ITEM_WEATHER(val category : String, val fcstDate : String, val fcstTime : String, val fcstValue : String)
-
-// 미세먼지 정보
-data class AIR_POLLUTION (val response : RESPONSE_AIR_POLLUTION)
-data class RESPONSE_AIR_POLLUTION(val header : HEADER_AIR_POLLUTION, val body : BODY_AIR_POLLUTION)
-data class HEADER_AIR_POLLUTION(val resultCode : String, val resultMsg : String)
-data class BODY_AIR_POLLUTION(val items : List<ITEM_AIR_POLLUTION>)
-// informCode : 통보 코드, informGrade : 예보 등급, dataTime : 통보 시간
-data class ITEM_AIR_POLLUTION(val informCode : String, val informGrade : String, val dataTime : String)
-
-
-// retrofit을 사용하기 위한 빌더 생성(날씨)
-private val retrofit_weather = Retrofit.Builder()
-        .baseUrl("http://apis.data.go.kr/1360000/VilageFcstInfoService/")
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-
-// retrofit을 사용하기 위한 빌더 생성(미세먼지)
-private val retrofit_air_pollutuon = Retrofit.Builder()
-        .baseUrl("http://apis.data.go.kr/B552584/ArpltnInforInqireSvc/")
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-
-object ApiObjectWeather {
-    val retrofitService: WeatherInterface by lazy {
-        retrofit_weather.create(WeatherInterface::class.java)
-    }
-}
-object ApiObjectAirPollutuon {
-    val retrofitService: AirPollutionInterface by lazy {
-        retrofit_air_pollutuon.create(AirPollutionInterface::class.java)
-    }
-}
-
-
 class FragmentHome : Fragment() {
     lateinit var tvDate : TextView                  // 현재 날짜
     lateinit var tvAreaName : TextView              // 지역명
