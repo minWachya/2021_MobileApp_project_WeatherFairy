@@ -1,12 +1,10 @@
 package com.example.min1
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.ActionMenuView
 import android.widget.FrameLayout
 import androidx.annotation.RequiresApi
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -17,10 +15,10 @@ class MainActivity : AppCompatActivity() {
     lateinit var bottomNavi : BottomNavigationView  // 하단 네비게이션
     lateinit var container : FrameLayout            // 프레임 레이아웃
 
-    val fragmentShowMemo = FragmentShowMemo()       // 내 기록 보기 프레그먼트
+    val fragmentShowMemo = ShowMemoFragment()       // 내 기록 보기 프레그먼트
     val fragmentHome = FragmentHome()               // 홈 프레그먼트
-    val fragmentFindArea = FragmentFindArea()       // 지역 찾기 프레그먼트
-    val fragmentSetting = FragmentSetting()         // 설정 프레그먼트
+    val fragmentFindArea = FindAreaFragment()       // 지역 찾기 프레그먼트
+    val fragmentSetting = SettingFragment()         // 설정 프레그먼트
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {

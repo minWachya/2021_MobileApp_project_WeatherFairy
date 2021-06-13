@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 // 관심 지역 보이기
-class FragmentSetting : Fragment() {
+class SettingFragment : Fragment() {
     lateinit var settingRecyclerView : RecyclerView     // 관심 지역 리사이클러뷰
     lateinit var tvSetting : TextView                   // 간단한 설명
 

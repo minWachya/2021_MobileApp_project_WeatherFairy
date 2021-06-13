@@ -7,8 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import com.example.min1.FragmentSetting.Companion.adapter
-import com.example.min1.FragmentSetting.Companion.addSettingArea
+import com.example.min1.SettingFragment.Companion.adapter
+import com.example.min1.SettingFragment.Companion.addSettingArea
 import com.example.min1.SettingAdapter.Companion.settingAreaArr
 import retrofit2.Call
 import retrofit2.Response
@@ -16,7 +16,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.concurrent.fixedRateTimer
 
 // 날씨 정보
 // xml 파일 형식을 data class로 구현

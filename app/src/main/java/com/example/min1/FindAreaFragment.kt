@@ -1,22 +1,20 @@
 package com.example.min1
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapReverseGeoCoder
 import net.daum.mf.map.api.MapView
 
-class FragmentFindArea : Fragment(), MapReverseGeoCoder.ReverseGeoCodingResultListener, MyMapViewEventListener  {
+class FindAreaFragment : Fragment(), MapReverseGeoCoder.ReverseGeoCodingResultListener, MyMapViewEventListener  {
     lateinit var tvAreaName : TextView                  // 지역명
+    lateinit var spinner : Spinner                      // 지역 스피너
     lateinit var btnBack1 : Button                      // <지역 설정 완료> 버튼
     lateinit var map : LinearLayout                     // 지도가 담길 레이아웃
     lateinit var marker : MapPOIItem                    // 마커
@@ -39,33 +37,61 @@ class FragmentFindArea : Fragment(), MapReverseGeoCoder.ReverseGeoCodingResultLi
     ): View? {
         val view = inflater.inflate(R.layout.fragment_find_area, container, false)
 
+        spinner = view.findViewById(R.id.spinner)
         tvAreaName = view.findViewById(R.id.tvAreaName)
         btnBack1 = view.findViewById(R.id.btnBack1)
         map = view.findViewById(R.id.map)
+
         // 카카오맵
         mapView = MapView(activity)
         val mapViewContainer = map as ViewGroup
         mapView.setMapViewEventListener(this)
         mapViewContainer.addView(mapView)
 
+        var p = MapPoint.mapPointWithGeoCoord(37.65136866943945, 127.01617112670128)   // 서울 - 덕성여대
         marker = MapPOIItem()                                       // 마커
-        marker.mapPoint = MapPoint.mapPointWithGeoCoord(lat, lng)   // 기본 주소는 덕성여대
         marker.markerType = MapPOIItem.MarkerType.BluePin           // 마커 타입 설정
-        mapView.addPOIItem(marker)                                  // 지도에 마커 붙이기
-        mapView.setMapCenterPoint(marker.mapPoint, true)   // 지도 화면의 중심점 설정
-        Log.d(
-                "mmm 지도 중심좌표",
-                "${marker.mapPoint.mapPointGeoCoord.latitude}, ${marker.mapPoint.mapPointGeoCoord.longitude}"
-        )
 
-        // 마커의 위경도로 주소 찾아서 마커 위에 띄우기
-        reverseGeoCoder = MapReverseGeoCoder(
-                "869b0ecf65dacae7d89ac1bba906e8cf",
-                marker.mapPoint,
-                this@FragmentFindArea,
-                activity
-        )
-        reverseGeoCoder.startFindingAddress()
+        // 지역별
+        val areaAdapter = ArrayAdapter.createFromResource(context!!, R.array.area, android.R.layout.simple_spinner_item)
+                .also { adapter ->
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                    spinner.adapter = adapter
+                }
+        val areaSpinnerAdapter = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(p0: AdapterView<*>?) {}
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                when(position) {
+                    0 -> p = MapPoint.mapPointWithGeoCoord(37.65136866943945, 127.01617112670128)   // 서울 - 덕성여대
+                    1 -> p = MapPoint.mapPointWithGeoCoord(37.274949938001555, 127.00919154930807)  // 경기
+                    2 -> p = MapPoint.mapPointWithGeoCoord(37.456103748325994, 126.70591458688807)  // 인천
+                    3 -> p = MapPoint.mapPointWithGeoCoord(37.8854610363771, 127.7297623959766)     // 강원
+                    4 -> p = MapPoint.mapPointWithGeoCoord(36.63883971304833, 127.49099047782575)   // 충북
+                    5 -> p = MapPoint.mapPointWithGeoCoord(36.66051322400456, 126.67255999783636)   // 충남
+                    6 -> p = MapPoint.mapPointWithGeoCoord(36.48030441303869, 127.2888077131762)    // 세종
+                    7 -> p = MapPoint.mapPointWithGeoCoord(36.35067270663006, 127.38476505364646)   // 대전
+                    8 -> p = MapPoint.mapPointWithGeoCoord(36.57740564624811, 128.50536398249469)   // 경븍
+                    9 -> p = MapPoint.mapPointWithGeoCoord(35.238548121379566, 128.69234305917618)  // 경남
+                    10 -> p = MapPoint.mapPointWithGeoCoord(35.87388911526642, 128.60132641559755)  // 대구
+                    11 -> p = MapPoint.mapPointWithGeoCoord(35.5630857475929, 129.30740773156734)   // 울산
+                    12 -> p = MapPoint.mapPointWithGeoCoord(35.179984202358604, 129.07495481128606) // 부산
+                    13 -> p = MapPoint.mapPointWithGeoCoord(35.82132252146746, 127.10871827435929)  // 전북
+                    14 -> p = MapPoint.mapPointWithGeoCoord(34.81643878614751, 126.46290274011228)  // 전남
+                    15 -> p = MapPoint.mapPointWithGeoCoord(37.429586595374424, 127.25523865738475) // 광주
+                    16 -> p = MapPoint.mapPointWithGeoCoord(33.48921428666983, 126.49837084551882)  // 제주
+                        //서울 경기 인천 강원 충북 충남 세종 대전 경븍 경남 대구 울산 부산 전북 전남 광주 제주
+                }
+
+                // 클릭한 위치에 마커와 주소 보이기
+                onMapViewSingleTapped(mapView, p)
+                mapView.setMapCenterPointAndZoomLevel(p, 7, true)
+            }
+        }
+        // 스피너 초기값은 서울 - 덕성여대
+        spinner.adapter = areaAdapter
+        spinner.onItemSelectedListener = areaSpinnerAdapter
+
 
         // 지역 설정 완료하면 메인 화면으로 돌아감
         // 변환한 격자 좌표와 지역명 반환
@@ -134,11 +160,12 @@ class FragmentFindArea : Fragment(), MapReverseGeoCoder.ReverseGeoCodingResultLi
             reverseGeoCoder = MapReverseGeoCoder(
                     "869b0ecf65dacae7d89ac1bba906e8cf",
                     p1!!,
-                    this@FragmentFindArea,
+                    this@FindAreaFragment,
                     activity
             )
             reverseGeoCoder.startFindingAddress()
             mapView.addPOIItem(marker)
+            mapView.setMapCenterPoint(marker.mapPoint, true)   // 지도 화면의 중심점 설정
         }
     }
 

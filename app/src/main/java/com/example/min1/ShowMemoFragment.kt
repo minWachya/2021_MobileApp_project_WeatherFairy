@@ -2,18 +2,19 @@ package com.example.min1
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.*
 
+
 // 추가된 Memo 아이템이 리사이클러뷰에서 보여짐
 // 월별/온도별 Memo 보이기
-class FragmentShowMemo : Fragment() {
+class ShowMemoFragment : Fragment() {
     lateinit var tvSelect : TextView                // 월별/온도별 텍스트뷰
     lateinit var spinner : Spinner                  // 원별/온도별 값을 선택하는 스피너
     lateinit var btnToggle : ToggleButton           // 월별/온도별을 선택하는 토글 버튼
@@ -29,8 +30,8 @@ class FragmentShowMemo : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_show_memo, container, false)
 
@@ -47,7 +48,7 @@ class FragmentShowMemo : Fragment() {
         databaseRef = FirebaseDatabase.getInstance().reference
 
         // 데이터 불러오기
-        databaseRef.orderByChild("temp").addValueEventListener(object: ValueEventListener {
+        databaseRef.orderByChild("temp").addValueEventListener(object : ValueEventListener {
             // 내용 추가될 때마다 자동으로 화면 바뀌게
             override fun onDataChange(snapshot: DataSnapshot) { // snapshot : 데이터베이스에서 조회되는 객체들을 접근할 수 있는 권한이 있는 객체
                 dataSanpshot = snapshot
@@ -144,7 +145,7 @@ class FragmentShowMemo : Fragment() {
     }
 
     // 월별/온도별 검색하여 해당 결과만 보이기
-    fun search(dataSanpshot : DataSnapshot, searchWord : String, option : String) {
+    fun search(dataSanpshot: DataSnapshot, searchWord: String, option: String) {
         // memo에서 쭉 내려옴
         val collectionIterator = dataSanpshot.children.iterator()   // Firebase DB
         // memo가 있다 == 사용자가 작성한 Memo가 존재한다

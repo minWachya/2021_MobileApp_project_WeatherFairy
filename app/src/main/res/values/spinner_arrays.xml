@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--월별-->
+    <string-array name="month">
+        <item>1월</item>
+        <item>2월</item>
+        <item>3월</item>
+        <item>4월</item>
+        <item>5월</item>
+        <item>6월</item>
+        <item>7월</item>
+        <item>8월</item>
+        <item>9월</item>
+        <item>10월</item>
+        <item>11월</item>
+        <item>12월</item>
+    </string-array>
+
+    <!--온도 그룹별-->
+    <string-array name="tempGroup">
+        <item>28℃ 이상</item>
+        <item>23℃~27℃</item>
+        <item>20℃~22℃</item>
+        <item>17℃~19℃</item>
+        <item>12℃~16℃</item>
+        <item>9℃~11℃</item>
+        <item>5℃~8℃</item>
+        <item>4℃ 이하</item>
+    </string-array>
+
+    <!--시별-->
+    <string-array name="area">
+        <item>서울</item>
+        <item>경기</item>
+        <item>인천</item>
+        <item>강원</item>
+        <item>충북</item>
+        <item>충남</item>
+        <item>세종</item>
+        <item>대전</item>
+        <item>경븍</item>
+        <item>경남</item>
+        <item>대구</item>
+        <item>울산</item>
+        <item>부산</item>
+        <item>전북</item>
+        <item>전남</item>
+        <item>광주</item>
+        <item>제주</item>
+    </string-array>
+</resources>

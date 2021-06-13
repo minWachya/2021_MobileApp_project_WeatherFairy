@@ -6,9 +6,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.example.min1.FragmentSetting.Companion.adapter
+import com.example.min1.SettingFragment.Companion.adapter
 import android.app.AlertDialog
-import android.util.Log
 import android.widget.ImageView
 
 // Setting 프레그먼트의 리사이클러뷰 어댑터
