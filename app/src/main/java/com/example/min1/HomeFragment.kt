@@ -12,8 +12,6 @@ import com.example.min1.SettingFragment.Companion.addSettingArea
 import com.example.min1.SettingAdapter.Companion.settingAreaArr
 import retrofit2.Call
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -41,7 +39,6 @@ class FragmentHome : Fragment() {
         arguments?.let {
         }
     }
-
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -152,7 +149,7 @@ class FragmentHome : Fragment() {
 
             // 응답 실패 시
             override fun onFailure(call: Call<AIR_POLLUTION>, t: Throwable) {
-                Log.d("mmm api fail", t.message.toString())
+                Log.d("mmm 미세먼지 api fail", t.message.toString())
             }
         })
     }
@@ -237,7 +234,7 @@ class FragmentHome : Fragment() {
 
             // 응답 실패 시
             override fun onFailure(call: Call<WEATHER>, t: Throwable) {
-                Log.d("api fail", t.message.toString())
+                Log.d("mmm 날씨 api fail", t.message.toString())
             }
         })
     }

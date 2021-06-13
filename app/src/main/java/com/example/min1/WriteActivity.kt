@@ -32,7 +32,6 @@ class WriteActivity : AppCompatActivity() {
     var memoOuter = false
     var memo = false
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_write)

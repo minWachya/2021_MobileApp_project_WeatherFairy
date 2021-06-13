@@ -181,6 +181,4 @@ class ShowMemoFragment : Fragment() {
         }
     }
 
-    companion object {
-    }
 }
