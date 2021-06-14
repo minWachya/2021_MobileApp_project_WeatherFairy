@@ -1,11 +1,8 @@
 package com.example.min1
 
 import android.app.DatePickerDialog
-import android.graphics.Color
-import android.graphics.Color.BLUE
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.*
 import androidx.core.widget.addTextChangedListener
 import com.google.firebase.database.DatabaseReference
@@ -188,12 +185,12 @@ class WriteActivity : AppCompatActivity() {
     fun check() {
         if (memoTemp && memoTop && memoBottom && memoOuter && memo) {
             btnCompleteMemo.isEnabled = true
-            imgCheck.setImageResource(R.drawable.check)
+            imgCheck.setImageResource(R.drawable.img_ok)
             tvCheck.text = "기록 완료 버튼을 눌러주세요."
         }
         else {
             btnCompleteMemo.isEnabled = false
-            imgCheck.setImageResource(R.drawable.cancel)
+            imgCheck.setImageResource(R.drawable.img_no)
             tvCheck.text="모든 항목을 입력해주세요."
         }
     }

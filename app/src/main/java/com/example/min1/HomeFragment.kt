@@ -7,9 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import com.example.min1.SettingFragment.Companion.adapter
-import com.example.min1.SettingFragment.Companion.addSettingArea
-import com.example.min1.adapter.SettingAdapter.Companion.settingAreaArr
+import com.example.min1.InterestAreaFragment.Companion.adapter
+import com.example.min1.InterestAreaFragment.Companion.addSettingArea
+import com.example.min1.adapter.InterestAreaAdapter.Companion.settingAreaArr
+import com.example.min1.models.InterestArea
 import retrofit2.Call
 import retrofit2.Response
 import java.text.SimpleDateFormat
@@ -87,7 +88,7 @@ class FragmentHome : Fragment() {
 
             if (check) {
                 // 해당 지역을 추가
-                val settingArea = SettingArea(areaName, nx, ny)
+                val settingArea = InterestArea(areaName, nx, ny)
                 addSettingArea(context!!, settingArea)  // FragmentSetting의 전역 함수
             }
         }
@@ -132,11 +133,11 @@ class FragmentHome : Fragment() {
                                     tvAirPollution.text = arr[j]
                                     var result = arr[j].split(" ")
                                     when (result[2]) {
-                                        "좋음" -> imgAir.setImageResource(R.drawable.smile)
-                                        "보통" -> imgAir.setImageResource(R.drawable.confused)
-                                        "나쁨"-> imgAir.setImageResource(R.drawable.anger)
-                                        "매우 나쁨" -> imgAir.setImageResource(R.drawable.angry)
-                                        else -> imgAir.setImageResource(R.drawable.smile)
+                                        "좋음" -> imgAir.setImageResource(R.drawable.ic_air_pollution_good)
+                                        "보통" -> imgAir.setImageResource(R.drawable.ic_air_pollution_normal)
+                                        "나쁨"-> imgAir.setImageResource(R.drawable.ic_air_pollution_bad)
+                                        "매우 나쁨" -> imgAir.setImageResource(R.drawable.ic_air_pollution_very_bad)
+                                        else -> imgAir.setImageResource(R.drawable.ic_air_pollution_good)
                                     }
                                     break
                                 }
@@ -247,19 +248,19 @@ class FragmentHome : Fragment() {
         tvHumiditys[index].text = humidity + "%"
         // 하늘 상태
         var resultText = ""
-        var resultImg = R.drawable.sun
+        var resultImg = R.drawable.ic_weather_sunny
         when(sky) {
             "1" ->  {
                 resultText = "맑음"
-                resultImg = R.drawable.sun
+                resultImg = R.drawable.ic_weather_sunny
             }
             "3" -> {
                 resultText = "구름 많음"
-                resultImg = R.drawable.very_cloudy
+                resultImg = R.drawable.ic_weather_very_cloudy
             }
             "4" -> {
                 resultText = "흐림"
-                resultImg = R.drawable.cloudy
+                resultImg = R.drawable.ic_weather_cloudy
             }
             else -> "오류"
         }
@@ -272,31 +273,31 @@ class FragmentHome : Fragment() {
             "0" -> resultText = "없음"
             "1" -> {
                 resultText = "비"
-                resultImg = R.drawable.rainy
+                resultImg = R.drawable.ic_weather_rainy
             }
             "2" -> {
                 resultText = "비/눈"
-                resultImg = R.drawable.snowy_and_rainy
+                resultImg = R.drawable.ic_weather_snowy_and_rainy
             }
             "3" -> {
                 resultText = "눈"
-                resultImg = R.drawable.snowy
+                resultImg = R.drawable.ic_weather_snowy
             }
             "4" -> {
                 resultText = "소나기"
-                resultImg = R.drawable.rainy
+                resultImg = R.drawable.ic_weather_rainy
             }
             "5" -> {
                 resultText = "빗방울"
-                resultImg = R.drawable.rainy_drop
+                resultImg = R.drawable.ic_weather_rain_drop
             }
             "6" -> {
                 resultText = "빗방울/눈날림"
-                resultImg = R.drawable.snowy_and_rainy
+                resultImg = R.drawable.ic_weather_snowy_and_rainy
             }
             "7" -> {
                 resultText = "눈날림"
-                resultImg = R.drawable.snowy
+                resultImg = R.drawable.ic_weather_snowy
             }
             else -> "오류"
         }

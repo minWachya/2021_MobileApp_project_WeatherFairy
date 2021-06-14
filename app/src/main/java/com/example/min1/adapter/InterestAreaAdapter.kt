@@ -6,18 +6,18 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.example.min1.SettingFragment.Companion.adapter
+import com.example.min1.InterestAreaFragment.Companion.adapter
 import android.app.AlertDialog
 import android.widget.ImageView
 import com.example.min1.FragmentHome
 import com.example.min1.R
-import com.example.min1.SettingArea
+import com.example.min1.models.InterestArea
 
 // Setting 프레그먼트의 리사이클러뷰 어댑터
-class SettingAdapter : RecyclerView.Adapter<SettingAdapter.ViewHolder>() {
-    // 뷰 홀더 생성(area_list.xml을 어댑터에 붙여주기)
+class InterestAreaAdapter : RecyclerView.Adapter<InterestAreaAdapter.ViewHolder>() {
+    // 뷰 홀더 생성(list_interest_area.xml을 어댑터에 붙여주기)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.area_list, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.list_interest_area, parent, false)
         val imgRemove : ImageView = view.findViewById(R.id.imgRemove)
 
         // 리스너 달기
@@ -58,17 +58,17 @@ class SettingAdapter : RecyclerView.Adapter<SettingAdapter.ViewHolder>() {
     // 아이템 갯수 리턴
     override fun getItemCount(): Int = settingAreaArr.size
 
-    // SettingArea.kt와 area_list.xml을 연결
+    // InterestArea.kt와 list_interest_area.xml을 연결
     inner class ViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
         var tvSettingAreaName = itemView.findViewById<TextView>(R.id.tvSettingAreaName)
 
-        fun setItem(item : SettingArea) {
+        fun setItem(item : InterestArea) {
             tvSettingAreaName.text = item.settingAreaName // 관심지역 이름
         }
     }
 
     companion object {
-        // SettingArea 배열
-        var settingAreaArr = ArrayList<SettingArea>()
+        // InterestArea 배열
+        var settingAreaArr = ArrayList<InterestArea>()
     }
 }

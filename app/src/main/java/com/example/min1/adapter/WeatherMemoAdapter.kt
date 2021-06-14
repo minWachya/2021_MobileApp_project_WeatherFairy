@@ -22,7 +22,7 @@ class WeatherMemoAdapter : RecyclerView.Adapter<WeatherMemoAdapter.ViewHolder>()
     // 뷰홀더 생성
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         // weather_memo.xml 파일과 연결
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.weather_memo, parent, false)
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.list_weather_memo, parent, false)
         val imgDataDelete : ImageView = itemView.findViewById(R.id.imgDataDelete)
 
         return ViewHolder(itemView).apply {

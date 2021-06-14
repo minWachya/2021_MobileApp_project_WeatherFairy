@@ -2,22 +2,22 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/tab1_write"
-        android:icon="@drawable/pencil"
+        android:icon="@drawable/navi_write"
         android:title="글쓰기"/>
     <item
         android:id="@+id/tab2_show_memo"
-        android:icon="@drawable/notes"
-        android:title="글 보기"/>
+        android:icon="@drawable/navi_show_memo"
+        android:title="옷차림 기록 보기"/>
     <item
         android:id="@+id/tab3_home"
-        android:icon="@drawable/home"
+        android:icon="@drawable/navi_home"
         android:title="홈"/>
     <item
         android:id="@+id/tab4_find_addreaa"
-        android:icon="@drawable/loupe"
+        android:icon="@drawable/navi_find_area"
         android:title="주소 찾기"/>
     <item
-        android:id="@+id/tab5_setting"
-        android:icon="@drawable/settings"
+        android:id="@+id/tab5_interest_area"
+        android:icon="@drawable/navi_interest_area"
         android:title="설정"/>
 </menu>

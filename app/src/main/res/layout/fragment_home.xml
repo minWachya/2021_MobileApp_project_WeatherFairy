@@ -112,7 +112,7 @@
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:layout_marginRight="10dp"
-                    android:src="@drawable/sun"/>
+                    android:src="@drawable/ic_weather_sunny"/>
 
                 <ImageView
                     android:layout_marginLeft="15dp"
@@ -121,7 +121,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:padding="1dp"
-                    android:src="@drawable/img_humidity"/>
+                    android:src="@drawable/ic_tv_humidity"/>
                 <TextView
                     android:layout_column="1"
                     android:layout_row="1"
@@ -144,7 +144,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:padding="1dp"
-                    android:src="@drawable/img_sky"/>
+                    android:src="@drawable/ic_tv_sky"/>
                 <TextView
                     android:layout_column="1"
                     android:layout_row="2"
@@ -167,7 +167,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:padding="1dp"
-                    android:src="@drawable/img_rain_ratio"/>
+                    android:src="@drawable/ic_tv_rain_ratio"/>
                 <TextView
                     android:layout_column="1"
                     android:layout_row="3"
@@ -190,7 +190,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:padding="1dp"
-                    android:src="@drawable/img_rain_type"/>
+                    android:src="@drawable/ic_tv_rain_type"/>
                 <TextView
                     android:layout_column="1"
                     android:layout_row="4"
@@ -216,7 +216,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:padding="1dp"
-                    android:src="@drawable/img_cloth"/>
+                    android:src="@drawable/ic_tv_cloth"/>
                 <TextView
                     android:layout_marginLeft="25dp"
                     android:layout_width="wrap_content"
@@ -299,7 +299,7 @@
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:layout_marginRight="10dp"
-                    android:src="@drawable/sun"/>
+                    android:src="@drawable/ic_weather_sunny"/>
 
                 <ImageView
                     android:layout_marginLeft="15dp"
@@ -308,7 +308,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:padding="1dp"
-                    android:src="@drawable/img_humidity"/>
+                    android:src="@drawable/ic_tv_humidity"/>
                 <TextView
                     android:layout_column="1"
                     android:layout_row="1"
@@ -331,7 +331,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:padding="1dp"
-                    android:src="@drawable/img_sky"/>
+                    android:src="@drawable/ic_tv_sky"/>
                 <TextView
                     android:layout_column="1"
                     android:layout_row="2"
@@ -354,7 +354,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:padding="1dp"
-                    android:src="@drawable/img_rain_ratio"/>
+                    android:src="@drawable/ic_tv_rain_ratio"/>
                 <TextView
                     android:layout_column="1"
                     android:layout_row="3"
@@ -377,7 +377,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:padding="1dp"
-                    android:src="@drawable/img_rain_type"/>
+                    android:src="@drawable/ic_tv_rain_type"/>
                 <TextView
                     android:layout_column="1"
                     android:layout_row="4"
@@ -403,7 +403,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:padding="1dp"
-                    android:src="@drawable/img_cloth"/>
+                    android:src="@drawable/ic_tv_cloth"/>
                 <TextView
                     android:layout_marginLeft="25dp"
                     android:layout_width="wrap_content"

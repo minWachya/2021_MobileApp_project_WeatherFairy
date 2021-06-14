@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
     val fragmentShowMemo = ShowMemoFragment()       // 내 기록 보기 프레그먼트
     val fragmentHome = FragmentHome()               // 홈 프레그먼트
     val fragmentFindArea = FindAreaFragment()       // 지역 찾기 프레그먼트
-    val fragmentSetting = SettingFragment()         // 설정 프레그먼트
+    val fragmentInterestArea = InterestAreaFragment() // 관심 지역 설정 프레그먼트
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,10 +72,10 @@ class MainActivity : AppCompatActivity() {
                     }
                     return@setOnNavigationItemSelectedListener true
                 }
-                // 설정
-                R.id.tab5_setting -> {
+                // 관심 지역 설정
+                R.id.tab5_interest_area -> {
                     with(supportFragmentManager.beginTransaction()) {
-                        replace(R.id.container, fragmentSetting)
+                        replace(R.id.container, fragmentInterestArea)
                         commit()
                     }
                     return@setOnNavigationItemSelectedListener true

@@ -10,10 +10,11 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.min1.adapter.SettingAdapter
+import com.example.min1.adapter.InterestAreaAdapter
+import com.example.min1.models.InterestArea
 
 // 관심 지역 보이기
-class SettingFragment : Fragment() {
+class InterestAreaFragment : Fragment() {
     lateinit var settingRecyclerView : RecyclerView     // 관심 지역 리사이클러뷰
     lateinit var tvSetting : TextView                   // 간단한 설명
 
@@ -27,7 +28,7 @@ class SettingFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_setting, container, false)
+        val view = inflater.inflate(R.layout.fragment_interest_area, container, false)
 
         tvSetting = view.findViewById(R.id.tvSetting)
         settingRecyclerView = view.findViewById(R.id.settingRecylerView)
@@ -48,12 +49,12 @@ class SettingFragment : Fragment() {
 
     // 어댑터 전역변수,  관심 지역 추가 전역 함수
     companion object {
-        var adapter = SettingAdapter()  // 어댑터
+        var adapter = InterestAreaAdapter()  // 어댑터
 
         // 해당 지역을 배열에 추가하고 토스트 보이기
         @JvmStatic
-        fun addSettingArea(context : Context, sArea : SettingArea) {
-            SettingAdapter.settingAreaArr.add(sArea)
+        fun addSettingArea(context : Context, sArea : InterestArea) {
+            InterestAreaAdapter.settingAreaArr.add(sArea)
             Toast.makeText(context, "관심 지역에 추가하였습니다.", Toast.LENGTH_SHORT).show()
         }
     }

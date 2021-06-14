@@ -11,7 +11,7 @@
         <ImageView
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:src="@drawable/location"
+            android:src="@drawable/ic_interest_area"
             android:layout_marginRight="20dp"/>
         <TextView
             android:id="@+id/tvSettingAreaName"
@@ -26,7 +26,7 @@
             android:layout_height="20dp"
             android:layout_gravity="center"
             android:layout_margin="10dp"
-            android:src="@drawable/close"/>
+            android:src="@drawable/img_delete"/>
     </LinearLayout>
 
     <View

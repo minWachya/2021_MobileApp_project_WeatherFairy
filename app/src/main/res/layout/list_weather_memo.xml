@@ -40,7 +40,7 @@
             android:layout_height="15dp"
             android:layout_gravity="center"
             android:layout_marginLeft="20dp"
-            android:src="@drawable/close"/>
+            android:src="@drawable/img_delete"/>
     </LinearLayout>
 
     <GridLayout

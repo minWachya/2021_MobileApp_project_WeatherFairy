@@ -36,7 +36,7 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginLeft="30dp"
-            android:src="@drawable/cancel"/>
+            android:src="@drawable/img_no"/>
         <TextView
             android:id="@+id/tvCheck"
             android:layout_width="match_parent"
@@ -73,7 +73,7 @@
                 android:id="@+id/imgCalendar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/calendar"/>
+                android:src="@drawable/ic_calendar"/>
         </LinearLayout>
         <GridLayout
             android:layout_width="match_parent"
