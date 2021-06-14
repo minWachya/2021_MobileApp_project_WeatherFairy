@@ -79,7 +79,7 @@ class WriteActivity : AppCompatActivity() {
             }
 
             // 오늘 날짜가 선택된 다이얼로그 보이기
-            var picker = DatePickerDialog(this@WriteActivity, listner, year, month, day)
+            var picker = DatePickerDialog(this@WriteActivity, R.style.DialogTheme, listner, year, month, day)
             picker.show()
         }
 

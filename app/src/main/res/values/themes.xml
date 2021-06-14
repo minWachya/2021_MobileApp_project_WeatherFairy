@@ -18,4 +18,18 @@
     <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowBackground">@drawable/splash</item>
     </style>
+
+    <!--데이트 피커 다이얼로그-->
+    <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <!--헤더 색-->
+        <item name="colorAccent">@color/blue</item>
+        <!--오늘 날짜 및 선택한 날짜 동그라미-->
+        <item name="colorControlActivated">#aaeeff</item>
+        <!-- 취소, 확인 텍스트 색-->
+        <item name="android:textColor">@color/black</item>
+        <!--헤더의 day , month 색-->
+        <item name="android:textColorPrimaryInverse">@color/black</item>
+        <!-- 헤더의 year 색-->
+        <item name="android:textColorSecondaryInverse">@color/black</item>
+    </style>
 </resources>
