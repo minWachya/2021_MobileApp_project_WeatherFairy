@@ -1,16 +1,16 @@
-package com.example.min1
+package com.example.min1.adapter
 
 import android.app.AlertDialog
-import android.graphics.Color
-import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView    // 파이어베이스 접근 가능한 자료형
+import com.example.min1.MainActivity
+import com.example.min1.R
+import com.example.min1.WeatherMemo
 import com.google.firebase.database.FirebaseDatabase
 
 // 날씨 기록을 관리하는 어댑터
@@ -20,7 +20,7 @@ class WeatherMemoAdapter : RecyclerView.Adapter<WeatherMemoAdapter.ViewHolder>()
     val databaseRef = FirebaseDatabase.getInstance().reference
 
     // 뷰홀더 생성
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WeatherMemoAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         // weather_memo.xml 파일과 연결
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.weather_memo, parent, false)
         val imgDataDelete : ImageView = itemView.findViewById(R.id.imgDataDelete)
@@ -43,7 +43,7 @@ class WeatherMemoAdapter : RecyclerView.Adapter<WeatherMemoAdapter.ViewHolder>()
     }
 
     // position 번째 아이템 설정하기
-    override fun onBindViewHolder(holder: WeatherMemoAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]
         holder.setItem(item)
     }

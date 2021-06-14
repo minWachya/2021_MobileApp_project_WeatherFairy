@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import android.widget.*
 import com.example.min1.SettingFragment.Companion.adapter
 import com.example.min1.SettingFragment.Companion.addSettingArea
-import com.example.min1.SettingAdapter.Companion.settingAreaArr
+import com.example.min1.adapter.SettingAdapter.Companion.settingAreaArr
 import retrofit2.Call
 import retrofit2.Response
 import java.text.SimpleDateFormat

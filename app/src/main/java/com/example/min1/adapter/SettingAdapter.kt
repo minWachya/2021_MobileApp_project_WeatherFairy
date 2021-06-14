@@ -1,4 +1,4 @@
-package com.example.min1
+package com.example.min1.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,11 +9,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.min1.SettingFragment.Companion.adapter
 import android.app.AlertDialog
 import android.widget.ImageView
+import com.example.min1.FragmentHome
+import com.example.min1.R
+import com.example.min1.SettingArea
 
 // Setting 프레그먼트의 리사이클러뷰 어댑터
 class SettingAdapter : RecyclerView.Adapter<SettingAdapter.ViewHolder>() {
     // 뷰 홀더 생성(area_list.xml을 어댑터에 붙여주기)
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SettingAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.area_list, parent, false)
         val imgRemove : ImageView = view.findViewById(R.id.imgRemove)
 
@@ -47,7 +50,7 @@ class SettingAdapter : RecyclerView.Adapter<SettingAdapter.ViewHolder>() {
     }
 
     // 뷰와 데이터 연결해주기
-    override fun onBindViewHolder(holder: SettingAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = settingAreaArr[position]
         holder.setItem(item)
     }

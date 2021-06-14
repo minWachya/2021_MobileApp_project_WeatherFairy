@@ -1,5 +1,6 @@
 package com.example.min1
 
+import com.example.min1.models.WeatherInterface
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

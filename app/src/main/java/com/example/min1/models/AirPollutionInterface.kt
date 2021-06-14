@@ -1,5 +1,6 @@
-package com.example.min1
+package com.example.min1.models
 
+import com.example.min1.AIR_POLLUTION
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
