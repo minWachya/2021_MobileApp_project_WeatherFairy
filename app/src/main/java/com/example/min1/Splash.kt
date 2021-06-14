@@ -23,6 +23,6 @@ class Splash : AppCompatActivity() {
                 startActivity(intent)
                 finish()
              }
-        }, 1, TimeUnit.SECONDS)
+        }, 1, TimeUnit.SECONDS) // 1초
     }
 }
