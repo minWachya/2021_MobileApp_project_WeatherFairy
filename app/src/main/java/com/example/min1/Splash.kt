@@ -21,8 +21,13 @@ class Splash : AppCompatActivity() {
                 // LoginActivity 넘어가기
                 var intent = Intent(this@Splash, LoginActivity::class.java)
                 startActivity(intent)
+
+                // 새 액티비티는 점점 나타나고, 현재 액티비티는 점점 사라지는 애니메니션 적용
+                overridePendingTransition(R.anim.fadein, R.anim.fadeout)
+
                 finish()
              }
         }, 1, TimeUnit.SECONDS) // 1초
     }
+
 }

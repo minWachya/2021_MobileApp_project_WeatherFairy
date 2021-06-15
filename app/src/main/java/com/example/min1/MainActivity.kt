@@ -12,13 +12,13 @@ import java.util.*
 
 // 메인 액티비티(하단 네비게이션)
 class MainActivity : AppCompatActivity() {
-    lateinit var bottomNavi : BottomNavigationView  // 하단 네비게이션
-    lateinit var container : FrameLayout            // 프레임 레이아웃
+    lateinit var bottomNavi : BottomNavigationView      // 하단 네비게이션
+    lateinit var container : FrameLayout                // 프레임 레이아웃
 
-    val fragmentShowMemo = ShowMemoFragment()       // 내 기록 보기 프레그먼트
-    val fragmentHome = FragmentHome()               // 홈 프레그먼트
-    val fragmentFindArea = FindAreaFragment()       // 지역 찾기 프레그먼트
-    val fragmentInterestArea = InterestAreaFragment() // 관심 지역 설정 프레그먼트
+    val fragmentShowMemo = ShowMemoFragment()           // 내 기록 보기 프레그먼트
+    val fragmentHome = FragmentHome()                   // 홈 프레그먼트
+    val fragmentFindArea = FindAreaFragment()           // 지역 찾기 프레그먼트
+    val fragmentInterestArea = InterestAreaFragment()   // 관심 지역 설정 프레그먼트
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,6 +46,10 @@ class MainActivity : AppCompatActivity() {
                 R.id.tab1_write -> {
                     var intent = Intent(applicationContext, WriteActivity::class.java)
                     startActivity(intent)
+
+                    // 새 액티비티는 점점 나타나고, 현재 액티비티는 점점 사라지는 애니메니션 적용
+                    overridePendingTransition(R.anim.fadein, R.anim.fadeout)
+
                     return@setOnNavigationItemSelectedListener false    // 기록하기 액티비티 끝나면 이전 화면이 보여지기 때문에 해당 네비 버튼이 선택되어있지 않게
                 }
                 // 내 기록 보기
