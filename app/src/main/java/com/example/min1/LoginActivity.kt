@@ -98,6 +98,10 @@ class LoginActivity : AppCompatActivity() {
                         var email = user.kakaoAccount?.email!!.split("@")
                         intent.putExtra("email", email[0])
                         startActivity(intent)
+
+                        // 새 액티비티는 점점 나타나고, 현재 액티비티는 점점 사라지는 애니메니션 적용
+                        overridePendingTransition(R.anim.fadein, R.anim.fadeout)
+
                         finish()
                     }
                 }

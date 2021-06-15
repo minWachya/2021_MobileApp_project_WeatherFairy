@@ -38,6 +38,12 @@
             android:layout_height="wrap_content"
             android:gravity="right">
             <ImageView
+                android:id="@+id/imgStar"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/img_star_white"
+                android:layout_marginRight="10dp"/>
+            <ImageView
                 android:id="@+id/imgRefresh"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
@@ -423,46 +429,44 @@
                     android:textColor="#000000"/>
             </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_margin="20dp"
-        android:layout_weight="1">
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="미세먼지"
                 android:textSize="20dp"
-                android:layout_marginBottom="10dp"/>
-            <TextView
-                android:id="@+id/tvAirPollution"
-                android:layout_width="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="20dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#000000"
-                android:text="5시 이후에 업데이트됩니다."
-                android:textSize="14dp"/>
+                android:background="@drawable/layout_round"
+                android:orientation="horizontal"
+                android:padding="15dp">
+                <TextView
+                    android:id="@+id/tvAirPollution"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#000000"
+                    android:text="5시 이후에 업데이트됩니다."
+                    android:textSize="14dp"
+                    android:layout_gravity="center|left"
+                    android:layout_weight="1"/>
+                <ImageView
+                    android:id="@+id/imgAir"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_gravity="right"/>
+            </LinearLayout>
         </LinearLayout>
-        <ImageView
-            android:id="@+id/imgAir"
-            android:layout_width="100dp"
-            android:layout_height="100dp"/>
-    </LinearLayout>
 
-    <Button
-        android:id="@+id/btnSettingArea"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:background="@drawable/btn_enable"
-        android:textColor="#000000"
-        android:text="관심 지역 추가"/>
+    </LinearLayout>
 
 </LinearLayout>

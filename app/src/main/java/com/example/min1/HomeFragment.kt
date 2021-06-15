@@ -8,8 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import com.example.min1.InterestAreaFragment.Companion.adapter
-import com.example.min1.InterestAreaFragment.Companion.addSettingArea
-import com.example.min1.adapter.InterestAreaAdapter.Companion.settingAreaArr
+import com.example.min1.InterestAreaFragment.Companion.addInterestArea
+import com.example.min1.adapter.InterestAreaAdapter.Companion.interestAreaArr
 import com.example.min1.models.InterestArea
 import retrofit2.Call
 import retrofit2.Response
@@ -19,6 +19,7 @@ import java.util.*
 class FragmentHome : Fragment() {
     lateinit var tvDate : TextView                  // 현재 날짜
     lateinit var tvAreaName : TextView              // 지역명
+    lateinit var imgStar : ImageView                // 관심 지역 설정하는 버튼
     lateinit var imgRefresh : ImageView             // 새로고침 이미지
     lateinit var tvTimes : Array<TextView>          // 현재/다음 시간
     lateinit var tvTemps : Array<TextView>          // 온도
@@ -30,7 +31,6 @@ class FragmentHome : Fragment() {
     lateinit var tvRecommends : Array<TextView>     // 기본 옷 추천
     lateinit var tvAirPollution : TextView          // 미세먼지 정보
     lateinit var imgAir : ImageView                 // 미세먼지 이미지
-    lateinit var btnSettingArea : Button            // 관심 지역 설정 버튼
 
     var base_date = ""          // 발표 일자
     var base_time = ""          // 발표 시각
@@ -49,6 +49,7 @@ class FragmentHome : Fragment() {
 
         tvDate = view.findViewById(R.id.tvDate)
         tvAreaName = view.findViewById(R.id.tvAreaName)
+        imgStar = view.findViewById(R.id.imgStar)
         imgRefresh = view.findViewById(R.id.imgRefresh)
         tvTimes = arrayOf(view.findViewById(R.id.tvTime), view.findViewById(R.id.tvTime2))
         tvTemps = arrayOf(view.findViewById(R.id.tvTemp), view.findViewById(R.id.tvTemp2))
@@ -60,7 +61,6 @@ class FragmentHome : Fragment() {
         tvRecommends = arrayOf(view.findViewById(R.id.tvRecommend), view.findViewById(R.id.tvRecommend2))
         tvAirPollution = view.findViewById(R.id.tvAirPollution)
         imgAir = view.findViewById(R.id.imgAir)
-        btnSettingArea = view.findViewById(R.id.btnSettingArea)
 
         // 날짜 초기화
         setDate()
@@ -73,27 +73,45 @@ class FragmentHome : Fragment() {
         // 미세먼지 정보 받아오기
         setAirPollution(sidoName)
 
-        // <관심 지역 설정하기> 버튼 누르면
-        btnSettingArea.setOnClickListener {
-            // 중복 검사
-            var check = true
-            for (i in 0..adapter.itemCount-1) {
-                Log.d("mmm index", "${i}")
-                if (settingAreaArr[i].settingAreaName == areaName) {
-                    check = false
-                    Toast.makeText(context, "이미 추가된 지역입니다.", Toast.LENGTH_SHORT).show()
-                    break
-                }
-            }
+        // 별 모양 이미지 설정하기
+        imgStar.setImageResource(lastImgStar)
 
-            if (check) {
+        // <별 모양 이미지> 누르면
+        imgStar.setOnClickListener {
+            // 하얀 별이면, 관심 지역에 추가
+            if (lastImgStar == R.drawable.img_star_white) {
+                // 노란 별 이미지로 변경
+                lastImgStar = R.drawable.img_star_yellow
+                imgStar.setImageResource(lastImgStar)
+
                 // 해당 지역을 추가
-                val settingArea = InterestArea(areaName, nx, ny)
-                addSettingArea(context!!, settingArea)  // FragmentSetting의 전역 함수
+                val interesArea = InterestArea(areaName, nx, ny)
+                addInterestArea(context!!, interesArea)  // InterestAreaFragment의 전역 함수
+            }
+            // 노란 별이면, 관심 지역에서 삭제
+            else {
+                // 하얀 별 이미지로 변경
+                lastImgStar = R.drawable.img_star_white
+                imgStar.setImageResource(lastImgStar)
+
+                // 해당 지역 데이터 찾기
+                var index = 0
+                for (i in 0..adapter.itemCount-1) {
+                    if (interestAreaArr[i].areaName == tvAreaName.text) {
+                        index = i
+                        break
+                    }
+                }
+
+                // 삭제
+                interestAreaArr.removeAt(index)
+                adapter.notifyDataSetChanged()
+
+                Toast.makeText(activity, "삭제하였습니다.", Toast.LENGTH_SHORT).show()
             }
         }
 
-        // 새로고침 이미지 클릭
+        // <새로고침 이미지> 클릭
         imgRefresh.setOnClickListener {
             // 날짜 초기화
             setDate()
@@ -102,6 +120,8 @@ class FragmentHome : Fragment() {
             setWeather(0, nx, ny)       // 현재 시간대 날씨 설정
             setWeather(1, nx, ny)       // 다음 시간대 날씨 설정
             tvAreaName.text = areaName         // 지역 이름 설정
+
+            Toast.makeText(activity, "${areaName}의 날씨 정보입니다.", Toast.LENGTH_SHORT).show()
         }
 
         return view
@@ -324,9 +344,7 @@ class FragmentHome : Fragment() {
             tvTimes[index].text = temp
         }
 
-        if (index == 0) curTemp = tvTemps[0].text.toString() // 현재 온도
-        else Toast.makeText(context, "${areaName}의 날씨입니다.", Toast.LENGTH_SHORT).show()
-
+        if (index == 0) curTemp = tvTemps[0].text.toString() // 현재 온도 설정
     }
 
     // 시간 설정하기
@@ -373,6 +391,8 @@ class FragmentHome : Fragment() {
         var areaName = "쌍문동"      // 사용자가 설정한 위치(덕성여대)
 
         var sidoName = "서울"        // 시도명
+
+        var lastImgStar = R.drawable.img_star_white    // 별 모양 이미지
     }
 
 }

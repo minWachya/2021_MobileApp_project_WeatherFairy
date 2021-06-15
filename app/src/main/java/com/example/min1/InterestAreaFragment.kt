@@ -53,8 +53,8 @@ class InterestAreaFragment : Fragment() {
 
         // 해당 지역을 배열에 추가하고 토스트 보이기
         @JvmStatic
-        fun addSettingArea(context : Context, sArea : InterestArea) {
-            InterestAreaAdapter.settingAreaArr.add(sArea)
+        fun addInterestArea(context : Context, sArea : InterestArea) {
+            InterestAreaAdapter.interestAreaArr.add(sArea)
             Toast.makeText(context, "관심 지역에 추가하였습니다.", Toast.LENGTH_SHORT).show()
         }
     }

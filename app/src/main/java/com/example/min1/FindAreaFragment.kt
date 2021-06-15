@@ -93,7 +93,7 @@ class FindAreaFragment : Fragment(), MapReverseGeoCoder.ReverseGeoCodingResultLi
         spinner.adapter = areaAdapter
         spinner.onItemSelectedListener = areaSpinnerAdapter
 
-        // 지역 설정 완료하면 메인 화면으로 돌아감
+        // <지역 설정 완료>하면 메인 화면으로 돌아감
         // 변환한 격자 좌표와 지역명 반환
         btnBack1.setOnClickListener {
             // 격자 좌표 담기
@@ -122,6 +122,9 @@ class FindAreaFragment : Fragment(), MapReverseGeoCoder.ReverseGeoCodingResultLi
                 else sidoName = "영서"
             }
             FragmentHome.sidoName = sidoName
+
+            // 하얀 별로 변경
+            FragmentHome.lastImgStar = R.drawable.img_star_white
 
             // 메인 액티비티는 FramgentHome 띄워주기
             val mActivity = activity as MainActivity

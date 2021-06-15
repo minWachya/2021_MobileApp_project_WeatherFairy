@@ -142,6 +142,7 @@ class ShowMemoFragment : Fragment() {
                 searchOption = "month"
             }
         }
+
         return view
     }
 
