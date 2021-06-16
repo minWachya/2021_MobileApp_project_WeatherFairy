@@ -1,5 +1,6 @@
 package com.example.min1
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -24,9 +25,14 @@ class ShowMemoFragment : Fragment() {
     lateinit var databaseRef : DatabaseReference
     var dataSanpshot : DataSnapshot? = null
 
+    // 이메일
+    var email = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
+        // 사용자 이메일 정보 담기
+        if(arguments != null) {
+            email = arguments!!.getString("email").toString()
         }
     }
 
@@ -125,7 +131,7 @@ class ShowMemoFragment : Fragment() {
         layoutManager.setStackFromEnd(true)
         recyclerView.layoutManager = layoutManager
         // 리아시클러뷰에 어댑터 달기
-        memoAdapter = WeatherMemoAdapter()
+        memoAdapter = WeatherMemoAdapter(email)
         recyclerView.adapter = memoAdapter
 
         // 토글버튼으로 월별/온도별 변경시
@@ -156,7 +162,7 @@ class ShowMemoFragment : Fragment() {
             memoAdapter.items.clear()
             // 모든 기록 읽어오기
             val memos = collectionIterator.next()  // memo 폴더
-            val itemsIterator = memos.child("${MainActivity.email}").children.iterator()   // memo/이메일/child 폴더
+            val itemsIterator = memos.child("${email}").children.iterator()   // memo/이메일/child 폴더
             while (itemsIterator.hasNext()) {
                 // 매 반복마다 itemsIterator가 가리키는 아이템 가져오기
                 val currentItem = itemsIterator.next()

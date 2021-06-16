@@ -3,6 +3,7 @@ package com.example.min1
 import android.app.DatePickerDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.animation.AnimationUtils
 import android.widget.*
 import androidx.core.widget.addTextChangedListener
@@ -32,6 +33,9 @@ class WriteActivity : AppCompatActivity() {
     var memoOuter = false
     var memo = false
 
+    // 이메일
+    var email = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_write)
@@ -47,6 +51,10 @@ class WriteActivity : AppCompatActivity() {
         editOuter = findViewById(R.id.editOuter)
         editMemo = findViewById(R.id.editMemo)
         btnCompleteMemo = findViewById(R.id.btnCompleteMemo)
+
+        // 사용자 정보 받기(이메일)
+        email = intent.getStringExtra("email").toString()
+        Log.d("mmm 나는 롸이트", "${email}")
 
         // FragmentHome에서 온도 정보 받이서 온도 설정하기
         editTemp.setText(FragmentHome.curTemp)
@@ -133,7 +141,7 @@ class WriteActivity : AppCompatActivity() {
     fun saveMemo(date: String, temp: String, top: String, bottom: String, outer: String,
                  memo: String, month: String, tempGroup: String) {
         // memo에 child로 감상평 추가(이때 키 자동 생성, 이 키 얻어오기)
-        var key : String? = databaseRef.child("memo/${MainActivity.email}").push().getKey()
+        var key : String? = databaseRef.child("memo/${email}").push().getKey()
 
         // 객체 생성
         val obj = WeatherMemo(key!!, date, temp, top, bottom, outer, memo, month, tempGroup)
@@ -143,7 +151,7 @@ class WriteActivity : AppCompatActivity() {
         // 파이어베이스에 넣어주기(인자에 해시맵과 해시맵에 접근할 수 있는 경로 들어가야함)
         // -> 별도의 해시맵을 만들어줘야함
         val childUpdate : MutableMap<String, Any> = HashMap()
-        childUpdate["/memo/${MainActivity.email}/$key"] = memotValues
+        childUpdate["/memo/${email}/$key"] = memotValues
 
         databaseRef.updateChildren(childUpdate)
     }

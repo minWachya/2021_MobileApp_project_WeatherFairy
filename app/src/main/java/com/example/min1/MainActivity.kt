@@ -5,8 +5,11 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.FrameLayout
 import androidx.annotation.RequiresApi
+import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.util.*
 
@@ -29,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         container = findViewById(R.id.container)
 
         // 사용자 정보 받기(이메일)
-        email = intent.getStringExtra("email").toString()
+        val email = intent.getStringExtra("email").toString()
         Log.d("mmm 메인에서 받은 이메일", "${email}")
 
         // 시작은 Home 프레그먼트로 초기화
@@ -45,6 +48,7 @@ class MainActivity : AppCompatActivity() {
                 // 옷차림 기록하기
                 R.id.tab1_write -> {
                     var intent = Intent(applicationContext, WriteActivity::class.java)
+                    intent.putExtra("email", email)
                     startActivity(intent)
 
                     // 새 액티비티는 점점 올라오고, 현재 액티비티는 점점 사라지는 애니메니션 적용
@@ -56,6 +60,11 @@ class MainActivity : AppCompatActivity() {
                 R.id.tab2_show_memo -> {
                     with(supportFragmentManager.beginTransaction()) {
                         replace(R.id.container, fragmentShowMemo)
+
+                        val bundle = Bundle()
+                        bundle.putString("email", email)
+                        fragmentShowMemo.setArguments(bundle)
+
                         commit()
                     }
                     return@setOnNavigationItemSelectedListener true
@@ -97,11 +106,6 @@ class MainActivity : AppCompatActivity() {
         transaction.commit()
 
         bottomNavi.menu.getItem(2).isChecked = true         // 홈 버튼을 기본 선택으로
-    }
-
-    // 이메일 전역변수
-    companion object {
-        var email = ""
     }
 
 }

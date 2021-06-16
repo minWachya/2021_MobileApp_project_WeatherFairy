@@ -14,7 +14,8 @@ import com.example.min1.WeatherMemo
 import com.google.firebase.database.FirebaseDatabase
 
 // 날씨 기록을 관리하는 어댑터
-class WeatherMemoAdapter : RecyclerView.Adapter<WeatherMemoAdapter.ViewHolder>() {
+// 저장할 경로를 지정하기 위한 이메일 변수
+class WeatherMemoAdapter(val email : String) : RecyclerView.Adapter<WeatherMemoAdapter.ViewHolder>() {
     // WeatherMemo 배열
     var items = ArrayList<WeatherMemo>()
     val databaseRef = FirebaseDatabase.getInstance().reference
@@ -33,7 +34,7 @@ class WeatherMemoAdapter : RecyclerView.Adapter<WeatherMemoAdapter.ViewHolder>()
                 alert.setMessage("해당 기록을 삭제하시겠습니까?")
                 alert.setPositiveButton("네") { dialog, which ->
                     val key = items[position].objectId
-                    databaseRef.child("memo/${MainActivity.email}/$key").setValue(null)
+                    databaseRef.child("memo/${email}/$key").setValue(null)
                     Toast.makeText(parent.context,  "삭제하였습니다.", Toast.LENGTH_SHORT).show()
                 }
                 alert.setNegativeButton("아니오", null)
