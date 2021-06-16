@@ -135,6 +135,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="메모"
+                android:layout_gravity="start"
                 android:layout_marginRight="35dp"
                 android:textSize="20dp"/>
             <EditText
@@ -142,8 +143,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:lines="8"
-                android:minLines="6"
-                android:maxLines="10"
+                android:minLines="3"
+                android:maxLines="6"
                 android:scrollbars="vertical" />
         </LinearLayout>
     </LinearLayout>
