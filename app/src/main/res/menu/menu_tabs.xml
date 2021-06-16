@@ -15,9 +15,9 @@
     <item
         android:id="@+id/tab4_find_addreaa"
         android:icon="@drawable/navi_find_area"
-        android:title="주소 찾기"/>
+        android:title="지역 찾기"/>
     <item
         android:id="@+id/tab5_interest_area"
         android:icon="@drawable/navi_interest_area"
-        android:title="설정"/>
+        android:title="관심 지역 설정"/>
 </menu>

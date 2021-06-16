@@ -1,0 +1,10 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--클릭했을 때 배경 색-->
+    <item android:state_pressed="true">
+        <color android:color="@color/blue" />
+    </item>
+    <!--클릭 안 되었을 때 배경 색-->
+    <item android:state_pressed="false">
+        <color android:color="@color/white" />
+    </item>
+</selector>
