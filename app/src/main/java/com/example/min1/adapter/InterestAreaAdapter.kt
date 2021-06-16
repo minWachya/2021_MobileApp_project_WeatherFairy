@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.example.min1.InterestAreaFragment.Companion.adapter
+import com.example.min1.InterestAreaFragment.Companion.INTEREST_AREA_ADAPTER
 import android.app.AlertDialog
 import android.widget.ImageView
 import com.example.min1.FragmentHome
@@ -48,7 +48,7 @@ class InterestAreaAdapter : RecyclerView.Adapter<InterestAreaAdapter.ViewHolder>
 
                     // 관심 지역 삭제하기
                     INTEREST_AREA_ARR.removeAt(position)
-                    adapter.notifyDataSetChanged()
+                    INTEREST_AREA_ADAPTER.notifyDataSetChanged()
                     Toast.makeText(parent.context,  "삭제하였습니다.", Toast.LENGTH_SHORT).show()
                 }
                 // <아니오> 버튼 누르면 아무 일도 없음
