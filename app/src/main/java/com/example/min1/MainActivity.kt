@@ -47,6 +47,9 @@ class MainActivity : AppCompatActivity() {
                     var intent = Intent(applicationContext, WriteActivity::class.java)
                     startActivity(intent)
 
+                    // 새 액티비티는 점점 올라오고, 현재 액티비티는 점점 사라지는 애니메니션 적용
+                    overridePendingTransition(R.anim.translate_up, R.anim.fadeout)
+
                     return@setOnNavigationItemSelectedListener false    // 기록하기 액티비티 끝나면 이전 화면이 보여지기 때문에 해당 네비 버튼이 선택되어있지 않게
                 }
                 // 내 기록 보기

@@ -13,7 +13,7 @@ import com.example.min1.FragmentHome
 import com.example.min1.R
 import com.example.min1.models.InterestArea
 
-// Setting 프레그먼트의 리사이클러뷰 어댑터
+// InterestArea 프레그먼트의 리사이클러뷰 어댑터
 class InterestAreaAdapter : RecyclerView.Adapter<InterestAreaAdapter.ViewHolder>() {
     // 뷰 홀더 생성(list_interest_area.xml을 어댑터에 붙여주기)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -42,6 +42,11 @@ class InterestAreaAdapter : RecyclerView.Adapter<InterestAreaAdapter.ViewHolder>
                 alert.setTitle("삭제 확인")
                 alert.setMessage("관심 지역에서 삭제하시겠습니까? : " + interestAreaArr[position].areaName)
                 alert.setPositiveButton("네") { dialog, which ->
+                    // 홈 액티비티의 장소가 관심 지역이었다면 하얀 별로 변경
+                    if (FragmentHome.areaName == interestAreaArr[position].areaName)
+                        FragmentHome.lastImgStar = R.drawable.img_star_white
+
+                    // 관심 지역 삭제하기
                     interestAreaArr.removeAt(position)
                     adapter.notifyDataSetChanged()
                     Toast.makeText(parent.context,  "삭제하였습니다.", Toast.LENGTH_SHORT).show()

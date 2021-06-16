@@ -3,6 +3,7 @@ package com.example.min1
 import android.app.DatePickerDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.animation.AnimationUtils
 import android.widget.*
 import androidx.core.widget.addTextChangedListener
 import com.google.firebase.database.DatabaseReference
@@ -213,4 +214,13 @@ class WriteActivity : AppCompatActivity() {
         editMemo.setText("")
         editMemo.clearFocus()
     }
+
+    // 종료 함수 오버라이드
+    override fun finish() {
+        super.finish()
+
+        // 새 액티비티는 점점 보이고, 현재 액티비티는 내려가는 애니메니션 적용
+        overridePendingTransition(R.anim.fadein, R.anim.translate_down)
+    }
+
 }
