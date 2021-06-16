@@ -33,8 +33,8 @@ class WriteActivity : AppCompatActivity() {
     var memoOuter = false
     var memo = false
 
-    // 이메일
-    var email = ""
+    var email = ""      // 이메일
+    var curTemp = ""    // 현재 온도
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,12 +52,12 @@ class WriteActivity : AppCompatActivity() {
         editMemo = findViewById(R.id.editMemo)
         btnCompleteMemo = findViewById(R.id.btnCompleteMemo)
 
-        // 사용자 정보 받기(이메일)
+        // 사용자 이메일 정보 받기
         email = intent.getStringExtra("email").toString()
-        Log.d("mmm 나는 롸이트", "${email}")
-
-        // FragmentHome에서 온도 정보 받이서 온도 설정하기
-        editTemp.setText(FragmentHome.curTemp)
+        // 현재 온도 저보 받기
+        curTemp = intent.getStringExtra("curTemp").toString()
+        editTemp.setText(curTemp)
+        Log.d("mmm 받은 이메일과 온도", "${email}, ${curTemp}")
 
         // <뒤로가기> 버튼 누르면 액티비티 종료
         imgBack.setOnClickListener {

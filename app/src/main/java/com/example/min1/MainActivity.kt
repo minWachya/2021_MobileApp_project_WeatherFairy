@@ -23,6 +23,8 @@ class MainActivity : AppCompatActivity() {
     val fragmentFindArea = FindAreaFragment()           // 지역 찾기 프레그먼트
     val fragmentInterestArea = InterestAreaFragment()   // 관심 지역 설정 프레그먼트
 
+    var curTemp = ""            // 현재 온도
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +35,6 @@ class MainActivity : AppCompatActivity() {
 
         // 사용자 정보 받기(이메일)
         val email = intent.getStringExtra("email").toString()
-        Log.d("mmm 메인에서 받은 이메일", "${email}")
 
         // 시작은 Home 프레그먼트로 초기화
         with(supportFragmentManager.beginTransaction()) {
@@ -48,7 +49,8 @@ class MainActivity : AppCompatActivity() {
                 // 옷차림 기록하기
                 R.id.tab1_write -> {
                     var intent = Intent(applicationContext, WriteActivity::class.java)
-                    intent.putExtra("email", email)
+                    intent.putExtra("email", email)     // 이메일
+                    intent.putExtra("curTemp", curTemp) // 현재 온도
                     startActivity(intent)
 
                     // 새 액티비티는 점점 올라오고, 현재 액티비티는 점점 사라지는 애니메니션 적용
@@ -97,6 +99,11 @@ class MainActivity : AppCompatActivity() {
             return@setOnNavigationItemSelectedListener false
         }
 
+    }
+
+    // 현재 온도 설정하기
+    fun setTemp(temp : String) {
+        curTemp = temp
     }
 
     // 데이터가 셋팅된 프레그먼트 띄우기

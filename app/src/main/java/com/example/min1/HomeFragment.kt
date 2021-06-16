@@ -75,7 +75,6 @@ class FragmentHome : Fragment() {
 
         // 별 모양 이미지 설정하기
         imgStar.setImageResource(lastImgStar)
-
         // <별 모양 이미지> 누르면
         imgStar.setOnClickListener {
             // 하얀 별이면, 관심 지역에 추가
@@ -344,7 +343,11 @@ class FragmentHome : Fragment() {
             tvTimes[index].text = temp
         }
 
-        if (index == 0) curTemp = tvTemps[0].text.toString() // 현재 온도 설정
+        // 현재 온도 보내기
+        if (index == 0) {
+            val mActivity = activity as MainActivity
+            mActivity.setTemp(tvTemps[0].text.toString())
+        }
     }
 
     // 시간 설정하기
@@ -384,7 +387,7 @@ class FragmentHome : Fragment() {
 
     // 전역변수
     companion object {
-        var curTemp = ""            // 현재 온도
+//        var curTemp = ""            // 현재 온도
 
         var nx = "60"               // 예보지점 X 좌표(덕성여대)
         var ny = "129"              // 예보지점 Y 좌표(덕성여대)
