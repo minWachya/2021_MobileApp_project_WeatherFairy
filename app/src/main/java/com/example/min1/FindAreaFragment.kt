@@ -12,6 +12,7 @@ import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapReverseGeoCoder
 import net.daum.mf.map.api.MapView
 
+// 지역 찾기
 class FindAreaFragment : Fragment(), MapReverseGeoCoder.ReverseGeoCodingResultListener, MyMapViewEventListener  {
     lateinit var tvAreaName : TextView                  // 지역명
     lateinit var spinner : Spinner                      // 지역 스피너
@@ -24,12 +25,6 @@ class FindAreaFragment : Fragment(), MapReverseGeoCoder.ReverseGeoCodingResultLi
     // 위경도 초기화(덕성여자대학교)
     var lat = 37.65136866943945
     var lng = 127.01617112670128
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-        }
-    }
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -48,11 +43,11 @@ class FindAreaFragment : Fragment(), MapReverseGeoCoder.ReverseGeoCodingResultLi
         mapView.setMapViewEventListener(this)
         mapViewContainer.addView(mapView)
 
-        var p = MapPoint.mapPointWithGeoCoord(lat, lng)             // 초기값 : 서울 - 덕성여대
+        var point = MapPoint.mapPointWithGeoCoord(lat, lng)             // 초기값 : 서울 - 덕성여대
         marker = MapPOIItem()                                       // 마커
         marker.markerType = MapPOIItem.MarkerType.BluePin           // 마커 타입 설정
 
-        // 지역별
+        // 지역 스피너 설정
         val areaAdapter = ArrayAdapter.createFromResource(context!!, R.array.area, android.R.layout.simple_spinner_item)
                 .also { adapter ->
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -63,30 +58,29 @@ class FindAreaFragment : Fragment(), MapReverseGeoCoder.ReverseGeoCodingResultLi
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 when(position) {
-                    0 -> p = MapPoint.mapPointWithGeoCoord(lat, lng)   // 사용자가 선택한 위치
-                    1 -> p = MapPoint.mapPointWithGeoCoord(37.65136866943945, 127.01617112670128)   // 서울 - 덕성여대
-                    2 -> p = MapPoint.mapPointWithGeoCoord(37.274949938001555, 127.00919154930807)  // 경기
-                    3 -> p = MapPoint.mapPointWithGeoCoord(37.456103748325994, 126.70591458688807)  // 인천
-                    4 -> p = MapPoint.mapPointWithGeoCoord(37.8854610363771, 127.7297623959766)     // 강원
-                    5 -> p = MapPoint.mapPointWithGeoCoord(36.63883971304833, 127.49099047782575)   // 충북
-                    6 -> p = MapPoint.mapPointWithGeoCoord(36.66051322400456, 126.67255999783636)   // 충남
-                    7 -> p = MapPoint.mapPointWithGeoCoord(36.48030441303869, 127.2888077131762)    // 세종
-                    8 -> p = MapPoint.mapPointWithGeoCoord(36.35067270663006, 127.38476505364646)   // 대전
-                    9 -> p = MapPoint.mapPointWithGeoCoord(36.57740564624811, 128.50536398249469)   // 경븍
-                    10 -> p = MapPoint.mapPointWithGeoCoord(35.238548121379566, 128.69234305917618)  // 경남
-                    11 -> p = MapPoint.mapPointWithGeoCoord(35.87388911526642, 128.60132641559755)  // 대구
-                    12 -> p = MapPoint.mapPointWithGeoCoord(35.5630857475929, 129.30740773156734)   // 울산
-                    13 -> p = MapPoint.mapPointWithGeoCoord(35.179984202358604, 129.07495481128606) // 부산
-                    14 -> p = MapPoint.mapPointWithGeoCoord(35.82132252146746, 127.10871827435929)  // 전북
-                    15 -> p = MapPoint.mapPointWithGeoCoord(34.81643878614751, 126.46290274011228)  // 전남
-                    16 -> p = MapPoint.mapPointWithGeoCoord(37.429586595374424, 127.25523865738475) // 광주
-                    17 -> p = MapPoint.mapPointWithGeoCoord(33.48921428666983, 126.49837084551882)  // 제주
+                    0 -> point = MapPoint.mapPointWithGeoCoord(lat, lng)   // 사용자가 선택한 위치
+                    1 -> point = MapPoint.mapPointWithGeoCoord(37.65136866943945, 127.01617112670128)   // 서울 - 덕성여대
+                    2 -> point = MapPoint.mapPointWithGeoCoord(37.274949938001555, 127.00919154930807)  // 경기
+                    3 -> point = MapPoint.mapPointWithGeoCoord(37.456103748325994, 126.70591458688807)  // 인천
+                    4 -> point = MapPoint.mapPointWithGeoCoord(37.8854610363771, 127.7297623959766)     // 강원
+                    5 -> point = MapPoint.mapPointWithGeoCoord(36.63883971304833, 127.49099047782575)   // 충북
+                    6 -> point = MapPoint.mapPointWithGeoCoord(36.66051322400456, 126.67255999783636)   // 충남
+                    7 -> point = MapPoint.mapPointWithGeoCoord(36.48030441303869, 127.2888077131762)    // 세종
+                    8 -> point = MapPoint.mapPointWithGeoCoord(36.35067270663006, 127.38476505364646)   // 대전
+                    9 -> point = MapPoint.mapPointWithGeoCoord(36.57740564624811, 128.50536398249469)   // 경븍
+                    10 -> point = MapPoint.mapPointWithGeoCoord(35.238548121379566, 128.69234305917618) // 경남
+                    11 -> point = MapPoint.mapPointWithGeoCoord(35.87388911526642, 128.60132641559755)  // 대구
+                    12 -> point = MapPoint.mapPointWithGeoCoord(35.5630857475929, 129.30740773156734)   // 울산
+                    13 -> point = MapPoint.mapPointWithGeoCoord(35.179984202358604, 129.07495481128606) // 부산
+                    14 -> point = MapPoint.mapPointWithGeoCoord(35.82132252146746, 127.10871827435929)  // 전북
+                    15 -> point = MapPoint.mapPointWithGeoCoord(34.81643878614751, 126.46290274011228)  // 전남
+                    16 -> point = MapPoint.mapPointWithGeoCoord(37.429586595374424, 127.25523865738475) // 광주
+                    17 -> point = MapPoint.mapPointWithGeoCoord(33.48921428666983, 126.49837084551882)  // 제주
                 }
 
-                // 클릭한 위치에 마커와 주소 보이기
-                onMapViewSingleTapped(mapView, p)
-                mapView.setMapCenterPointAndZoomLevel(p, 7, true)   // 지도 확대/축소 비율은 지역 전체가 적절히 보이게
-                mapView.setMapCenterPoint(marker.mapPoint, true)   // 지도 화면의 중심점 설정
+                onMapViewSingleTapped(mapView, point)                                       // 클릭한 위치에 마커와 주소 보이기
+                mapView.setMapCenterPointAndZoomLevel(point, 7, true)   // 지도 확대/축소 비율은 지역 전체가 적절히 보이게
+                mapView.setMapCenterPoint(marker.mapPoint, true)                  // 지도 화면의 중심점 설정
             }
         }
         // 스피너 초기값은 서울 - 덕성여대
@@ -98,7 +92,7 @@ class FindAreaFragment : Fragment(), MapReverseGeoCoder.ReverseGeoCodingResultLi
         btnBack1.setOnClickListener {
             // 격자 좌표 담기
             var (x, y) = dfs_xy_conv(lat, lng)
-            // 지역명 담기
+            // 지역명 담기 준비(주소 마지막을 지역명으로 설정, 마지막이 '산'이면 그 앞의 주소로 지역명 설정)
             var splitArray = tvAreaName.text.split(" ")
             var areaName = splitArray[splitArray.size - 2]
             if (areaName == "산") areaName = splitArray[splitArray.size - 3]
@@ -108,6 +102,7 @@ class FindAreaFragment : Fragment(), MapReverseGeoCoder.ReverseGeoCodingResultLi
             FragmentHome.ny = y
             FragmentHome.areaName = areaName
 
+            // 시도 이름 설정(경기 북부/남부, 강원 영동/영서 구분)
             var sidoName = splitArray[0].substring(0, 2)
             if (sidoName == "경기") {
                 var NorthernGyeonggi = "가평, 고양, 구리, 남양, 동두천, 양주, 연천, 의정부, 파주, 포천"   // 경기 북부

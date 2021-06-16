@@ -7,9 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import com.example.min1.InterestAreaFragment.Companion.adapter
-import com.example.min1.InterestAreaFragment.Companion.addInterestArea
-import com.example.min1.adapter.InterestAreaAdapter.Companion.interestAreaArr
+import com.example.min1.InterestAreaFragment.Companion.ADD_INTEREST_AREA
+import com.example.min1.InterestAreaFragment.Companion.INTEREST_AREA_ADAPTER
+import com.example.min1.adapter.InterestAreaAdapter
 import com.example.min1.models.InterestArea
 import retrofit2.Call
 import retrofit2.Response
@@ -35,12 +35,6 @@ class FragmentHome : Fragment() {
     var base_date = ""          // 발표 일자
     var base_time = ""          // 발표 시각
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-        }
-    }
-
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
@@ -65,12 +59,12 @@ class FragmentHome : Fragment() {
         // 날짜 초기화
         setDate()
 
-        // nx, ny지점의 날씨 가져와서 설정하기
+        // nx, ny지점의 날씨 API 가져와서 설정하기
         setWeather(0, nx, ny)       // 현재 시간대 날씨 설정
         setWeather(1, nx, ny)       // 다음 시간대 날씨 설정
         tvAreaName.text = areaName        // 지역 이름 설정
 
-        // 미세먼지 정보 받아오기
+        // 미세먼지 API 가져와서 설정하기
         setAirPollution(sidoName)
 
         // 별 모양 이미지 설정하기
@@ -85,7 +79,7 @@ class FragmentHome : Fragment() {
 
                 // 해당 지역을 추가
                 val interesArea = InterestArea(areaName, nx, ny)
-                addInterestArea(context!!, interesArea)  // InterestAreaFragment의 전역 함수
+                ADD_INTEREST_AREA(context!!, interesArea)  // InterestAreaFragment의 전역 함수
             }
             // 노란 별이면, 관심 지역에서 삭제
             else {
@@ -95,16 +89,16 @@ class FragmentHome : Fragment() {
 
                 // 해당 지역 데이터 찾기
                 var index = 0
-                for (i in 0..adapter.itemCount-1) {
-                    if (interestAreaArr[i].areaName == tvAreaName.text) {
+                for (i in 0..INTEREST_AREA_ADAPTER.itemCount-1) {
+                    if (InterestAreaAdapter.INTEREST_AREA_ARR[i].areaName == tvAreaName.text) {
                         index = i
                         break
                     }
                 }
 
                 // 삭제
-                interestAreaArr.removeAt(index)
-                adapter.notifyDataSetChanged()
+                InterestAreaAdapter.INTEREST_AREA_ARR.removeAt(index)
+                INTEREST_AREA_ADAPTER.notifyDataSetChanged()
 
                 Toast.makeText(activity, "삭제하였습니다.", Toast.LENGTH_SHORT).show()
             }
@@ -387,8 +381,6 @@ class FragmentHome : Fragment() {
 
     // 전역변수
     companion object {
-//        var curTemp = ""            // 현재 온도
-
         var nx = "60"               // 예보지점 X 좌표(덕성여대)
         var ny = "129"              // 예보지점 Y 좌표(덕성여대)
         var areaName = "쌍문동"      // 사용자가 설정한 위치(덕성여대)

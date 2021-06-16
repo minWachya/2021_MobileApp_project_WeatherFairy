@@ -24,7 +24,7 @@ class LoginActivity : AppCompatActivity() {
     lateinit var mOAuthLoginInstance : OAuthLogin
     lateinit var mContext: Context
 
-    var TAG = "Login"
+    val TAG = "Login"
 
     private lateinit var nhnOAuthLoginModule: OAuthLogin
 

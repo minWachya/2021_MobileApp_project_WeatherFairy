@@ -1,9 +1,8 @@
 package com.example.min1
 
-
 import com.google.firebase.database.Exclude
 
-// 데이터 클래스
+// 옷차림 기록 데이터 클래스
 // 파이어베이스에 저장할 내용들
 data class WeatherMemo (
     var objectId : String,  // 키값(시스템에서 자동 생성)
@@ -17,7 +16,7 @@ data class WeatherMemo (
     var tempGroup:String    // 온도별
 ) {
     // 파이어베이스에 있는 데이터를 가지고와서 리사이클러뷰를 만들 때
-    // Memo 맵이라는 자료형으로 저장해주어야함.
+    // WeatherMemo를 맵이라는 자료형으로 저장해주어야함.
     // 데이터 저장 시 맵 형태로 저장하고있기 때문
 
     // 위의 아이템을 Map으로 만들어주는 함수

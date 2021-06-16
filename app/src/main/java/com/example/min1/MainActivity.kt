@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
                 // 옷차림 기록하기
                 R.id.tab1_write -> {
                     var intent = Intent(applicationContext, WriteActivity::class.java)
-                    intent.putExtra("email", email)     // 이메일
+                    intent.putExtra("email", email)     // 이메일(파이어베이스 경로 저장에 필요)
                     intent.putExtra("curTemp", curTemp) // 현재 온도
                     startActivity(intent)
 
@@ -63,6 +63,7 @@ class MainActivity : AppCompatActivity() {
                     with(supportFragmentManager.beginTransaction()) {
                         replace(R.id.container, fragmentShowMemo)
 
+                        // 이메일 정보 보내기(파이어베이스 경로 찾을 때 필요)
                         val bundle = Bundle()
                         bundle.putString("email", email)
                         fragmentShowMemo.setArguments(bundle)

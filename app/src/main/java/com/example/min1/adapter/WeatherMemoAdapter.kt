@@ -7,8 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.recyclerview.widget.RecyclerView    // 파이어베이스 접근 가능한 자료형
-import com.example.min1.MainActivity
+import androidx.recyclerview.widget.RecyclerView
 import com.example.min1.R
 import com.example.min1.WeatherMemo
 import com.google.firebase.database.FirebaseDatabase
@@ -18,7 +17,7 @@ import com.google.firebase.database.FirebaseDatabase
 class WeatherMemoAdapter(val email : String) : RecyclerView.Adapter<WeatherMemoAdapter.ViewHolder>() {
     // WeatherMemo 배열
     var items = ArrayList<WeatherMemo>()
-    val databaseRef = FirebaseDatabase.getInstance().reference
+    val databaseRef = FirebaseDatabase.getInstance().reference  // 파이어베이스 접근 가능한 자료형
 
     // 뷰홀더 생성
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -29,14 +28,17 @@ class WeatherMemoAdapter(val email : String) : RecyclerView.Adapter<WeatherMemoA
         return ViewHolder(itemView).apply {
             // x 이미지 클릭하면 데이터 삭제하기
             imgDataDelete.setOnClickListener {
+                // 삭제 확인 알림창 띄우기
                 var alert = AlertDialog.Builder(parent.context)
                 alert.setTitle("삭제 확인")
                 alert.setMessage("해당 기록을 삭제하시겠습니까?")
+                // <네> 버튼 누르면 옷차림 기록 삭제하기
                 alert.setPositiveButton("네") { dialog, which ->
                     val key = items[position].objectId
                     databaseRef.child("memo/${email}/$key").setValue(null)
                     Toast.makeText(parent.context,  "삭제하였습니다.", Toast.LENGTH_SHORT).show()
                 }
+                // <아니오> 버튼 누르면 아무 일도 없음
                 alert.setNegativeButton("아니오", null)
                 alert.show()
             }

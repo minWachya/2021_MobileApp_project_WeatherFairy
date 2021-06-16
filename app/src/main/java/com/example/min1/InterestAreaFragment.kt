@@ -16,13 +16,7 @@ import com.example.min1.models.InterestArea
 // 관심 지역 보이기
 class InterestAreaFragment : Fragment() {
     lateinit var settingRecyclerView : RecyclerView     // 관심 지역 리사이클러뷰
-    lateinit var tvSetting : TextView                   // 간단한 설명
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-        }
-    }
+    lateinit var tvSetting : TextView                   // 관심 지역이 0개일 때 보여지는 간단한 설명
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,24 +31,23 @@ class InterestAreaFragment : Fragment() {
         settingRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         settingRecyclerView.setHasFixedSize(true)
         // 리아시클러뷰에 어댑터 달기
-        settingRecyclerView.adapter = adapter
+        settingRecyclerView.adapter = INTEREST_AREA_ADAPTER
 
         // 관심 지역 0개면 텍스트 보이기
-        if (adapter.itemCount == 0)  tvSetting.setVisibility(View.VISIBLE)
+        if (INTEREST_AREA_ADAPTER.itemCount == 0)  tvSetting.setVisibility(View.VISIBLE)
         else  tvSetting.setVisibility(View.GONE)
 
         return view
     }
 
-
     // 어댑터 전역변수,  관심 지역 추가 전역 함수
     companion object {
-        var adapter = InterestAreaAdapter()  // 어댑터
+        val INTEREST_AREA_ADAPTER = InterestAreaAdapter()  // 어댑터
 
         // 해당 지역을 배열에 추가하고 토스트 보이기
         @JvmStatic
-        fun addInterestArea(context : Context, sArea : InterestArea) {
-            InterestAreaAdapter.interestAreaArr.add(sArea)
+        fun ADD_INTEREST_AREA(context : Context, sArea : InterestArea) {
+            InterestAreaAdapter.INTEREST_AREA_ARR.add(sArea)
             Toast.makeText(context, "관심 지역에 추가하였습니다.", Toast.LENGTH_SHORT).show()
         }
     }

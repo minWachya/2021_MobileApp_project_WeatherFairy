@@ -1,9 +1,9 @@
 package com.example.min1
 
-import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapView
 
+// 카카오맵 인터페이스
 interface MyMapViewEventListener : MapView.MapViewEventListener {
     override fun onMapViewInitialized(p0: MapView?) { }
 

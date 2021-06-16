@@ -1,6 +1,5 @@
 package com.example.min1
 
-import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -31,9 +30,7 @@ class ShowMemoFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // 사용자 이메일 정보 담기
-        if(arguments != null) {
-            email = arguments!!.getString("email").toString()
-        }
+        if(arguments != null) email = arguments!!.getString("email").toString()
     }
 
     override fun onCreateView(
@@ -152,7 +149,7 @@ class ShowMemoFragment : Fragment() {
         return view
     }
 
-    // 월별/온도별 검색하여 해당 결과만 보이기
+    // 사용자 기록 중에서 월별/온도별 검색하여 해당 결과만 보이기
     fun search(dataSanpshot: DataSnapshot, searchWord: String, option: String) {
         // memo에서 쭉 내려옴
         val collectionIterator = dataSanpshot.children.iterator()   // Firebase DB

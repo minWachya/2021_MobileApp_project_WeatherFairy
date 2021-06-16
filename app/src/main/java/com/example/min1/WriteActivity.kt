@@ -3,8 +3,6 @@ package com.example.min1
 import android.app.DatePickerDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.animation.AnimationUtils
 import android.widget.*
 import androidx.core.widget.addTextChangedListener
 import com.google.firebase.database.DatabaseReference
@@ -54,10 +52,9 @@ class WriteActivity : AppCompatActivity() {
 
         // 사용자 이메일 정보 받기
         email = intent.getStringExtra("email").toString()
-        // 현재 온도 저보 받기
+        // 현재 온도 정보 받아서 설정
         curTemp = intent.getStringExtra("curTemp").toString()
         editTemp.setText(curTemp)
-        Log.d("mmm 받은 이메일과 온도", "${email}, ${curTemp}")
 
         // <뒤로가기> 버튼 누르면 액티비티 종료
         imgBack.setOnClickListener {
@@ -113,6 +110,7 @@ class WriteActivity : AppCompatActivity() {
 
             // 텍스트뷰 초기화
             initTextView()
+
             Toast.makeText(this@WriteActivity, "기록 완료하였습니다.", Toast.LENGTH_SHORT).show()
         }
 
