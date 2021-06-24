@@ -7,7 +7,7 @@
 제작 인원 : 1명👤
 
 ### 1, 앱 소개
-
+<img src="https://user-images.githubusercontent.com/61674991/123198437-141edc00-d4e8-11eb-8297-a79ffa47de61.png"  width="100" height="100">
 앱 이름 : 날씨 요정
 
 앱 목적 : 온도별 옷차림을 기록하여, 어느 날씨에 어느 옷을 입을지의 고민을 줄여줌
