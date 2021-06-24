@@ -1,13 +1,16 @@
-# \[3학년 1학기-모바일 앱 프로그래밍 기말 대체 과제\]
+### \[3학년 1학기-모바일 앱 프로그래밍 기말 대체 과제\]
 
-제작 기간 : 2021.05.09~2021.06.16 (39일)
+**제작 기간** : 2021.05.09~2021.06.16(39일)
+
 -   아이디어 및 UI 구상 : 05/09 ~ 05/13 (5일)
 -   구현 : 05/14 ~ 06/16 (34일)
 
 제작 인원 : 1명👤
 
-### 1, 앱 소개
-<img src="https://user-images.githubusercontent.com/61674991/123198437-141edc00-d4e8-11eb-8297-a79ffa47de61.png"  width="100" height="100">
+#### 1, 앱 소개
+
+<div><img src="https://user-images.githubusercontent.com/61674991/123198437-141edc00-d4e8-11eb-8297-a79ffa47de61.png"  width="100" height="100"></div>
+
 앱 이름 : 날씨 요정
 
 앱 목적 : 온도별 옷차림을 기록하여, 어느 날씨에 어느 옷을 입을지의 고민을 줄여줌
@@ -16,95 +19,86 @@
 
 -   사용한 DB : firebase🔥
 -   DB에 저장한 내용 :
-    -   사용자가 기록한 온도별 옷차림
-    -   data class WeatherMemo (  
-            var objectId : String,         // 키값  
-            var date : String,              // 날짜  
-            var temp : String,             // 온도  
-            var top : String,                // 상의  
-            var bottom : String,         // 하의  
-            var outer : String,            // 아우터  
-            var memo : String,          // 메모  
-            var month : String,          // 월별  
-            var tempGroup : String   // 온도별  
-        )
--   DB 구조 : 
-
--   Splash.kt  
-    스플래시 화면   
-      
+-   data class WeatherMemo ()
+-   `var objectId : String, // 키값 var date : String, // 날짜 var temp : String, // 온도 var top : String, // 상의 var bottom : String, // 하의 var outer : String, // 아우터 var memo : String, // 메모 var month : String, // 월별 var tempGroup : String // 온도별`
+-   DB 구조 :
+-   Splash.kt(스플래시 화면)
+    -   <img src="https://user-images.githubusercontent.com/61674991/123198692-87c0e900-d4e8-11eb-874e-be7ab4a792cb.png"  width="200" height="400">
     
 -   GlobalApplication.kt
--   LoginActivity.kt  
-    카카오 로그인  
-    메인 액티비티로 넘어갈 때 사용자 이메일 정보 전달   
-      
+-   LoginActivity.kt
+    -   <img src="https://user-images.githubusercontent.com/61674991/123198718-8ee7f700-d4e8-11eb-8659-cede21636b0d.png"  width="200" height="400">
     
--   MainActivity.kt  
-    5개의 아이템을 가진 하단 네비게이션 바 
--   기록하기/기록 보기/홈/지역 설정/관심지역 목록  
-      
-    -   ✏1, WriteActivity.kt (기록하기)  
-        HomeFagment에서 현재 온도 가져오기  
-        현재 시각, 현재 온도가 미리 입력된 상태에서 현재 옷차림을 기록할 수 있게 함  
-        DatePicker Dialogue를 이용하여 날짜 변경 가능  
-        EditText를 이용하여 온도 변경 가능  
-        모든 EditText에 글이 입력이 되었을 때 <기록하기> 버튼이 활성화  
-        <기록하기> 버튼 누르면 firebase🔥에 데이터가 저장됨   
-          
-        
-    -   📘2, ShowMemoFragment.kt (기록 보기)  
-        firebase🔥에 저장된 데이터들을 가져와서 리사이클러뷰로 보여줌, 이때 이메일 정보를 이용해 사용자 데이터만 가져와서 보여줌!  
-        토글버튼을 이용하여 온도/날짜별 기록을 확인할 수 있음  
-        기록은 ❌버튼을 누르면 삭제됨   
-          
-        
-    -   🏠3, HomeFragment.kt (홈)  
-        기본 날씨로 쌍문동의 날씨를 보여줌 (덕성여자대학교 위치)  
-        현재 시각의 날씨와 3시간 뒤의 날씨를 보여주고 상세 날씨와 날씨에 따른 추천 옷차림 정보를 보여줌.  
-        시단위의 미세먼지 정보를 보여줌  
-        날씨/미세먼지 농도에 따라서 이미지 변경  
-        ⭐을 누르면 관심 지역으로 등록되고, 다시 누르면 해제됨  
-          
-        
-    -   🔍4, FindAreaFragment.kt (지역 설정)  
-        날씨 정보가 궁금한 지역을 찾아 HomeFragment에 장소 정보 전달   
-          
-        
-    -   🚩5, InterestAreaFragment.kt (관심 지역 목록)  
-        사용자가 선택한 관심 지역 목록을 보여줌  
-        관심 지역을 클릭하면 해당 지역의 날씨 정보로 HomeFragment를 변경  
-        ❌버튼 누르면 삭제됨 
+    카카오 로그인 메인 액티비티로 넘어갈 때 사용자 이메일 정보 전달
+-   MainActivity.kt
+    
+    -   <img src="https://user-images.githubusercontent.com/61674991/123198733-93acab00-d4e8-11eb-9d4d-eb863daca5d9.png"  width="200" height="400">
+    
+    5개의 아이템을 가진 하단 네비게이션 바
+-   기록하기/기록 보기/홈/지역 설정/관심지역 목록
+    1.  ✏1, WriteActivity.kt (기록하기)
+    -   <img src="https://user-images.githubusercontent.com/61674991/123198770-9effd680-d4e8-11eb-8b05-10d2ddb026be.png"  width="200" height="400">
+    -   <img src="https://user-images.githubusercontent.com/61674991/123198749-9909f580-d4e8-11eb-9742-1f8f2030a775.png"  width="200" height="400"> 
+        1.  1HomeFagment에서 현재 온도 가져오기
+        2.  현재 시각, 현재 온도가 미리 입력된 상태에서 현재 옷차림을 기록할 수 있게 함
+        3.  DatePicker Dialogue를 이용하여 날짜 변경 가능
+        4.  EditText를 이용하여 온도 변경 가능
+        5.  모든 EditText에 글이 입력이 되었을 때 <기록하기> 버튼이 활성화
+        6.  <기록하기> 버튼 누르면 firebase🔥에 데이터가 저장됨
 
--    MyMapViewEventListener.kt   
-      
+
+-   📘2, ShowMemoFragment.kt (기록 보기)
+    -   <img src="https://user-images.githubusercontent.com/61674991/123198775-a2935d80-d4e8-11eb-8615-4737bb07be5f.png"  width="200" height="400">
+    -   <img src="https://user-images.githubusercontent.com/61674991/123198781-a626e480-d4e8-11eb-8a59-23c0c843ad52.png"  width="200" height="400">
+        1.  firebase🔥에 저장된 데이터들을 가져와서 리사이클러뷰로 보여줌, 이때 이메일 정보를 이용해 사용자 데이터만 가져와서 보여줌!  
+        2.  토글버튼을 이용하여 온도/날짜별 기록을 확인할 수 있음  
+        3.  기록은 ❌버튼을 누르면 삭제됨
+
+-   🏠3, HomeFragment.kt (홈)
     
+    -   <img src="https://user-images.githubusercontent.com/61674991/123198808-b212a680-d4e8-11eb-9253-8dbd8ec64720.png"  width="200" height="400">
+        1.  기본 날씨로 쌍문동의 날씨를 보여줌 (덕성여자대학교 위치)  
+        2.  현재 시각의 날씨와 3시간 뒤의 날씨를 보여주고 상세 날씨와 날씨에 따른 추천 옷차림 정보를 보여줌.    
+            시단위의 미세먼지 정보를 보여줌   
+        3.  날씨/미세먼지 농도에 따라서 이미지 변경   
+        4.  ⭐을 누르면 관심 지역으로 등록되고, 다시 누르면 해제됨  
+
+-   🔍4, FindAreaFragment.kt (지역 설정)
+    -   <img src="https://user-images.githubusercontent.com/61674991/123198792-aa530200-d4e8-11eb-8f88-ea1510d32ecf.png"  width="200" height="400">
+        1.  날씨 정보가 궁금한 지역을 찾아 HomeFragment에 장소 정보 전달 
+
+-   🚩5, InterestAreaFragment.kt (관심 지역 목록)
+
+    -   <img src="https://user-images.githubusercontent.com/61674991/123198817-b939b480-d4e8-11eb-9933-a99be58386d7.png"  width="200" height="400">
+        1.  사용자가 선택한 관심 지역 목록을 보여줌   
+        2.  관심 지역을 클릭하면 해당 지역의 날씨 정보로 HomeFragment를 변경   
+        3.  ❌버튼 누르면 삭제됨 
+
+-   MyMapViewEventListener.kt
 -   WeatherMomo.kt  
     firebase🔥에 저장할 날씨 기록  
-    날씨 정보들
+    날씨 정보들
 -   InterestArea.kt  
-    관심지역 정보들   
-      
-    
+    관심지역 정보들
+
 -   WEATHER.kt
 -   WeatherInterface.kt  
-    날씨 API 정보 가져오기
+    날씨 API 정보 가져오기
 -   AIR\_POLLUTION.kt
 -   AirPollutionInterface.kt  
-    미세먼지 API 정보 가져오기   
-      
-    
+    미세먼지 API 정보 가져오기
+
 -   WeatherMemoAdapter.kt  
-    리사이클러뷰에 옷차림 기록들을 보여주기 위한 어댑터
+    리사이클러뷰에 옷차림 기록들을 보여주기 위한 어댑터
 -   InterestAreaAdapter.kt  
-    리사이클러뷰에 관심 지역을 보여주기 위한 어댑터
+    리사이클러뷰에 관심 지역을 보여주기 위한 어댑터
 
 기타
 
 -   액티비티 전환 애니메이션
 -   날씨 API(기상청\_동네예보 조회서비스), 미세먼지 API (한국환경공단\_에어코리아\_대기오염정보), 카카오맵 API 사용
 -   데이터 삭제 가능
--   커스텀 
+-   커스텀
 
 ### 3, 느낀점
 
